@@ -1,21 +1,68 @@
 <template>
   <div id="app">
-    <scroll-tab
-      :tabList="tabList"
-      :start-index="3"
-      :wrap-style="{ width: '28%', paddingRight: '10px' }">
-      <template #default="slotProps">
-        <div class="tab-item"
-          :class="{'tab-item-choose': slotProps.index === slotProps.activiteIndex}">
-          {{ slotProps.item }}
-        </div>
-      </template>
-    </scroll-tab>
+    <div class="box">
+      <div class="title">srcollTab：</div>
+      <scroll-tab
+        :tabList="tabList"
+        :start-index="3"
+        :wrap-style="{ width: '28%', paddingRight: '10px' }"
+        @click="onConfirm"
+      >
+        <template #default="slotProps">
+          <div
+            class="tab-item"
+            :class="{
+              'tab-item-choose': slotProps.index === slotProps.activiteIndex,
+            }"
+          >
+            {{ slotProps.item }}
+          </div>
+        </template>
+      </scroll-tab>
+    </div>
+    <div class="box">
+      <div class="title">popup:</div>
+      <div class="box-content">
+        <div class="btn" @click="()=>{showBottom = true}">bottom</div>
+        <div class="btn" @click="()=>{showTop = true}">top</div>
+        <div class="btn" @click="()=>{showRight = true}">right</div>
+        <div class="btn" @click="()=>{showLeft = true}">left</div>
+        <div class="btn" @click="()=>{showCenter = true}">center</div>
+      </div>
+    </div>
+    <div class="box" style="background:white">
+      <div class="title">swipe：</div>
+      <swipe :urlList="urlList" @change="onConfirm">
+        <template #swipeItem="slotProps">
+           <div class="swipe-item" :style="{ backgroundColor: slotProps.uItem }"></div>
+        </template>
+        <!-- <template #indicatorItem="slotProps">
+           <div class="indicator-item" :style="{ backgroundColor: slotProps.uItem }"></div>
+        </template> -->
+      </swipe>
+    </div>
+    <popup v-model="showBottom" :close="()=>{showBottom = false}" :popupHeight="300" :popupPosition="'bottom'">
+      <div class="popup-content">bottom</div>
+    </popup>
+    <popup v-model="showTop" :close="()=>{showTop = false}" :popupHeight="260" :popupPosition="'top'">
+      <div class="popup-content">top</div>
+    </popup>
+    <popup v-model="showRight" :close="()=>{showRight = false}" :popupHeight="260" :popupPosition="'right'">
+      <div class="popup-content">right</div>
+    </popup>
+    <popup v-model="showLeft" :close="()=>{showLeft = false}" :popupHeight="260" :popupPosition="'left'">
+      <div class="popup-content">left</div>
+    </popup>
+    <popup v-model="showCenter" :close="()=>{showCenter = false}" :popupHeight="260" :popupPosition="'center'">
+      <div class="popup-content">center</div>
+    </popup>
   </div>
 </template>
-
+  
 <script>
-import ScrollTab from "./components/ScrollTab.vue";
+import ScrollTab from "@/components/ScrollTab.vue";
+import Popup from "@/components/Popup.vue";
+import Swipe from '@/components/Swipe.vue';
 export default {
   name: "App",
   data() {
@@ -28,34 +75,80 @@ export default {
         "热火朝天",
         "千军万马",
         "万水千山",
-        "众多非一"
+        "众多非一",
       ],
+      urlList:['#EC7063','#48C9B0','#5DADE2','#A569BD'],
+      showBottom: false,
+      showTop: false,
+      showRight: false,
+      showLeft: false,
+      showCenter: false,
     };
+  },
+  methods: {
+    onConfirm(val) {
+      console.log(val);
+    },
   },
   components: {
     ScrollTab,
+    Popup,
+    Swipe
   },
 };
 </script>
 
-<style>
+<style scope lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
-  padding: 0 0px;
-}
-.tab-item {
-  text-align: center;
-  border: 1px solid skyblue;
-  border-radius: 6px;
-  font-size: 14px;
-}
+  background-color: yellow;
+  padding: 0 $px-10;
+  .box {
+    
+    .title {
+      font-size: $px-20;
+      margin: $px-8 0;
+    }
+    .box-content{
+      display: flex;
+      flex-wrap: wrap;
 
-.tab-item-choose {
-  background-color: yellowgreen;
-  color: #fff;
+      .btn{
+        width:30%;
+        background-color:$c-primary;
+        display: inline-block;
+        text-align: center;
+        padding: $px-8;
+        color: $c-white;
+      
+        margin: $px-8 $px-8 0 0;
+        box-sizing: border-box;
+      }
+    }
+  }
+  .popup-content{
+    text-align: center;
+    font-size: $px-30;
+    margin: 0 auto;
+  }
+  .tab-item {
+    text-align: center;
+    border: 1px solid $c-primary;
+    border-radius: $px-8;
+    padding: $px-8 0;
+    font-size: $px-16;
+  }
+
+  .tab-item-choose {
+    background-color: $c-primary;
+    color: $c-white;
+  }
+
+  .swipe-item {
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+    height: 60px;
+    color: #fff;
+  }
 }
 </style>

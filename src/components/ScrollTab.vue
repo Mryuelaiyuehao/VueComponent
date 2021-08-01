@@ -1,25 +1,19 @@
 <template>
-  <div id="tab" ref="tab" @touchmove="touchMoveFn">
+  <div id="scrollTab" ref="tab" @touchmove="touchMoveFn">
     <div
       class="tab-item-wrap"
       ref="tabItemWrap"
-      v-for="(item, index) in tabList"
+      v-for="(tItem, index) in tabList"
       :key="index"
       @click="handleTab(index)"
       :style="{ width: `${wrapWidth}%`, paddingRight: `${wrapPaddingRight}px` }"
     >
-      <slot :item="item" :index="index" :activite-index="activiteIndex"></slot>
+      <slot :item="tItem" :index="index" :activite-index="activiteIndex"></slot>
     </div>
   </div>
 </template>
 
 <script>
-let tabWidth = 0; // tab宽度 - 精准值
-let tabItemWrapWidth = 0; //tabWrapItem宽度 - 精准值
-let endScrollX = 0; // 目的滚动值
-let maxScrollX = 0; // 最大滚动值
-let timerId = null; // timeId
-
 export default {
   name: "ScrollTab",
   props: {
@@ -27,22 +21,22 @@ export default {
       type: Array,
       default: () => [],
     },
-    // 初始化显示的tabItem
+    // 起始tab索引
     startIndex: {
       type: Number,
       default: () => 0,
     },
-    // 滑动速率
-    rate: {
+    // 动画持续时间  ms
+    duration: {
       type: Number,
-      default: () => 10,
+      default: () => 400,
     },
-    // item的宽度 %
+    // 单个tabItem的宽度 %
     wrapWidth: {
       type: Number,
       default: () => 25,
     },
-    // item的间距 px
+    // 相邻tabItem的间距 px
     wrapPaddingRight: {
       type: Number,
       default: () => 10,
@@ -50,75 +44,69 @@ export default {
   },
   data() {
     return {
-      activiteIndex: 0,
+      activiteIndex: 0, // 激活的tabItem索引值
+      tabWidth: 0, // scrollTab宽度 - 精准值
+      tabItemWrapWidth: 0, //tabWrapItem宽度 - 精准值
+      endScrollX: 0, // 滚动距离
+      maxScrollX: 0, // 最大滚动距离
+      tabAnimation: false, // 动画是否开启
     };
   },
   created() {
     this.activiteIndex = this.startIndex;
+    // 点击事件发送
+    this.$emit("click", this.activiteIndex);
   },
   mounted() {
-    tabWidth = this.$refs.tab.getBoundingClientRect().width;
-    tabItemWrapWidth = this.$refs.tabItemWrap[0].getBoundingClientRect().width;
-    maxScrollX = tabItemWrapWidth * this.tabList.length - tabWidth;
+    this.init();
     // 根据startIndex值初始化位置
     this.$refs.tab.scrollLeft = this.getScrollLeft(this.activiteIndex);
+    window.addEventListener("resize", this.init);
   },
   methods: {
+    init() {
+      this.tabWidth = this.$refs.tab.getBoundingClientRect().width;
+      this.tabItemWrapWidth =
+        this.$refs.tabItemWrap[0].getBoundingClientRect().width;
+      this.maxScrollX =
+        this.tabItemWrapWidth * this.tabList.length - this.tabWidth;
+    },
     handleTab(i) {
       this.activiteIndex = i;
       // 本次滚动位置
-      endScrollX = this.getScrollLeft(i);
+      this.endScrollX = this.getScrollLeft(i);
       // 修正滚动目的位置
-      if (endScrollX < 0) {
-        endScrollX = 0;
-      } else if (endScrollX > maxScrollX) {
-        endScrollX = maxScrollX;
+      if (this.endScrollX < 0) {
+        this.endScrollX = 0;
+      } else if (this.endScrollX > this.maxScrollX) {
+        this.endScrollX = this.maxScrollX;
       }
       // 缓动
-      timerId = requestAnimationFrame(this.animate);
+      this.$anime({
+        targets: this.$refs.tab,
+        scrollLeft: this.endScrollX,
+        easing: "easeOutQuad",
+        duration: this.duration,
+        begin: () => {
+          this.tabAnimation = true;
+        },
+        complete: () => {
+          this.tabAnimation = false;
+        },
+      });
       // 点击事件发送
-      this.$emit("click", i);
+      this.$emit("click", this.activiteIndex);
     },
-    touchMoveFn(){
-      // 如果回滚过程中用户滑动，立刻取消回滚
-      cancelAnimationFrame(timerId);
+    // 触控 - move
+    touchMoveFn(e) {
+      this.tabAnimation && e.preventDefault();
     },
-    animate() {
-      // 步长值
-      const step = this.calcStep(this.$refs.tab.scrollLeft, endScrollX);
-      this.$refs.tab.scrollLeft += step;
-      if (step < 0) {
-        if (this.$refs.tab.scrollLeft > endScrollX) {
-          timerId = requestAnimationFrame(this.animate);
-        } else {
-          cancelAnimationFrame(timerId);
-        }
-      } else {
-        if (this.$refs.tab.scrollLeft < endScrollX) {
-          timerId = requestAnimationFrame(this.animate);
-        } else {
-          cancelAnimationFrame(timerId);
-        }
-      }
-    },
-    // 步长值计算
-    calcStep(start, end) {
-      let step = (end - start) / this.rate;
-      // 右滑
-      if (step < 0) {
-        if (step > -1) step = -1;
-      } else {
-        // 左滑
-        if (step < 1) step = 1;
-      }
-      return step;
-    },
-    // 滚动居中位置计算
+    // 计算点击tabItem滚动到中间的位置
     getScrollLeft(i) {
       return (
         this.$refs.tabItemWrap[i].offsetLeft -
-        tabWidth / 2 +
-        tabItemWrapWidth / 2 -
+        this.tabWidth / 2 +
+        this.tabItemWrapWidth / 2 -
         this.$refs.tab.offsetLeft -
         this.wrapPaddingRight / 2
       );
@@ -127,21 +115,23 @@ export default {
 };
 </script>
 
-<style scoped>
-#tab {
+<style scoped lang="scss">
+#scrollTab {
   display: flex;
   /* 兼容fireFox */
   scrollbar-width: none;
   /* 兼容ie10+ */
   -ms-overflow-style: none;
   overflow-x: scroll;
-}
+  .tab-item-wrap {
+    // 修复移动端点击该元素出现黑色闪动
+    -webkit-tap-highlight-color: transparent;
+    flex: none;
+  }
 
-.tab-item-wrap {
-  flex: none;
-}
-/* 兼容safari和chrome */
-#tab::-webkit-scrollbar {
-  display: none;
+  /* 兼容safari和chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 </style>
