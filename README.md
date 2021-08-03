@@ -4,9 +4,9 @@
 ## Props
 |       参数       | 描述                     |  类型  | 默认值 | 是否必传 |
 | :--------------: | :----------------------- | :----: | :----: | :------: |
-|     tabList      | /                     | Array  |   []   |    是    |
+|     tabList      | /                        | Array  |   []   |    是    |
 |    startIndex    | 起始tabItem的索引        | Number |   0    |    否    |
-|     duration     | 动画持续时间，ms         | Number |   400   |    否    |
+|     duration     | 动画持续时间，ms         | Number |  400   |    否    |
 |    wrapWidth     | 单个tabItem项目的宽度，% | Number |   25   |    否    |
 | wrapPaddingRight | 相邻tabItem的间距，px    | Number |   10   |    否    |
 
@@ -32,6 +32,32 @@
 |     close     | 关闭弹框函数                                              | Functioin |  ()=>{}  |    是    |
 
 ## Slots
-| 默认值  | 参数     | 是否必传 |
+|  name   | 参数     | 是否必传 |
 | :-----: | :------- | :------: |
 | default | 弹框内容 |    否    |
+
+# 3.Swipe
+### 轮播图
+
+## Props
+|       参数        | 描述                                                                                                   |      类型       |     默认值     | 是否必传 |
+| :---------------: | :----------------------------------------------------------------------------------------------------- | :-------------: | :------------: | :------: |
+|      urlList      | 轮播图的url                                                                                            |      Array      |       []       |    是    |
+|    startIndex     | 起始索引值                                                                                             |     Number      |       0        |    否    |
+|    cirticalVal    | 滑动临界比,用来决定是否滑动到下/前一张还是在当前                                                       | Number，0-1之间 |      1/5       |    否    |
+|     autoplay      | 是否开启自动轮播                                                                                       |     Boolean     |     false      |    否    |
+|   autoPlayTime    | 自动轮播时间，ms                                                                                       |     Number      |      3000      |    否    |
+|  showIndicators   | 是否显示指示器                                                                                         |     Boolean     |     false      |    否    |
+| indicatorPosition | 指示器位置，可选值为：'top-left' 'top-center' 'top-right' 'bottom-left' 'bottom-center' 'bottom-right' |     String      | 'bottom-right' |    否    |
+|  wrapperPadding   | swipeItem包裹容器内边距，px                                                                            |     Number      |       0        |    否    |
+
+
+## Slots
+|  name   | 说明          |        参数        | 是否必传 |
+| :-----: | :------------ | :----------------: | :------: |
+| default | swipeItem内容 | sItem，轮播图的url |    是    |
+
+## Methods
+| 事件名称 |          触发条件          | 返回参数 |
+| -------- | :------------------------: | :------: |
+| @change  | 滑动到一一张录播图时候触发 |  索引值  |

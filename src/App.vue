@@ -5,8 +5,8 @@
       <scroll-tab
         :tabList="tabList"
         :start-index="3"
-        :wrap-style="{ width: '28%', paddingRight: '10px' }"
         @click="onConfirm"
+        :wrap-style="{ width: '28%', paddingRight: '10px' }"
       >
         <template #default="slotProps">
           <div
@@ -30,15 +30,12 @@
         <div class="btn" @click="()=>{showCenter = true}">center</div>
       </div>
     </div>
-    <div class="box" style="background:white">
+    <div class="box">
       <div class="title">swipe：</div>
-      <swipe :urlList="urlList" @change="onConfirm">
-        <template #swipeItem="slotProps">
-           <div class="swipe-item" :style="{ backgroundColor: slotProps.uItem }"></div>
+      <swipe :urlList="urlList" @change="onConfirm" :show-indicators="true" :auto-play="true">
+        <template #default="slotProps">
+           <div class="swipe-item" :style="{ backgroundColor: slotProps.sItem }"></div>
         </template>
-        <!-- <template #indicatorItem="slotProps">
-           <div class="indicator-item" :style="{ backgroundColor: slotProps.uItem }"></div>
-        </template> -->
       </swipe>
     </div>
     <popup v-model="showBottom" :close="()=>{showBottom = false}" :popupHeight="300" :popupPosition="'bottom'">
@@ -100,10 +97,8 @@ export default {
 
 <style scope lang="scss">
 #app {
-  background-color: yellow;
   padding: 0 $px-10;
   .box {
-    
     .title {
       font-size: $px-20;
       margin: $px-8 0;
@@ -119,7 +114,6 @@ export default {
         text-align: center;
         padding: $px-8;
         color: $c-white;
-      
         margin: $px-8 $px-8 0 0;
         box-sizing: border-box;
       }
@@ -144,11 +138,11 @@ export default {
   }
 
   .swipe-item {
-    font-size: 30px;
     text-align: center;
     width: 100%;
     height: 60px;
     color: #fff;
+    border-radius: $px-8 ;
   }
 }
 </style>
