@@ -13,10 +13,10 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        prependData: `@import "~@/assert/css/variables.sass"`
+        prependData: `@import "~@/assets/css/variables.sass"`
       },
       scss: {
-        prependData: `@import "~@/assert/css/variables.scss";`
+        prependData: `@import "~@/assets/css/variables.scss";`
       }
     },
 

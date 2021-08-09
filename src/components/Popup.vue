@@ -1,5 +1,5 @@
 <template>
-  <div id="popup">
+  <div id="popup" @touchmove.prevent="moveFn">
     <transition name="mask">
       <div v-if="value" class="mask" @click.self="close"></div>
     </transition>
@@ -41,6 +41,12 @@ export default {
       default: () => {},
     },
   },
+  methods:{
+    moveFn(){
+      // console.log(e);
+      // e.preventDefault()
+    }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -51,7 +57,7 @@ export default {
     height: 100%;
     top: 0;
     left: 0;
-    opacity: 0.5;
+    opacity: 0.4;
     transition: opacity .2s;
     background-color: $c-black;
   }

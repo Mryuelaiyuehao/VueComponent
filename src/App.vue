@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="box">
+    <!-- <div class="box">
       <div class="title">srcollTab：</div>
       <scroll-tab
         :tabList="tabList"
@@ -29,37 +29,110 @@
         <div class="btn" @click="()=>{showLeft = true}">left</div>
         <div class="btn" @click="()=>{showCenter = true}">center</div>
       </div>
-    </div>
-    <div class="box">
+    </div> -->
+    <!-- <div class="box">
       <div class="title">swipe：</div>
       <swipe :urlList="urlList" @change="onConfirm" :show-indicators="true" :auto-play="true">
         <template #default="slotProps">
            <div class="swipe-item" :style="{ backgroundColor: slotProps.sItem }"></div>
         </template>
       </swipe>
+    </div> -->
+    <div class="box">
+      <div class="title">regionPicker：</div>
+      <div class="box-content">
+        <div
+          class="btn"
+          @click="
+            () => {
+              visible1 = true;
+            }
+          "
+        >
+          regionPicker：
+        </div>
+      </div>
     </div>
-    <popup v-model="showBottom" :close="()=>{showBottom = false}" :popupHeight="300" :popupPosition="'bottom'">
+    <picker
+      v-model="value1"
+      :visible="visible1"
+      :showTitle="true"
+      :close="
+        () => {
+          visible1 = false;
+        }
+      "
+      :is-link="true"
+      @confirm="onConfirm"
+    ></picker>
+    <popup
+      v-model="showBottom"
+      :close="
+        () => {
+          showBottom = false;
+        }
+      "
+      :popupHeight="300"
+      :popupPosition="'bottom'"
+    >
       <div class="popup-content">bottom</div>
     </popup>
-    <popup v-model="showTop" :close="()=>{showTop = false}" :popupHeight="260" :popupPosition="'top'">
+    <popup
+      v-model="showTop"
+      :close="
+        () => {
+          showTop = false;
+        }
+      "
+      :popupHeight="260"
+      :popupPosition="'top'"
+    >
       <div class="popup-content">top</div>
     </popup>
-    <popup v-model="showRight" :close="()=>{showRight = false}" :popupHeight="260" :popupPosition="'right'">
+    <popup
+      v-model="showRight"
+      :close="
+        () => {
+          showRight = false;
+        }
+      "
+      :popupHeight="260"
+      :popupPosition="'right'"
+    >
       <div class="popup-content">right</div>
     </popup>
-    <popup v-model="showLeft" :close="()=>{showLeft = false}" :popupHeight="260" :popupPosition="'left'">
+    <popup
+      v-model="showLeft"
+      :close="
+        () => {
+          showLeft = false;
+        }
+      "
+      :popupHeight="260"
+      :popupPosition="'left'"
+    >
       <div class="popup-content">left</div>
     </popup>
-    <popup v-model="showCenter" :close="()=>{showCenter = false}" :popupHeight="260" :popupPosition="'center'">
+    <popup
+      v-model="showCenter"
+      :close="
+        () => {
+          showCenter = false;
+        }
+      "
+      :popupHeight="260"
+      :popupPosition="'center'"
+    >
       <div class="popup-content">center</div>
     </popup>
   </div>
 </template>
   
 <script>
-import ScrollTab from "@/components/ScrollTab.vue";
+// import ScrollTab from "@/components/ScrollTab.vue";
 import Popup from "@/components/Popup.vue";
-import Swipe from '@/components/Swipe.vue';
+// import Swipe from '@/components/Swipe.vue';
+import Picker from "@/components/picker/Picker.vue";
 export default {
   name: "App",
   data() {
@@ -74,23 +147,29 @@ export default {
         "万水千山",
         "众多非一",
       ],
-      urlList:['#EC7063','#48C9B0','#5DADE2','#A569BD'],
+      urlList: ["#EC7063", "#48C9B0", "#5DADE2", "#A569BD"],
       showBottom: false,
       showTop: false,
       showRight: false,
       showLeft: false,
       showCenter: false,
+      visible1: false,
+      value1: ["北京P", "北京C", "朝阳区R"],
     };
   },
   methods: {
     onConfirm(val) {
-      console.log(val);
+      // console.log(val);
+      val.forEach(element => {
+        console.log(element.name);
+      });
     },
   },
   components: {
-    ScrollTab,
+    // ScrollTab,
     Popup,
-    Swipe
+    // Swipe,
+    Picker,
   },
 };
 </script>
@@ -103,13 +182,13 @@ export default {
       font-size: $px-20;
       margin: $px-8 0;
     }
-    .box-content{
+    .box-content {
       display: flex;
       flex-wrap: wrap;
 
-      .btn{
-        width:30%;
-        background-color:$c-primary;
+      .btn {
+        width: 30%;
+        background-color: $c-primary;
         display: inline-block;
         text-align: center;
         padding: $px-8;
@@ -119,7 +198,7 @@ export default {
       }
     }
   }
-  .popup-content{
+  .popup-content {
     text-align: center;
     font-size: $px-30;
     margin: 0 auto;
@@ -140,9 +219,9 @@ export default {
   .swipe-item {
     text-align: center;
     width: 100%;
-    height: 60px;
+    height: 120px;
     color: #fff;
-    border-radius: $px-8 ;
+    border-radius: $px-8;
   }
 }
 </style>

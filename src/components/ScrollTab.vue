@@ -104,9 +104,9 @@ export default {
     // 计算点击tabItem滚动到中间的位置
     getScrollLeft(i) {
       return (
-        this.$refs.tabItemWrap[i].offsetLeft -
-        this.tabWidth / 2 +
+        this.$refs.tabItemWrap[i].offsetLeft +
         this.tabItemWrapWidth / 2 -
+        this.tabWidth / 2 -
         this.$refs.tab.offsetLeft -
         this.wrapPaddingRight / 2
       );

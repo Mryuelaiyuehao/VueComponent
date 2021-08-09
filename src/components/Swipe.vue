@@ -289,8 +289,6 @@ export default {
 }
 #swipe {
   position: relative;
-  // width: 100px;
-  // margin: 0 auto;
   width: 100%;
   font-size: 0;
   overflow: hidden;
