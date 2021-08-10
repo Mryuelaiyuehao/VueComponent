@@ -28,9 +28,8 @@
 import Popup from "../Popup.vue";
 import PickerSlot from "./PickerSlot.vue";
 
-import { PICKER } from "../../assets/js/CONST";
-const { TITLE, P, C, R, ZERO, PROVINCES, CITYS, REGIONS } =
-  PICKER;
+import { PICKER } from "../../assets/js/const";
+const { TITLE, P, C, R, ZERO, PROVINCES, CITYS, REGIONS } = PICKER;
 export default {
   name: "Picker",
   props: {
@@ -46,10 +45,6 @@ export default {
       type: Boolean,
       default: () => false,
     },
-    isLink: {
-      type: Boolean,
-      default: () => false,
-    },
     showTitle: {
       type: Boolean,
       default: () => false,
@@ -57,6 +52,7 @@ export default {
   },
   data: () => {
     return {
+      isLink: true,
       rows: 7,
       itemHeight: 34,
       topHeight: 44,
