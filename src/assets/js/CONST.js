@@ -49,6 +49,7 @@ const PICKER = {
   C: "C",
   R: "R",
   ZERO: "0",
+  MOUSEDOWN:'mousedown',
   PROVINCES,
   CITYS,
   REGIONS

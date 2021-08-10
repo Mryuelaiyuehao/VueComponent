@@ -1,5 +1,5 @@
 <template>
-  <div id="popup" @touchmove.prevent="moveFn">
+  <div id="popup" @touchmove.prevent="()=>{}">
     <transition name="mask">
       <div v-if="value" class="mask" @click.self="close"></div>
     </transition>
@@ -40,12 +40,6 @@ export default {
       type: Function,
       default: () => {},
     },
-  },
-  methods:{
-    moveFn(){
-      // console.log(e);
-      // e.preventDefault()
-    }
   }
 };
 </script>

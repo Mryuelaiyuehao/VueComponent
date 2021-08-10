@@ -186,11 +186,11 @@ export default {
     font-size: $px-14;
     line-height: $px-40;
     color: $c-primary;
-    background-color: $c-gray;
+    background-color: $c-body;
     padding: 0 $px-10;
     .top-title {
       flex: 1;
-      color: $c-black;
+      color: $c-title;
       font-size: $px-16;
       text-align: center;
     }

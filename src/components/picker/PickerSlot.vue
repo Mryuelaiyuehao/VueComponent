@@ -24,8 +24,13 @@
     <div
       class="slot-area"
       @touchstart="startFn"
+      @mousedown="startFn"
       @touchmove="moveFn"
+      @mousemove="moveFn"
       @touchend="endFn"
+      @mouseup="endFn"
+      @mouseleave="leaveFn"
+      @mouseenter="enterFn"
     ></div>
     <div class="slot-mask">
       <div class="mask-top"></div>
@@ -120,13 +125,13 @@ export default {
       this.diffY = 0;
       this.lastTimeStamp = e.timeStamp;
       this.transState = true;
-      this.startY = e.touches[e.touches.length - 1].clientY;
+      this.startY = this.calcClientY(e);
     },
     // 滑动 - move
     moveFn(e) {
       e.preventDefault();
       if (!this.transState) return;
-      this.diffY = e.touches[e.touches.length - 1].clientY - this.startY;
+      this.diffY = this.calcClientY(e) - this.startY;
       // 滑动临界值处理 - top
       if (this.transY >= this.topTransY) {
         this.handleCricitalTransY(this.topTransY, 0);
@@ -167,6 +172,14 @@ export default {
     transEnd() {
       this.isTrans = false;
     },
+    // 鼠标进入 - enter
+    enterFn() {
+      this.transState = false;
+    },
+    // 鼠标离开 - leave
+    leaveFn(e) {
+      this.transState && this.endFn(e);
+    },
     // 计算滑动值
     calcTransY() {
       return this.initTransY - this.activeIndex * this.itemHeight;
@@ -184,6 +197,13 @@ export default {
       this.diffY = 0;
       this.activeIndex = activeIndex;
       this.transY = criticalTransY;
+    },
+    calcClientY(e) {
+      if (e.type === "mousedown" || e.type === "mousemove") {
+        return e.clientY;
+      } else {
+        return e.touches[e.touches.length - 1].clientY;
+      }
     },
   },
 };
@@ -250,8 +270,8 @@ export default {
 
     .mask-indicator {
       box-sizing: border-box;
-      border-top: 1px solid $c-gray;
-      border-bottom: 1px solid $c-gray;
+      border-top: 1px solid $c-division;
+      border-bottom: 1px solid $c-division;
     }
   }
 }
