@@ -3,7 +3,7 @@
     <div
       class="slot-content"
       :style="{
-        transform: `translate(0,${transY}px)`,
+        transform: `translate3d(0,${transY}px,0)`,
         transition:
           !transState && isTrans
             ? `transform 800ms cubic-bezier(0,0,0.25,1)`

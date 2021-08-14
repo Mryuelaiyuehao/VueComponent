@@ -13,7 +13,7 @@
       class="swipe"
       ref="swipe"
       :style="{
-        transform: `translateX(${transX}px)`,
+        transform: `translate3d(${transX}px,0,0)`,
         transition: animateState ? `transform 350ms ease-out` : '',
       }"
       @transitionend="transEndFn"
@@ -167,36 +167,33 @@ export default {
     moveFn(e) {
       e.preventDefault();
       if (this.ingoreTrans()) return;
-      if (this.transState) {
-        // 临界值处理 - 滑动到一张
-        if (this.transX >= 0) {
-          this.isCritical = true;
-          this.activeIndex = 0;
-        } else if (this.transX <= this.minTransX) {
-          this.isCritical = true;
-          this.activeIndex = this.swipeItemCount - 1;
-        } else {
-          // 时时滑动
-          this.isCritical = false;
-          this.diffX = this.calcX(e, Swipe.MouseMove) - this.startX;
-          this.transX = this.diffX + this.preX;
-        }
+      // 非滑动状态
+      if (!this.transState) return;
+      // 临界值处理 - 滑动到一张
+      if (this.transX >= 0) {
+        this.isCritical = true;
+        this.activeIndex = 0;
+      } else if (this.transX <= this.minTransX) {
+        this.isCritical = true;
+        this.activeIndex = this.swipeItemCount - 1;
+      } else {
+        // 时时滑动
+        this.isCritical = false;
+        this.diffX = this.calcX(e, Swipe.MouseMove) - this.startX;
+        this.transX = this.diffX + this.preX;
       }
     },
     // 计算距离
     calcX(e, eventType) {
-      const type = e && e.type;
       // 鼠标事件 PC端
-      if (type === eventType) {
-        return e.clientX;
-      } else {
-        // 触控事件 - 移动端
-        return e.touches[e.touches.length - 1].clientX;
-      }
+      if (e.type === eventType) return e.clientX;
+      // 触控事件 - 移动端
+      return e.touches[e.touches.length - 1].clientX;
     },
     // 结束 - end
     endFn() {
       if (this.ingoreTrans()) return;
+      this.transState = false; // 滑动状态 - 关闭
       const diffXAbs = Math.abs(this.diffX); // 滑动距离绝对值
       const swipeItemCount = Math.trunc(diffXAbs / this.swipeWidth); // 滑过轮播图个数
       const critialVal = diffXAbs / this.swipeWidth - swipeItemCount; // 滑动临界值比例
@@ -215,7 +212,6 @@ export default {
         }
         this.activeIndex = this.fixIndex(this.activeIndex, false);
       }
-      this.transState = false; // 滑动状态 - 关闭
       this.indicatorIndex = this.calcIndex(this.activeIndex) - 1; // 获取实际的索引值
       // 当手指滑动距离正好等于整数个SwipeItem时候
       if (critialVal === 0) {

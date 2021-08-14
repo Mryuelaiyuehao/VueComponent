@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <!-- <div class="box">
+    <div class="box">
       <div class="title">srcollTab：</div>
       <scroll-tab
         :tabList="tabList"
@@ -29,15 +29,15 @@
         <div class="btn" @click="()=>{showLeft = true}">left</div>
         <div class="btn" @click="()=>{showCenter = true}">center</div>
       </div>
-    </div> -->
-    <!-- <div class="box">
+    </div>
+    <div class="box">
       <div class="title">swipe：</div>
-      <swipe :urlList="urlList" @change="onConfirm" :show-indicators="true" :auto-play="true">
+      <swipe :urlList="urlList" @change="onConfirm" :show-indicators="true" :auto-play="true" :wrapper-padding="2">
         <template #default="slotProps">
-           <div class="swipe-item" :style="{ backgroundColor: slotProps.sItem }"></div>
+           <div class="swipe-item" :style="{ backgroundColor: slotProps.sItem}"></div>
         </template>
       </swipe>
-    </div> -->
+    </div>
     <div class="box">
       <div class="title">regionPicker：</div>
       <div class="box-content">
@@ -129,9 +129,9 @@
 </template>
   
 <script>
-// import ScrollTab from "@/components/ScrollTab.vue";
+import ScrollTab from "@/components/ScrollTab.vue";
 import Popup from "@/components/Popup.vue";
-// import Swipe from '@/components/Swipe.vue';
+import Swipe from '@/components/Swipe.vue';
 import Picker from "@/components/picker/Picker.vue";
 export default {
   name: "App",
@@ -154,21 +154,18 @@ export default {
       showLeft: false,
       showCenter: false,
       visible1: false,
-      value1: ["北京P", "北京C", "朝阳区R"],
+      value1: ["北京P", "北京市C", "朝阳区R"],
     };
   },
   methods: {
     onConfirm(val) {
-      // console.log(val);
-      val.forEach(element => {
-        console.log(element.name);
-      });
+      console.log(val);
     },
   },
   components: {
-    // ScrollTab,
+    ScrollTab,
     Popup,
-    // Swipe,
+    Swipe,
     Picker,
   },
 };
@@ -217,10 +214,8 @@ export default {
   }
 
   .swipe-item {
-    text-align: center;
     width: 100%;
     height: 120px;
-    color: #fff;
     border-radius: $px-8;
   }
 }
