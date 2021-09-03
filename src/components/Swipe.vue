@@ -1,57 +1,49 @@
 <template>
   <div
     id="swipe"
-    @mouseleave="leaveFn"
-    @mousedown="startFn"
-    @touchstart="startFn"
-    @touchmove="moveFn"
-    @mousemove="moveFn"
-    @touchend="endFn"
-    @mouseup="endFn"
+    @touchstart.prevent="startFn"
+    @touchmove.prevent="moveFn"
+    @touchend.prevent="endFn"
   >
     <div
       class="swipe"
       ref="swipe"
       :style="{
-        transform: `translate3d(${transX}px,0,0)`,
-        transition: animateState ? `transform 350ms ease-out` : '',
+        transform: `translateX(${transX}px)`,
+        transition: isTrans ? `transform .35s ease-out` : '',
       }"
       @transitionend="transEndFn"
     >
       <div
         class="swipe-item-wrapper"
-        v-for="(sItem, index) in currentList"
+        v-for="(item, index) in currentList"
         :key="index"
         :style="{ padding: `0 ${wrapperPadding}px` }"
       >
-        <slot :sItem="sItem"></slot>
+        <slot :item="item" :id="index"></slot>
       </div>
     </div>
     <div
-      v-if="showIndicators && swipeItemCount > 1"
+      v-if="showIndicators && itemCount > 1"
       class="indicator"
       :class="`indicator-${indicatorPosition}`"
     >
       <div
         class="indicator-item"
-        v-for="(iItem, index) in urlList"
+        v-for="(item, index) in list"
         :key="index"
-        :class="{ 'indicator-item-active': index === indicatorIndex }"
+        :class="{ 'indicator-item-active': index === actuallyActiveIndex }"
       ></div>
     </div>
   </div>
 </template>
 
 <script>
-const Swipe = {
-  MouseDown: "mousedown",
-  MouseMove: "mousemove",
-};
 export default {
   name: "Swipe",
   props: {
     // 图片列表
-    urlList: {
+    list: {
       type: Array,
       default: () => [],
     },
@@ -66,9 +58,14 @@ export default {
       default: () => 1 / 5,
     },
     // 是否开启自动轮播
-    autoplay: {
+    autoPlay: {
       tpye: Boolean,
       default: () => false,
+    },
+    // 是否为连续滑动 ,true
+    continuous: {
+      type: Boolean,
+      default: () => true,
     },
     // 自动轮播时间，ms
     autoPlayTime: {
@@ -93,184 +90,176 @@ export default {
   },
   data() {
     return {
-      currentList: [], // 处理后的urlList
-      activeIndex: 0, // 处理后urlList的索引值
-      indicatorIndex: 0, // 实际urlList的索引值
-      swipeItemCount: 0, // 处理后urlList的长度
+      currentList: null, // 处理后的list
+      activeIndex: 0, // 索引值
+      actuallyActive: 0, // 实际索引值
+      itemCount: 0, // 处理后item数量
+      actuallyItemCount: 0, // 实际item数量
       transX: 0, // 滑动距离,px
       preX: 0, // 初始滑动距离,px
       startX: 0, // 起始滑动值,px
       diffX: 0, // 滚动距离差值,px
-      minTransX: 0, // 最大滚动临界值,px
-      animateState: false, // 开启动画
-      transState: false, // 滑动状态
+      minTransX: 0, // 最小滚动临界值,px
+      isTrans: false, // 是否在滑动中
       swipeWidth: 0, // 单个swipeItem的宽度,px(精确值)
       timeId: null, // timeId
-      isCritical: false, // 是否滑动到临界值
     };
   },
   computed: {
-    // 是否可滑动 若轮播图数量<=1,则不可滑动
-    isTrans() {
-      return this.swipeItemCount > 1;
+    // 是否忽略滑动 - 正在滑动中或只有一个item
+    ingoreTrans() {
+      return this.isTrans || this.actuallyItemCount === 1;
+    },
+    // 是否开启自动轮播
+    isAutoPlay() {
+      return this.autoPlay && this.continuous;
+    },
+    // 是否是临界距离
+    isCirticalTranX() {
+      return (
+        this.continuous && (this.transX >= 0 || this.transX <= this.minTransX)
+      );
     },
   },
   created() {
-    // 数据处理 url处理
-    const urlListLen = this.urlList && this.urlList.length;
-    const urlListTem = JSON.parse(JSON.stringify(this.urlList));
-    // 如果轮播图数量大于1，则在首尾各追加一次
-    if (urlListLen > 1) {
-      this.currentList = urlListTem
-        .slice(-1)
-        .concat(urlListTem)
-        .concat(urlListTem.slice(0, 1));
-    } else if (urlListLen === 1) {
-      this.currentList = urlListTem;
+    // 数据处理
+    this.actuallyItemCount = this.$isArray(this.list);
+    if (this.actuallyItemCount === 0) return;
+    if (this.continuous && this.actuallyItemCount > 1) {
+      this.currentList = JSON.parse(
+        JSON.stringify(
+          this.list.slice(-1).concat(this.list).concat(this.list.slice(0, 1))
+        )
+      );
+    } else {
+      this.currentList = JSON.parse(JSON.stringify(this.list));
     }
-    this.swipeItemCount = this.currentList.length;
-    this.activeIndex = this.indicatorIndex = this.startIndex;
-    this.activeIndex += 1;
-    this.$emit("change", this.indicatorIndex); // 发送change事件
+    this.itemCount = this.currentList.length;
+    this.activeIndex = this.actuallyActiveIndex = this.startIndex;
+    this.activeIndex = this.continuous
+      ? this.activeIndex + 1
+      : this.activeIndex;
+    this.$emit("change", this.actuallyActiveIndex);
   },
   mounted() {
-    // 当轮播图数量只有一张时候，只做展示
-    if (!this.isTrans) return;
-    this.init(); // 初始化
-    this.autoplay && this.autoPlayFn(); // 自动轮播
-    window.addEventListener("resize", this.init); // 监听页面大小发生变化，重新初始化参数
+    // 当轮播图数量只有一张时候
+    if (this.actuallyItemCount === 1) return;
+    this.init();
+    // 监听页面大小发生变化，重新初始化参数
+    window.addEventListener("resize", this.resetInit);
+    this.isAutoPlay && this.autoPlayFn();
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.init);
+    window.removeEventListener("resize", this.resetInit);
     clearInterval(this.timeId);
   },
   methods: {
+    resetInit(){
+      this.$nextTick(this.init)
+    },
     // 初始化
     init() {
-      this.swipeWidth = this.$refs.swipe.getBoundingClientRect().width; // 获取单个swipeItem的宽度
-      this.minTransX = -(this.swipeItemCount - 1) * this.swipeWidth; // 滑动距离 - 最小
-      this.transX = this.preX = this.calcTrans(); // 当前位置滑动距离
+      this.swipeWidth =
+        this.$refs.swipe && this.$refs.swipe.getBoundingClientRect().width;
+      this.minTransX = -(this.itemCount - 1) * this.swipeWidth;
+      this.transX = this.preX = this.calcTrans();
+      console.log(this.swipeWidth);
     },
-    // 鼠标离开 - leave
-    leaveFn() {
-      this.endFn();
-    },
-    // 开始 - start
+    // 滑动开始 - start
     startFn(e) {
-      if (!this.isTrans) return;
-      this.autoPlayFn && clearInterval(this.timeId);
-      this.diffX = 0; // 滑动距离置0
-      this.transState = true; // 滑动状态 - 开启
-      this.startX = this.calcX(e, Swipe.MouseDown); // 点击或触控元素的位置
+      this.isAutoPlay && clearInterval(this.timeId);
+      if (this.ingoreTrans) return;
+      this.diffX = 0;
+      this.startX = this.getTransX(e);
     },
-    // 移动 -  move
+    // 滑动中 - move
     moveFn(e) {
-      e.preventDefault();
-      if (this.ingoreTrans()) return;
-      // 非滑动状态
-      if (!this.transState) return;
       // 临界值处理 - 滑动到一张
-      if (this.transX >= 0) {
-        this.isCritical = true;
-        this.activeIndex = 0;
-      } else if (this.transX <= this.minTransX) {
-        this.isCritical = true;
-        this.activeIndex = this.swipeItemCount - 1;
-      } else {
-        // 时时滑动
-        this.isCritical = false;
-        this.diffX = this.calcX(e, Swipe.MouseMove) - this.startX;
-        this.transX = this.diffX + this.preX;
-      }
+      if (this.ingoreTrans || this.isCirticalTranX) return;
+      // 时时滑动
+      this.diffX = this.getTransX(e) - this.startX;
+      this.transX = this.diffX + this.preX;
     },
-    // 计算距离
-    calcX(e, eventType) {
-      // 鼠标事件 PC端
-      if (e.type === eventType) return e.clientX;
-      // 触控事件 - 移动端
+    // 获取触控X轴位置
+    getTransX(e) {
       return e.touches[e.touches.length - 1].clientX;
     },
-    // 结束 - end
+    // 滑动结束 - end
     endFn() {
-      if (this.ingoreTrans()) return;
-      this.transState = false; // 滑动状态 - 关闭
+      if (this.ingoreTrans) return;
       const diffXAbs = Math.abs(this.diffX); // 滑动距离绝对值
-      const swipeItemCount = Math.trunc(diffXAbs / this.swipeWidth); // 滑过轮播图个数
-      const critialVal = diffXAbs / this.swipeWidth - swipeItemCount; // 滑动临界值比例
+      const itemCount = Math.trunc(diffXAbs / this.swipeWidth); // 滑过轮播图个数
+      const critialVal = diffXAbs / this.swipeWidth - itemCount; // 滑动临界值比例
       // 左滑
       if (this.diffX > 0) {
-        this.activeIndex -= swipeItemCount;
-        if (critialVal >= this.cirticalVal) {
-          this.activeIndex -= 1;
-        }
-        this.activeIndex = this.fixIndex(this.activeIndex);
-      } else if (this.diffX < 0) {
-        // 右滑
-        this.activeIndex += swipeItemCount;
-        if (critialVal >= this.cirticalVal) {
-          this.activeIndex += 1;
-        }
-        this.activeIndex = this.fixIndex(this.activeIndex, false);
-      }
-      this.indicatorIndex = this.calcIndex(this.activeIndex) - 1; // 获取实际的索引值
-      // 当手指滑动距离正好等于整数个SwipeItem时候
-      if (critialVal === 0) {
-        if (this.isCritical) {
-          this.animateState = true; // 动画 - 开启
-          this.transX = this.preX = this.calcTrans();
-        } else {
-          this.transEndFn();
-        }
+        this.slideLeft(itemCount, critialVal);
       } else {
-        this.animateState = true; // 动画 - 开启
+        // 右滑
+        this.slideRight(itemCount, critialVal);
+      }
+      // 获取实际的索引值
+      this.actuallyActiveIndex = this.continuous
+        ? this.getIndex(this.activeIndex) - 1
+        : this.activeIndex;
+      // 当手指滑动距离正好等于整数个item时候
+      if (critialVal === 0) {
+        this.transEndFn();
+      } else {
+        this.isTrans = true;
         this.transX = this.preX = this.calcTrans();
       }
     },
-    // 修正索引值
-    fixIndex(i, isLeft = true) {
-      // 第一张轮播图
-      if (isLeft) {
-        return i < 0 ? 0 : i;
-      } else {
-        // 最后一张轮播图
-        return i > this.swipeItemCount - 1 ? this.swipeItemCount - 1 : i;
+    // 左滑
+    slideLeft(itemCount, critialVal) {
+      this.activeIndex -= itemCount;
+      if (critialVal >= this.cirticalVal) {
+        this.activeIndex -= 1;
       }
+      this.activeIndex = this.activeIndex < 0 ? 0 : this.activeIndex;
+    },
+    // 右滑
+    slideRight(itemCount, critialVal) {
+      this.activeIndex += itemCount;
+      if (critialVal >= this.cirticalVal) {
+        this.activeIndex += 1;
+      }
+      this.activeIndex =
+        this.activeIndex > this.itemCount - 1
+          ? this.itemCount - 1
+          : this.activeIndex;
     },
     // 动画结束 - end
     transEndFn() {
-      this.animateState = false; // 动画-关闭
+      this.isTrans = false;
       // 当滑动到最后或者第一张时候，瞬间拉回回当前轮播图实际位置
-      this.activeIndex = this.calcIndex(this.activeIndex);
-      this.transX = this.preX = this.calcTrans();
-      this.$emit("change", this.indicatorIndex); // 发送change事件
-      this.autoPlayFn && this.autoPlayFn(); // 自动播放-开启
+      if (this.continuous) {
+        this.activeIndex = this.getIndex(this.activeIndex);
+        this.transX = this.preX = this.calcTrans();
+      }
+      this.$emit("change", this.actuallyActiveIndex);
+      this.isAutoPlay && this.autoPlayFn();
     },
     // 计算滑动位置
     calcTrans() {
       return -this.activeIndex * this.swipeWidth;
     },
     // 计算索引位置
-    calcIndex(i) {
+    getIndex(i) {
       if (i === 0) {
-        return this.swipeItemCount - 2;
-      } else if (i === this.swipeItemCount - 1) {
+        return this.itemCount - 2;
+      } else if (i === this.itemCount - 1) {
         return 1;
       } else {
         return i;
       }
     },
-    // 忽略滑动 - 当动画结束后或只有一张图片时候
-    ingoreTrans() {
-      return this.animateState || !this.isTrans;
-    },
     // 自动轮播
     autoPlayFn() {
       clearInterval(this.timeId);
       this.timeId = setInterval(() => {
-        this.activeIndex += 1;
-        this.activeIndex = this.fixIndex(this.activeIndex, false);
-        this.indicatorIndex = this.calcIndex(this.activeIndex) - 1;
-        this.animateState = true;
+        this.slideRight(1, 0);
+        this.actuallyActiveIndex = this.getIndex(this.activeIndex) - 1;
+        this.isTrans = true;
         this.transX = this.preX = this.calcTrans();
       }, this.autoPlayTime);
     },
@@ -290,11 +279,11 @@ export default {
   overflow: hidden;
   @include ios-fix;
   .swipe {
-    white-space: nowrap;
+    display: flex;
     @include ios-fix;
     .swipe-item-wrapper {
+      flex: none;
       width: 100%;
-      display: inline-block;
       box-sizing: border-box;
       @include ios-fix;
     }

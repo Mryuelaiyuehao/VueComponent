@@ -24,19 +24,9 @@
     <div
       class="slot-area"
       @touchstart="startFn"
-      @mousedown="startFn"
       @touchmove="moveFn"
-      @mousemove="moveFn"
       @touchend="endFn"
-      @mouseup="endFn"
-      @mouseleave="leaveFn"
-      @mouseenter="enterFn"
     ></div>
-    <div class="slot-mask">
-      <div class="mask-top"></div>
-      <div class="mask-indicator" :style="{ height: `${itemHeight}px` }"></div>
-      <div class="mask-bottom"></div>
-    </div>
   </div>
 </template>
 <script>
@@ -244,35 +234,6 @@ export default {
     @include common-style;
     z-index: $z-index-lg;
     background-color: transparent;
-  }
-
-  .slot-mask {
-    position: absolute;
-    @include common-style;
-    display: flex;
-    flex-direction: column;
-    .mask-top {
-      flex: 1;
-      background-image: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0.95),
-        rgba(255, 255, 255, 0.6)
-      );
-    }
-    .mask-bottom {
-      flex: 1;
-      background-image: linear-gradient(
-        to top,
-        rgba(255, 255, 255, 0.95),
-        rgba(255, 255, 255, 0.6)
-      );
-    }
-
-    .mask-indicator {
-      box-sizing: border-box;
-      border-top: 1px solid $c-division;
-      border-bottom: 1px solid $c-division;
-    }
   }
 }
 </style>

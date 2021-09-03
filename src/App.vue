@@ -6,123 +6,62 @@
         :tabList="tabList"
         :start-index="3"
         @click="onConfirm"
-        :wrap-style="{ width: '28%', paddingRight: '10px' }"
-      >
-        <template #default="slotProps">
-          <div
-            class="tab-item"
-            :class="{
-              'tab-item-choose': slotProps.index === slotProps.activiteIndex,
-            }"
-          >
-            {{ slotProps.item }}
-          </div>
+        :wrap-style="{ width: '28%', paddingRight: '10px' }">
+        <template v-slot="{ item,activiteIndex,index}">
+          <div class="tab-item" :class="{'tab-item-choose': index === activiteIndex}">{{ item }}</div>
         </template>
       </scroll-tab>
     </div>
     <div class="box">
       <div class="title">popup:</div>
       <div class="box-content">
-        <div class="btn" @click="()=>{showBottom = true}">bottom</div>
-        <div class="btn" @click="()=>{showTop = true}">top</div>
-        <div class="btn" @click="()=>{showRight = true}">right</div>
-        <div class="btn" @click="()=>{showLeft = true}">left</div>
-        <div class="btn" @click="()=>{showCenter = true}">center</div>
+        <div class="btn" @click="() => {showBottom = true;}">bottom</div>
+        <div class="btn" @click="() => {showTop = true;}">top</div>
+        <div class="btn" @click="() => {showRight = true;}">right</div>
+        <div class="btn" @click="() => {showLeft = true;}" >left</div>
+        <div class="btn" @click="() => {showCenter = true;}">center</div>
       </div>
     </div>
     <div class="box">
       <div class="title">swipe：</div>
-      <swipe :urlList="urlList" @change="onConfirm" :show-indicators="true" :auto-play="true" :wrapper-padding="2">
-        <template #default="slotProps">
-           <div class="swipe-item" :style="{ backgroundColor: slotProps.sItem}"></div>
+      <swipe
+        :list="urlList"
+        @change="onConfirm"
+        :continuous="true"
+        :show-indicators="true"
+        :auto-play="true"
+        :wrapper-padding="0">
+        <template v-slot="{ item, id }">
+          <div class="swipe-item" :style="{ backgroundColor: item }">{{ id | fixId }}</div>
         </template>
       </swipe>
     </div>
     <div class="box">
       <div class="title">regionPicker：</div>
       <div class="box-content">
-        <div
-          class="btn"
-          @click="
-            () => {
-              visible1 = true;
-            }
-          "
-        >
-          regionPicker：
-        </div>
+        <div class="btn" @click="() => {visible1 = true;}">regionPicker：</div>
       </div>
     </div>
     <picker
       v-model="value1"
       :visible="visible1"
       :showTitle="true"
-      :close="
-        () => {
-          visible1 = false;
-        }
-      "
+      :close="() => {visible1 = false;}"
       :is-link="true"
-      @confirm="onConfirm"
-    ></picker>
-    <popup
-      v-model="showBottom"
-      :close="
-        () => {
-          showBottom = false;
-        }
-      "
-      :popupHeight="300"
-      :popupPosition="'bottom'"
-    >
+      @confirm="onConfirm"/>
+    <popup v-model="showBottom" :close="closePopup" :popupPosition="'bottom'">
       <div class="popup-content">bottom</div>
     </popup>
-    <popup
-      v-model="showTop"
-      :close="
-        () => {
-          showTop = false;
-        }
-      "
-      :popupHeight="260"
-      :popupPosition="'top'"
-    >
+    <popup v-model="showTop" :close="closePopup" :popupPosition="'top'">
       <div class="popup-content">top</div>
     </popup>
-    <popup
-      v-model="showRight"
-      :close="
-        () => {
-          showRight = false;
-        }
-      "
-      :popupHeight="260"
-      :popupPosition="'right'"
-    >
+    <popup v-model="showRight" :close="closePopup" :popupPosition="'right'">
       <div class="popup-content">right</div>
     </popup>
-    <popup
-      v-model="showLeft"
-      :close="
-        () => {
-          showLeft = false;
-        }
-      "
-      :popupHeight="260"
-      :popupPosition="'left'"
-    >
+    <popup v-model="showLeft" :close="closePopup"  :popupPosition="'left'">
       <div class="popup-content">left</div>
     </popup>
-    <popup
-      v-model="showCenter"
-      :close="
-        () => {
-          showCenter = false;
-        }
-      "
-      :popupHeight="260"
-      :popupPosition="'center'"
-    >
+    <popup v-model="showCenter" :close="closePopup" :popupPosition="'center'" >
       <div class="popup-content">center</div>
     </popup>
   </div>
@@ -131,7 +70,7 @@
 <script>
 import ScrollTab from "@/components/ScrollTab.vue";
 import Popup from "@/components/Popup.vue";
-import Swipe from '@/components/Swipe.vue';
+import Swipe from "@/components/Swipe.vue";
 import Picker from "@/components/picker/Picker.vue";
 export default {
   name: "App",
@@ -160,6 +99,23 @@ export default {
   methods: {
     onConfirm(val) {
       console.log(val);
+    },
+    closePopup(){
+      this.showBottom= false
+      this.showTop= false
+      this.showRight= false
+      this.showLeft = false
+      this.showCenter = false
+    }
+  },
+  filters: {
+    fixId(id) {
+      if (id === 0) {
+        return 4;
+      } else if (id === 5) {
+        return 1;
+      }
+      return id;
     },
   },
   components: {
@@ -216,7 +172,11 @@ export default {
   .swipe-item {
     width: 100%;
     height: 120px;
-    border-radius: $px-8;
+    font-size: $px-30;
+    line-height: 120px;
+    color: $c-white;
+    text-align: center;
+    // border-radius: $px-8;
   }
 }
 </style>

@@ -20,6 +20,7 @@
           :isLink="isLink"
           @input="inputFn"
         ></picker-slot>
+        <div class="mask"></div>
       </div>
     </div>
   </popup>
@@ -192,9 +193,38 @@ export default {
     }
   }
   .picker-content {
+    position: relative;
     display: flex;
     flex: 1;
+    height: inherit;
     padding: 0 $px-10;
+
+    .mask {
+      position: absolute;
+      top: 0;
+      right: auto;
+      bottom: auto;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 0 $px-10;
+      box-sizing: border-box;
+      background-clip: content-box;
+      background-image: linear-gradient(
+          to top,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.6) calc(50% - 17px),
+          $c-division calc(50% - 17px) calc(50% - 16px),
+          transparent calc(50% - 16px)
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 255, 255, 0.6) calc(50% - 17px),
+          $c-division calc(50% - 17px) calc(50% - 16px),
+          transparent calc(50% - 16px)
+        );
+    }
   }
 }
 </style>
