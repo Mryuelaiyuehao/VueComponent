@@ -4,9 +4,8 @@
       <div class="title">srcollTab：</div>
       <scroll-tab
         :tabList="tabList"
-        :start-index="3"
-        @click="onConfirm"
-        :wrap-style="{ width: '28%', paddingRight: '10px' }">
+        :start-index="4"
+        @click="onConfirm">
         <template v-slot="{ item,activiteIndex,index}">
           <div class="tab-item" :class="{'tab-item-choose': index === activiteIndex}">{{ item }}</div>
         </template>
@@ -28,8 +27,9 @@
         :list="urlList"
         @change="onConfirm"
         :continuous="true"
+        :start-index="2"
         :show-indicators="true"
-        :auto-play="true"
+        :auto-play="false"
         :wrapper-padding="0">
         <template v-slot="{ item, id }">
           <div class="swipe-item" :style="{ backgroundColor: item }">{{ id | fixId }}</div>
@@ -97,8 +97,8 @@ export default {
     };
   },
   methods: {
-    onConfirm(val) {
-      console.log(val);
+    onConfirm() {
+      // console.log(val);
     },
     closePopup(){
       this.showBottom= false

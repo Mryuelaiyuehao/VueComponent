@@ -1,16 +1,32 @@
 <template>
-  <div id="scrollTab" ref="tab" 
-    @touchstar.prevent="startFn"
+  <div
+    id="scrollTab"
+    ref="tab"
+    @touchstart="startFn"
     @touchmove.prevent="moveFn"
-    :style="{transform:`translateX(${tranX}px)`}"
+    @touchend="endFn"
+  >
+    <div
+      class="srcoll-tab"
+      @transitionend="transEndFn"
+      :style="{
+        transform: `translateX(${transX}px)`,
+        transition: transState ? `transform .35s ease-in-out` : '',
+      }"
     >
-    <div class="tab-item-wrap" 
-      ref="tabItemWrap"
-      v-for="(tItem, index) in tabList"
-      :key="index"
-      @click="onClick(index)"
-      :style="{ width: `${wrapWidth}%`, paddingRight: `${wrapPaddingRight}px` }">
-      <slot :item="tItem" :index="index" :activite-index="activiteIndex"></slot>
+      <div
+        class="item-wrap"
+        ref="itemWrap"
+        v-for="(item, index) in tabList"
+        :key="index"
+        @click.stop="onClick(index)"
+        :style="{
+          width: `${wrapWidth}%`,
+          paddingRight: `${wrapPaddingRight}px`,
+        }"
+      >
+        <slot :item="item" :index="index" :activite-index="activiteIndex" />
+      </div>
     </div>
   </div>
 </template>
@@ -47,76 +63,116 @@ export default {
   data() {
     return {
       activiteIndex: 0, // 激活的tabItem索引值
-      tabWidth: 0, // scrollTab宽度 - 精准值
-      tabItemWrapWidth: 0, //tabWrapItem宽度 - 精准值
-      endScrollX: 0, // 滚动距离
-      maxScrollX: 0, // 最大滚动距离
-      tabAnimation: false, // 动画是否开启
-      startX:0,
-      diffX:0,
-      preX:0,
-      tranX:0
+      tabWidth: 0, // scrollTab宽度，px 精准值
+      tabItemWrapWidth: 0, //tabWrapItem宽度，px 精准值
+      minTranX: 0, // 最小滚动距离，px
+      startX: 0, // 起始滑动值,px
+      diffX: 0, // 滚动距离差值,px
+      preX: 0, // 是否在滑动中
+      transX: 0, // 滑动距离,px
+      transState: false, // 滑动状态
+      timeStamp:0, // 时间戳
     };
+  },
+  computed: {
+    // tabItem数
+    tabListLen() {
+      return this.$isArray(this.tabList);
+    },
+    // 是否允许滚动
+    isTrans() {
+      return this.transState || (this.tabItemWrapWidth * (this.tabListLen - 1) > this.tabWidth);
+    },
   },
   created() {
     this.activiteIndex = this.startIndex;
-    // 点击事件发送
     this.$emit("click", this.activiteIndex);
   },
   mounted() {
     this.init();
     // 根据startIndex值初始化位置
-    this.$refs.tab.scrollLeft = this.calcTransX(this.activiteIndex);
+    if (this.isTrans) {
+      this.transX = this.preX = this.calcTransX(this.activiteIndex);
+    }
     window.addEventListener("resize", this.resetInit);
   },
-  beforeDestroy(){
+  beforeDestroy() {
     window.removeEventListener("resize", this.resetInit);
   },
   methods: {
-    resetInit(){
-      this.$nextTick(this.init)
+    resetInit() {
+      this.$nextTick(this.init);
     },
     // 初始化
     init() {
       this.tabWidth = this.$refs.tab.getBoundingClientRect().width;
-      this.tabItemWrapWidth =
-        this.$refs.tabItemWrap[0].getBoundingClientRect().width;
-      this.maxScrollX =
-        this.tabItemWrapWidth * this.tabList.length - this.tabWidth;
+      this.tabItemWrapWidth = this.$refs.itemWrap[0].getBoundingClientRect().width;
+      this.minTranX = this.calcMinTransX(this.tabListLen - 1);
+      if (this.isTrans) {
+        this.transX = this.preX = this.calcTransX(this.activiteIndex);
+      }
     },
-    // 滑动开始
-    startFn(e){
-      this.startX =  this.preX = this.getTransX(e);
+    // 滑动开始 - start
+    startFn(e) {
+      if (!this.isTrans) return;
+      this.timeStamp = e.timeStamp;
+      this.diffX = 0;
+      this.startX = this.getTransX(e);
     },
+    // 滑动中 - move
+    moveFn(e) {
+      if (!this.isTrans) return;
+      this.diffX = this.getTransX(e) - this.startX;
+      this.transX = this.diffX + this.preX;
+    },
+    // 滑动结束 - end
+    endFn() {
+      if (!this.isTrans) return;
+      // 修正滑动位置
+      this.transX = this.preX  = this.fixTransX(this.transX)
+    },
+    // 动画结束
+    transEndFn() {
+      this.transState = false;
+    },
+      // 点击tab
+    onClick(i) {
+      this.transState = true;
+      this.activiteIndex = i;
+      this.transX = this.preX =  this.calcTransX(i);
+      this.$emit("click", this.activiteIndex);
+    },
+    // 修正滑动位置
+    fixTransX(transX) {
+      if (transX > 0) {
+        this.transState = true;
+        return 0;
+      } else if (transX < this.minTranX) {
+        this.transState = true;
+        return this.minTranX;
+      } else {
+        return transX;
+      }
+    },
+    // 获取位置
     getTransX(e) {
       return e.touches[e.touches.length - 1].clientX;
     },
-    onClick(i) {
-      this.activiteIndex = i;
-      // 本次滚动位置
-      this.endScrollX = this.calcTransX(i);
-      // 修正滚动目的位置
-      if (this.endScrollX < 0) {
-        this.endScrollX = 0;
-      } else if (this.endScrollX > this.maxScrollX) {
-        this.endScrollX = this.maxScrollX;
-      }
-      // 点击事件发送
-      this.$emit("click", this.activiteIndex);
-    },
-    // 触控 - move
-    moveFn(e) {
-      this.diffX = this.getTransX(e) - this.startX;
-      this.tranX = this.preX+this.diffX
-    },
     // 计算点击tabItem滚动到中间的位置
     calcTransX(i) {
-      return (
-        this.$refs.tabItemWrap[i].offsetLeft +
-        this.tabItemWrapWidth / 2 -
+      return this.fixTransX(-(
+        this.$refs.itemWrap[i].offsetLeft -
         this.tabWidth / 2 -
-        this.$refs.tab.offsetLeft -
-        this.wrapPaddingRight / 2
+        this.wrapPaddingRight / 2 +
+        this.tabItemWrapWidth / 2
+      ))
+    },
+    // 计算最小滚动位置
+    calcMinTransX(i) {
+      return -(
+        this.$refs.itemWrap[i].offsetLeft +
+        this.tabItemWrapWidth -
+        this.tabWidth
       );
     },
   },
@@ -125,22 +181,18 @@ export default {
 
 <style scoped lang="scss">
 #scrollTab {
-  display: flex;
-  /* 兼容fireFox */
-  scrollbar-width: none;
-  /* 兼容ie10+ */
-  -ms-overflow-style: none;
-  // overflow-x: scroll;
   overflow: hidden;
-  .tab-item-wrap {
-    // 修复移动端点击该元素出现黑色闪动
-    -webkit-tap-highlight-color: transparent;
-    flex: none;
-  }
+  .srcoll-tab {
+    width: 100%;
+    position: relative;
+    display: flex;
 
-  /* 兼容safari和chrome */
-  &::-webkit-scrollbar {
-    display: none;
+    .item-wrap {
+      flex: none;
+      box-sizing: border-box;
+      // 修复移动端点击该元素出现黑色闪动
+      -webkit-tap-highlight-color: transparent;
+    }
   }
 }
 </style>

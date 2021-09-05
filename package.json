@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -21,7 +21,9 @@
     "eslint-plugin-vue": "6.2.2",
     "sass": "1.38.2",
     "sass-loader": "8.0.0",
-    "vue-template-compiler": "2.6.11"
+    "vconsole": "^3.9.1",
+    "vue-template-compiler": "2.6.11",
+    "vue-vconsole-devtools": "0.0.7"
   },
   "eslintConfig": {
     "root": true,

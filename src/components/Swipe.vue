@@ -112,13 +112,11 @@ export default {
     },
     // 是否开启自动轮播
     isAutoPlay() {
-      return this.autoPlay && this.continuous;
+      return this.autoPlay && this.continuous && this.actuallyItemCount > 1;
     },
     // 是否是临界距离
     isCirticalTranX() {
-      return (
-        this.continuous && (this.transX >= 0 || this.transX <= this.minTransX)
-      );
+      return this.continuous && (this.transX >= 0 || this.transX <= this.minTransX);
     },
   },
   created() {
@@ -126,19 +124,13 @@ export default {
     this.actuallyItemCount = this.$isArray(this.list);
     if (this.actuallyItemCount === 0) return;
     if (this.continuous && this.actuallyItemCount > 1) {
-      this.currentList = JSON.parse(
-        JSON.stringify(
-          this.list.slice(-1).concat(this.list).concat(this.list.slice(0, 1))
-        )
-      );
+      this.currentList = this.$deepCopy(this.list.slice(-1).concat(this.list).concat(this.list.slice(0, 1)));
     } else {
-      this.currentList = JSON.parse(JSON.stringify(this.list));
+      this.currentList = this.$deepCopy(this.list);
     }
     this.itemCount = this.currentList.length;
     this.activeIndex = this.actuallyActiveIndex = this.startIndex;
-    this.activeIndex = this.continuous
-      ? this.activeIndex + 1
-      : this.activeIndex;
+    this.activeIndex = this.continuous ? this.activeIndex + 1 : this.activeIndex;
     this.$emit("change", this.actuallyActiveIndex);
   },
   mounted() {
@@ -159,11 +151,9 @@ export default {
     },
     // 初始化
     init() {
-      this.swipeWidth =
-        this.$refs.swipe && this.$refs.swipe.getBoundingClientRect().width;
+      this.swipeWidth = this.$refs.swipe && this.$refs.swipe.getBoundingClientRect().width;
       this.minTransX = -(this.itemCount - 1) * this.swipeWidth;
       this.transX = this.preX = this.calcTrans();
-      console.log(this.swipeWidth);
     },
     // 滑动开始 - start
     startFn(e) {
@@ -223,10 +213,7 @@ export default {
       if (critialVal >= this.cirticalVal) {
         this.activeIndex += 1;
       }
-      this.activeIndex =
-        this.activeIndex > this.itemCount - 1
-          ? this.itemCount - 1
-          : this.activeIndex;
+      this.activeIndex = this.activeIndex > this.itemCount - 1 ? this.itemCount - 1 : this.activeIndex;
     },
     // 动画结束 - end
     transEndFn() {
@@ -245,12 +232,13 @@ export default {
     },
     // 计算索引位置
     getIndex(i) {
-      if (i === 0) {
-        return this.itemCount - 2;
-      } else if (i === this.itemCount - 1) {
-        return 1;
-      } else {
-        return i;
+      switch(i) {
+        case 0:
+          return this.itemCount - 2;
+        case this.itemCount - 1:
+          return 1;
+        default:
+          return i;
       }
     },
     // 自动轮播

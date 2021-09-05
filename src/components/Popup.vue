@@ -4,13 +4,8 @@
       <div v-if="value" class="mask" @click.self="close"></div>
     </transition>
     <transition :name="`popup-${popupPosition}`">
-      <div
-        v-if="value"
-        class="popup"
-        :class="[`popup-${popupPosition}`]"
-        :style="{ height: `${popupHeight}px` }"
-      >
-        <slot></slot>
+      <div v-if="value" :class="['popup',`popup-${popupPosition}`]" :style="{ height: `${popupHeight}px` }">
+        <slot/>
       </div>
     </transition>
   </div>
