@@ -5,7 +5,7 @@ import VConsole from "vconsole";
 import Devtools from 'vue-vconsole-devtools'
 Devtools.initPlugin(new VConsole());
 // or init with options
-// const vConsole = new VConsole({ maxLogNumber: 1000 });
+new VConsole({ maxLogNumber: 1000 });
 import {isArray} from 'lodash'
 Vue.config.productionTip = false;
 Vue.prototype.$isArray = (arr) => isArray(arr) && arr.length;

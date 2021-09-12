@@ -42,6 +42,10 @@
         <div class="btn" @click="() => {visible1 = true;}">regionPicker：</div>
       </div>
     </div>
+    <div class="box">
+      <div class="title">preview:</div>
+      <preview :list="previewList"></preview>
+    </div>
     <picker
       v-model="value1"
       :visible="visible1"
@@ -72,6 +76,8 @@ import ScrollTab from "@/components/ScrollTab.vue";
 import Popup from "@/components/Popup.vue";
 import Swipe from "@/components/Swipe.vue";
 import Picker from "@/components/picker/Picker.vue";
+import Preview from '@/components/preview/Preview.vue';
+import { PREVIEW } from '@/assets/js/const'
 export default {
   name: "App",
   data() {
@@ -87,6 +93,7 @@ export default {
         "众多非一",
       ],
       urlList: ["#EC7063", "#48C9B0", "#5DADE2", "#A569BD"],
+      previewList: PREVIEW,
       showBottom: false,
       showTop: false,
       showRight: false,
@@ -123,11 +130,15 @@ export default {
     Popup,
     Swipe,
     Picker,
+    Preview
   },
 };
 </script>
 
 <style scope lang="scss">
+body{
+  margin: 0;
+}
 #app {
   padding: 0 $px-10;
   .box {

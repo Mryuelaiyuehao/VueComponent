@@ -55,6 +55,30 @@ const PICKER = {
   REGIONS
 };
 
+const PREVIEW = [
+  {
+    thumbnailUrl:'https://tse2-mm.cn.bing.net/th/id/OIP-C.xsA-3qUw6cqmd8nRfxk6TQHaEK?w=290&h=180&c=7&r=0&o=5&dpr=2&pid=1.7',
+    previewUrl:'https://tse2-mm.cn.bing.net/th/id/OIP-C.xsA-3qUw6cqmd8nRfxk6TQHaEK?w=290&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'
+  },
+  {
+    thumbnailUrl:'https://tse1-mm.cn.bing.net/th/id/OIP-C.mcF6ZHB4Iu0HGqc7D0H9AgHaEK?w=290&h=180&c=7&r=0&o=5&dpr=2&pid=1.7',
+    previewUrl:'https://tse1-mm.cn.bing.net/th/id/OIP-C.mcF6ZHB4Iu0HGqc7D0H9AgHaEK?w=290&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'
+  },
+  {
+    thumbnailUrl:'https://tse3-mm.cn.bing.net/th/id/OIP-C.Ay9IpllqRw8Nz4HgTwe4AgHaEo?w=298&h=183&c=7&r=0&o=5&dpr=2&pid=1.7',
+    previewUrl:'https://tse3-mm.cn.bing.net/th/id/OIP-C.Ay9IpllqRw8Nz4HgTwe4AgHaEo?w=298&h=183&c=7&r=0&o=5&dpr=2&pid=1.7'
+  },
+  {
+    thumbnailUrl:'https://tse4-mm.cn.bing.net/th/id/OIP-C.kB-Ovasi0GW67-rmwnAcwAHaEo?w=282&h=180&c=7&r=0&o=5&dpr=2&pid=1.7',
+    previewUrl:'https://tse4-mm.cn.bing.net/th/id/OIP-C.kB-Ovasi0GW67-rmwnAcwAHaEo?w=282&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'
+  },
+  {
+    thumbnailUrl:'https://tse4-mm.cn.bing.net/th/id/OIP-C.i0-ND27ia6sO-nZuY9f7qAHaEK?w=286&h=180&c=7&r=0&o=5&dpr=2&pid=1.7',
+    previewUrl:'https://tse4-mm.cn.bing.net/th/id/OIP-C.i0-ND27ia6sO-nZuY9f7qAHaEK?w=286&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'
+  }
+]
+
 export {
-  PICKER
+  PICKER,
+  PREVIEW
 }

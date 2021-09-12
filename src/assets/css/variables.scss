@@ -26,4 +26,16 @@ $c-division: #cccccc;
 $z-index-lg: 1000;
 $z-index-md: 100;
 $z-index-sm: 10;
-$z-index-xm: 1;
+$z-index-xs: 1;
+
+// 修复ios设备上滑动时候闪屏问题
+@mixin ios-fix {
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+}
+// 清除ul默认样式
+@mixin clear-ul-style {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

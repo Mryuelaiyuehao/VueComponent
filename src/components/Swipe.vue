@@ -69,12 +69,12 @@ export default {
     },
     // 自动轮播时间，ms
     autoPlayTime: {
-      tpye: Number,
+      type: Number,
       default: () => 3000,
     },
     // 是否显示指示器
     showIndicators: {
-      tpye: Boolean,
+      type: Boolean,
       default: () => false,
     },
     // 指示器位置，可选值为：'top-left' 'top-center' 'top-right' 'bottom-left' 'bottom-center' 'bottom-right'
@@ -107,7 +107,7 @@ export default {
   },
   computed: {
     // 是否忽略滑动 - 正在滑动中或只有一个item
-    ingoreTrans() {
+    ignoreTrans() {
       return this.isTrans || this.actuallyItemCount === 1;
     },
     // 是否开启自动轮播
@@ -115,7 +115,7 @@ export default {
       return this.autoPlay && this.continuous && this.actuallyItemCount > 1;
     },
     // 是否是临界距离
-    isCirticalTranX() {
+    isCritical() {
       return this.continuous && (this.transX >= 0 || this.transX <= this.minTransX);
     },
   },
@@ -158,14 +158,14 @@ export default {
     // 滑动开始 - start
     startFn(e) {
       this.isAutoPlay && clearInterval(this.timeId);
-      if (this.ingoreTrans) return;
+      if (this.ignoreTrans) return;
       this.diffX = 0;
       this.startX = this.getTransX(e);
     },
     // 滑动中 - move
     moveFn(e) {
       // 临界值处理 - 滑动到一张
-      if (this.ingoreTrans || this.isCirticalTranX) return;
+      if (this.ignoreTrans || this.isCritical) return;
       // 时时滑动
       this.diffX = this.getTransX(e) - this.startX;
       this.transX = this.diffX + this.preX;
@@ -176,7 +176,7 @@ export default {
     },
     // 滑动结束 - end
     endFn() {
-      if (this.ingoreTrans) return;
+      if (this.ignoreTrans) return;
       const diffXAbs = Math.abs(this.diffX); // 滑动距离绝对值
       const itemCount = Math.trunc(diffXAbs / this.swipeWidth); // 滑过轮播图个数
       const critialVal = diffXAbs / this.swipeWidth - itemCount; // 滑动临界值比例
@@ -255,11 +255,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// 修复ios设备上滑动时候闪屏问题
-@mixin ios-fix {
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: preserve-3d;
-}
 #swipe {
   position: relative;
   width: 100%;

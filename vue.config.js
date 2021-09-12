@@ -19,6 +19,11 @@ module.exports = {
         prependData: `@import "~@/assets/css/variables.scss";`
       }
     },
-
-  }
+  },
+  devServer : {
+    hot: true,
+    open : true,
+    port : 8080,
+    host : "192.168.31.23"
+}
 }
