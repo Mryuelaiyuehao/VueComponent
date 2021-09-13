@@ -40,7 +40,7 @@
                 width: isAcitve(item.id) ? `${scaleWidth}px` : '100%',
                 height: isAcitve(item.id) ? `${scaleHeight}px` : '100%',
                 transform: isAcitve(item.id)
-                  ? `translate(${scaleTransX}px,${scaleTransY}px) scale(${scaleVal})`
+                  ? `translate(${scaleTransX}px,${scaleTransY}px) scale(${1})`
                   : '',
                 transformOrigin: `${scaleOriginX}px ${scaleOriginY}px`,
                 transition:
@@ -97,14 +97,13 @@ export default {
       diffX: 0, // 手指滑动距离，px
       transX: 0, // 滑动值，px
       isTrans: false, // 是否正在滑动中
-      boundaryX: 0, // 右边界，px
       // 判断单击、双击
       eventTimeStamp: 0,
       eventX: 0,
       eventY: 0,
       tapCount: 0,
       timeId: null,
-      isDoubleTap: false, // 是否正在放大中
+      isDoubleTap: false, // 是否双击缩放
       // 双击放大
       scaleStartX: 0,
       scaleStartY: 0,
@@ -119,7 +118,6 @@ export default {
       scaleHeight: 0,
       scaleTop: 0,
       scaleVal: 1,
-      isBoundary: false, // 是否到达了边界
     };
   },
   computed: {
@@ -133,18 +131,18 @@ export default {
       //   this.isDoubleTap ||
     },
     // 边界值
-    boundaryTop() {
+    boundaryBottom() {
       return -this.scaleVal * this.height;
     },
     // 边界值
-    boundaryLeft() {
+    boundaryRight() {
       return -this.scaleVal * this.width;
     },
   },
   watch: {
     previewState(val) {
       document.body.style.overflow = val ? "hidden" : "";
-    },
+    }
   },
   created() {
     // 数据处理
@@ -274,7 +272,7 @@ export default {
         this.tapCount++;
         clearTimeout(this.timeId);
         this.timeId = setTimeout(() => {
-          console.log("单击事件");
+          // console.log("单击事件");
           this.tapCount = 0;
           this.hidePreview();
         }, 250);
@@ -303,7 +301,7 @@ export default {
     },
     // 恢复正常 - 1倍
     resetNormal() {
-      console.log("恢复正常");
+      // console.log("恢复正常");
       this.scaleState = false;
       this.fignerType = 0;
       this.scaleWidth = this.width;
@@ -313,45 +311,42 @@ export default {
       this.scaleTransX = 0;
       this.scaleTransY = 0;
     },
-    // 双击放大 - 2倍
+    // 双击放大 - 3倍
     doubelTapEnlargeFn(clientX, clientY) {
-      console.log("双击放大");
+      // console.log("双击放大");
+      this.scaleVal = 2;
       this.scaleState = true;
-      this.scaleOriginX = clientX;
-      this.scaleOriginY = clientY;
+      this.scaleOriginX = clientX * 2;
+      this.scaleOriginY = clientY * 2;
       this.scaleLeft = this.scaleBoundaryX = -this.scaleOriginX;
       this.scaleTop = this.scaleBoundaryY = -this.scaleOriginY;
-      this.scaleWidth = this.width * 2;
-      this.scaleHeight = this.height * 2;
+      this.scaleWidth = this.width * 3;
+      this.scaleHeight = this.height * 3;
     },
     getTransX(i) {
       return -i * this.width;
     },
     // 正常拖动 - start
     slideStartFn(e) {
-      console.log("正常拖动 - start");
+      // console.log("正常拖动 - start");
       const { x } = this.getClient(e);
       this.diffX = 0;
       this.startX = x;
     },
     // 正常拖动 - move
     slideMoveFn(e) {
-      console.log("正常拖动 - move");
-      // 缩放后单指左右滑动时候
+      // console.log("正常拖动 - move");
       const { x } = this.getClient(e);
       this.diffX = x - this.startX;
-      // 缩放后边界值处理
-      // if (this.scaleState) {
-      //   if (this.transX >= 0 || this.transX <= this.boundaryX) {
-      //     this.isBoundary = true;
-      //   }
-      //   this.isBoundary = false;
-      // }
+      // 缩放后单指左右滑动时候
+      if (this.scaleState) {
+        this.scaleMoveFn(e);
+      }
       this.transX = this.diffX + this.initX;
     },
     // 正常拖动 - end
     slideEndFn() {
-      console.log("正常拖动 - end");
+      // console.log("正常拖动 - end");
       const diffXAbs = Math.abs(this.diffX);
       const itemCount = Math.trunc(diffXAbs / this.width);
       const critialVal = diffXAbs / this.width - itemCount;
@@ -374,22 +369,26 @@ export default {
         this.activeIndex = this.fixIndex(this.activeIndex, false);
       }
       this.thumbnaiActiveIndex = this.activeIndex;
+      this.transX = this.initX = this.getTransX(this.activeIndex);
       // 缩放重设
       if (lastActiveIndex !== this.activeIndex) {
         this.resetNormal();
       }
-      this.transX = this.initX = this.getTransX(this.activeIndex);
+      // 缩放后单指滑动
+      if (this.scaleState) {
+        this.scaleEndFn();
+      }
     },
     // 缩放后单指拖动 - start
     scaleStartFn(e) {
-      console.log("单指拖动-start");
+      // console.log("单指拖动-start");
       const { x, y } = this.getClient(e);
       this.scaleStartX = x;
       this.scaleStartY = y;
     },
     // 缩放后单指拖动 - move
     scaleMoveFn(e) {
-      console.log("缩放后单指拖动-move");
+      // console.log("缩放后单指拖动-move");
       const { x, y } = this.getClient(e);
       let scaleTransX = x - this.scaleStartX;
       let scaleTransY = y - this.scaleStartY;
@@ -397,18 +396,18 @@ export default {
       this.scaleBoundaryX = scaleTransX + this.scaleLeft;
       // 下边界值
       this.scaleBoundaryY = scaleTransY + this.scaleTop;
-      // 左右边界处理
-      if (
-        this.scaleBoundaryX >= 0 ||
-        this.scaleBoundaryX <= this.boundaryLeft
-      ) {
-        this.slideMoveFn(e);
-        // this.scaleStartX = x;
-        // this.scaleStartY = y;
+      // 超出左右边界处理
+      if (this.scaleBoundaryX > 0 || this.scaleBoundaryX < this.boundaryRight) {
+        this.fignerType = 1; // 变为正常左右滑动
+        this.scaleTransY = scaleTransY; // 缩放后左右超边界，可以允许上下可以滑动
         return;
       }
-      // 上下边界处理
-      if (this.scaleBoundaryY >= 0 || this.scaleBoundaryY <= this.boundaryTop) {
+      // 超出上下边界处理
+      if (
+        this.scaleBoundaryY >= 0 ||
+        this.scaleBoundaryY <= this.boundaryBottom
+      ) {
+        this.scaleTransX = scaleTransX; //  缩放后上下超边界，可以允许左右可以滑动
         return;
       }
       // 边界处理
@@ -418,20 +417,14 @@ export default {
     },
     // 缩放后单指拖动 - end
     scaleEndFn() {
-      console.log("缩放后单指拖动-end");
-      if (
-        this.scaleBoundaryX >= 0 ||
-        this.scaleBoundaryX <= this.boundaryLeft
-      ) {
-        this.slideEndFn();
-      }
+      // console.log("缩放后单指拖动-end");
       // 修正临界值
-      const { boundaryLeft, boundaryTop } = this.fixBoundary(
+      const { boundaryRight, boundaryBottom } = this.fixScaleBoundary(
         this.scaleTransX + this.scaleLeft,
         this.scaleTransY + this.scaleTop
       );
-      this.scaleLeft = this.scaleBoundaryX = boundaryLeft;
-      this.scaleTop = this.scaleBoundaryY = boundaryTop;
+      this.scaleLeft = this.scaleBoundaryX = boundaryRight;
+      this.scaleTop = this.scaleBoundaryY = boundaryBottom;
       this.scaleTransX = 0;
       this.scaleTransY = 0;
     },
@@ -450,21 +443,21 @@ export default {
         return i < 0 ? 0 : i;
       }
     },
-    // 边界值修正
-    fixBoundary(boundaryLeft, boundaryTop) {
-      if (boundaryLeft > 0) {
-        boundaryLeft = 0;
-      } else if (boundaryLeft < this.boundaryLeft) {
-        boundaryLeft = -this.width;
+    // 缩放后边界值修正
+    fixScaleBoundary(right, bottom) {
+      if (right > 0) {
+        right = 0;
+      } else if (right < this.boundaryRight) {
+        right = this.boundaryRight;
       }
-      if (top > 0) {
-        boundaryTop = 0;
-      } else if (boundaryTop < this.boundaryTop) {
-        boundaryTop = -this.height;
+      if (bottom > 0) {
+        bottom = 0;
+      } else if (bottom < this.boundaryBottom) {
+        bottom = this.boundaryBottom;
       }
       return {
-        boundaryLeft,
-        boundaryTop,
+        boundaryRight: right,
+        boundaryBottom: bottom,
       };
     },
   },
@@ -474,51 +467,53 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.preview {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
+#preview {
   width: 100%;
-  transition: opacity 0.5s;
-  background-color: $c-black;
-  z-index: $z-index-sm;
-  overflow: hidden;
-  opacity: 1;
-  @include ios-fix;
-  .preview-container {
-    width: 100%;
-    height: 100%;
-    white-space: nowrap;
-    @include ios-fix;
-    .preview-item-wrapper {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      @include ios-fix;
-      overflow: hidden;
-      .preview-item {
-        position: absolute;
-        background: currentColor no-repeat center center/contain;
-        @include ios-fix;
-      }
-    }
-  }
-  .counter {
-    position: absolute;
+  .preview {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    text-align: center;
-    line-height: 2;
-    color: $c-white;
-    font-size: $px-24;
+    height: 100%;
+    width: 100%;
+    transition: opacity 0.5s;
+    background-color: $c-black;
+    z-index: $z-index-sm;
+    opacity: 1;
+    @include ios-fix;
+    .preview-container {
+      width: 100%;
+      height: 100%;
+      white-space: nowrap;
+      @include ios-fix;
+      .preview-item-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        @include ios-fix;
+        .preview-item {
+          position: absolute;
+          font-size: 0;
+          background: currentColor no-repeat center center/contain;
+          @include ios-fix;
+        }
+      }
+    }
+    .counter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      text-align: center;
+      line-height: 2;
+      color: $c-white;
+      font-size: $px-24;
+    }
   }
-}
-.preview-enter,
-.preview-leave-to {
-  opacity: 0;
+  .preview-enter,
+  .preview-leave-to {
+    opacity: 0;
+  }
 }
 </style>
