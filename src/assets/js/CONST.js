@@ -75,6 +75,14 @@ const PREVIEW = [
   {
     thumbnailUrl:'https://tse4-mm.cn.bing.net/th/id/OIP-C.i0-ND27ia6sO-nZuY9f7qAHaEK?w=286&h=180&c=7&r=0&o=5&dpr=2&pid=1.7',
     previewUrl:'https://tse4-mm.cn.bing.net/th/id/OIP-C.i0-ND27ia6sO-nZuY9f7qAHaEK?w=286&h=180&c=7&r=0&o=5&dpr=2&pid=1.7'
+  },
+  {
+    thumbnailUrl:require('../img/5.png'),
+    previewUrl:require('../img/5.png')
+  },
+  {
+    thumbnailUrl:require('../img/2.png'),
+    previewUrl:require('../img/2.png')
   }
 ]
 

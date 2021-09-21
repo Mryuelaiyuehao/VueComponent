@@ -6,10 +6,9 @@ import Devtools from 'vue-vconsole-devtools'
 Devtools.initPlugin(new VConsole());
 // or init with options
 new VConsole({ maxLogNumber: 1000 });
-import {isArray} from 'lodash'
 Vue.config.productionTip = false;
-Vue.prototype.$isArray = (arr) => isArray(arr) && arr.length;
-Vue.prototype.$deepCopy = (obj) => JSON.parse(JSON.stringify(obj))
+// Vue.prototype.$isArray = (arr) => isArray(arr) && arr.length;
+// Vue.prototype.$deepCopy = (obj) => JSON.parse(JSON.stringify(obj))
 new Vue({
   render: h => h(App),
 }).$mount('#app')

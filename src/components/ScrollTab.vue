@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import {isArray} from 'lodash'
 export default {
   name: "ScrollTab",
   props: {
@@ -77,7 +78,7 @@ export default {
   computed: {
     // tabItem数
     tabListLen() {
-      return this.$isArray(this.tabList);
+      return isArray(this.tabList);
     },
     // 是否允许滚动
     isTrans() {

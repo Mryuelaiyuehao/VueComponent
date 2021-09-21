@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import {isArray,cloneDeep} from 'lodash'
 export default {
   name: "Swipe",
   props: {
@@ -121,12 +122,12 @@ export default {
   },
   created() {
     // 数据处理
-    this.actuallyItemCount = this.$isArray(this.list);
+    this.actuallyItemCount = isArray(this.list);
     if (this.actuallyItemCount === 0) return;
     if (this.continuous && this.actuallyItemCount > 1) {
-      this.currentList = this.$deepCopy(this.list.slice(-1).concat(this.list).concat(this.list.slice(0, 1)));
+      this.currentList = cloneDeep(this.list.slice(-1).concat(this.list).concat(this.list.slice(0, 1)));
     } else {
-      this.currentList = this.$deepCopy(this.list);
+      this.currentList = cloneDeep(this.list);
     }
     this.itemCount = this.currentList.length;
     this.activeIndex = this.actuallyActiveIndex = this.startIndex;

@@ -21,6 +21,10 @@
         <div class="btn" @click="() => {showCenter = true;}">center</div>
       </div>
     </div>
+     <div class="box">
+       <div class="title">hello:</div>
+      <!-- <hello/> -->
+    </div>
     <div class="box">
       <div class="title">swipe：</div>
       <swipe
@@ -44,7 +48,7 @@
     </div>
     <div class="box">
       <div class="title">preview:</div>
-      <preview :list="previewList"></preview>
+      <picture-view :list="previewList"></picture-view >
     </div>
     <picker
       v-model="value1"
@@ -72,11 +76,13 @@
 </template>
   
 <script>
+
 import ScrollTab from "@/components/ScrollTab.vue";
 import Popup from "@/components/Popup.vue";
 import Swipe from "@/components/Swipe.vue";
 import Picker from "@/components/picker/Picker.vue";
-import Preview from '@/components/preview/Preview.vue';
+import PictureView from './components/PictureView.vue';
+// import Hello from './components/hello.vue'
 import { PREVIEW } from '@/assets/js/const'
 export default {
   name: "App",
@@ -130,7 +136,8 @@ export default {
     Popup,
     Swipe,
     Picker,
-    Preview
+    PictureView,
+    // Hello
   },
 };
 </script>
