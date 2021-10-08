@@ -28,12 +28,13 @@
       :singleTap="hidePreview"
       :startIndex="startIndex"
       @change="previwChange"
+      :banScale="false"
     />
   </div>
 </template>
 
 <script scope>
-import { forEach, isArray, cloneDeep, find } from "lodash";
+import { forEach, isArray, cloneDeep } from "lodash";
 import Preview from "./Preview.vue";
 export default {
   name: "PictureView",
@@ -114,7 +115,7 @@ export default {
       this.thumbnailState = false;
       this.previewState = false;
     },
-    // 预览图且切换事件
+    // 预览图切换事件
     previwChange(id) {
       this.thumbnailActiveIndex = id;
       this.enlargeThumbnail(id);
@@ -141,15 +142,15 @@ export default {
         y: this.height / 2 - top - this.thumbnailHeight / 2,
       };
     },
-    // 获取缩略图垂直放大比例
-    getThumbnailScale(id) {
-      let img = new Image();
-      img.src = find(this.thumbnailList, (item) => {
-        return id === item.id;
-      }).thumbnailUrl;
-      const imgWith = img.width;
-      const imgHeight = img.height;
-      const imgRatio = imgWith / imgHeight; // 图像缩放比
+    // 缩略图放大
+    async enlargeThumbnail(id) {
+      const { x, y } = this.getThumbnailTrans(id);
+      this.thumbnailTransX = x;
+      this.thumbnailTransY = y;
+      // 缩放比
+      const thumnailUrl =
+        (this.thumbnailList[id] && this.thumbnailList[id].thumbnailUrl) || "";
+      const imgRatio = await this.calcImgRatio(thumnailUrl);
       const viewRatio = this.width / this.height; // 视口宽高比
       let thumbnailScaleX = 1;
       let thumbnailScaleY = 1;
@@ -162,20 +163,25 @@ export default {
         thumbnailScaleX = (this.height * imgRatio) / this.thumbnailWidth;
         thumbnailScaleY = this.height / this.thumbnailHeight;
       }
-      img = null;
-      return {
-        thumbnailScaleX,
-        thumbnailScaleY,
-      };
-    },
-    // 缩略图放大
-    enlargeThumbnail(id) {
-      const { x, y } = this.getThumbnailTrans(id);
-      this.thumbnailTransX = x;
-      this.thumbnailTransY = y;
-      const { thumbnailScaleX, thumbnailScaleY } = this.getThumbnailScale(id);
       this.thumbnailScaleX = thumbnailScaleX;
       this.thumbnailScaleY = thumbnailScaleY;
+    },
+    // 计算缩放比
+    calcImgRatio(url) {
+      let img = new Image();
+      img.src = url;
+      let imgRatio = 1;
+      return new Promise((resolve, reject) => {
+        img.onload = () => {
+          imgRatio = img.width / img.height;
+          img = null;
+          resolve(imgRatio);
+        };
+        img.onerror = () => {
+          img = null;
+          reject(imgRatio);
+        };
+      });
     },
   },
 };
