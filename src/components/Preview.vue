@@ -12,7 +12,7 @@
         @transitionend="transEndFn"
         :style="{
           transform: `translateX(${transX}px)`,
-          transition: isTrans ? 'transform .35s ease-out' : '',
+          transition: isTrans ? 'transform .25s ease-out' : '',
         }"
       >
         <li class="preview-item-wrapper" v-for="item in list" :key="item.id">
@@ -52,7 +52,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    // 预览图状体啊
+    // 预览图状态
     previewState: {
       type: Boolean,
       default: () => false,
@@ -82,6 +82,11 @@ export default {
       type: Number,
       default: () => 5,
     },
+    // 是否禁止缩放
+    banScale: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   data() {
     return {
@@ -96,7 +101,6 @@ export default {
       diffX: 0, // 手指滑动距离，px
       transX: 0, // 滑动值，px
       isTrans: false, // 是否正在滑动中
-      // touchesCount: 0, // 触控点数量
       // 判断单击、双击
       eventTimeStamp: 0,
       eventX: 0,
@@ -111,14 +115,12 @@ export default {
       scaleOriginY: 0, // 缩放垂直原点
       scaleTransX: 0, // 缩放后水平滑动距离
       scaleTransY: 0, // 缩放后垂直滑动距离
-      // scaleLastTransX: 0, // 滑动边界值时偏移位置
       scaleWidth: 0, // 缩放后宽度
       scaleHeight: 0, // 缩放后高度
       scaleTop: 0, // 缩放后上偏移值
       scaleLeft: 0, // 缩放后左偏移值
       scaleVal: 1, // 缩放比例
       touchesDistance: 0, // 缩放双指距离
-      isDoubleTap: false, // 双击事件
     };
   },
   computed: {
@@ -174,19 +176,16 @@ export default {
       this.height = window.innerHeight;
       this.scaleWidth = window.innerWidth;
       this.scaleHeight = window.innerHeight;
-      // this.resetNormal();
     },
     // 滑动开始 - start
     startFn(e) {
       const touchesCount = e.touches.length;
-      console.log("start:", touchesCount);
-      // this.touchesCount = touchesCount;
-      if (this.ignoreTrans || touchesCount > 2) return;
+      if (this.ignoreTrans || this.isTrans || touchesCount > 2) return;
       //  单指
       if (touchesCount === 1) {
         // 缩放后单指拖动 - start
         if (this.scaleState) {
-          if (this.isTransState()) return; // 正常单指滑动中
+          if (this.isTransState() || this.banScale) return;
           this.fingerType = 3;
           this.scaleStartFn(e);
         } else {
@@ -195,22 +194,23 @@ export default {
           this.slideStartFn(e);
         }
       } else if (touchesCount === 2) {
-        if (this.isTransState()) return; // 正常单指滑动中
+        if (this.isTransState() || this.banScale) return;
         // 双指缩放 - start
         this.fingerType = 2;
         this.doubleTouchesStartFn(e);
       }
-      // 单击和双击事件判断
+      // 单击、双击事件
       this.eventTimeStamp = e.timeStamp;
-      const { x, y } = this.getClient(e);
-      this.eventX = x;
-      this.eventY = y;
+      if (this.tapCount === 0) {
+        const { x, y } = this.getClient(e);
+        this.eventX = x;
+        this.eventY = y;
+      }
     },
     // 滑动中 - move
     moveFn(e) {
       const touchesCount = e.touches.length;
-      console.log("move:", touchesCount);
-      if (this.ignoreTrans || touchesCount > 2) return;
+      if (this.ignoreTrans || this.isTrans || touchesCount > 2) return;
       // 正常拖动 - move
       if (touchesCount === 1 && this.fingerType === 1) {
         this.slideMoveFn(e);
@@ -225,28 +225,28 @@ export default {
     // 滑动结束 - end
     endFn(e) {
       const touchesCount = e.touches.length;
-      console.log("end:", touchesCount);
-
       if (this.ignoreTrans || touchesCount >= 2) return;
       // 单指
       if (touchesCount === 0) {
-        console.log("单击或双击");
         this.singleTapFn(e); // 单击事件
         this.doubleTapFn(e); // 双击事件
       }
-      if (this.fingerType === 1) {
-        touchesCount === 0 && this.slideEndFn(); // 正常拖动 - end
-      } else if (this.fingerType === 3) {
-        // 缩放后单指拖动 - end
-        touchesCount === 0 && this.scaleEndFn();
+      if (touchesCount === 0 && this.fingerType === 1) {
+        this.slideEndFn(); // 正常拖动 - end
+      } else if (touchesCount === 0 && this.fingerType === 3) {
+        this.scaleEndFn(); // 缩放后单指拖动 - end
       } else if (this.fingerType === 2) {
-        touchesCount === 1 && this.doubleTouchesEndFn(); // 双指缩放 - end
+        this.doubleTouchesEndFn(); // 双指缩放 - end
       }
-      // 误滑动处理后
+      // 正常左右滑动后处理
       if (this.isTransState()) {
         this.isTrans = true;
         this.transX = this.getTransX(this.activeIndex);
         this.initX = this.transX;
+      }
+      if(this.scaleWidth === this.width){
+        this.scaleState = false;
+        this.fingerType = 0;
       }
     },
     // 动画结束 - end
@@ -259,20 +259,18 @@ export default {
     },
     // 单击事件
     singleTapFn(e) {
-      const { clientX, clientY } = e.changedTouches[0];
       if (
         e.timeStamp - this.eventTimeStamp < 250 &&
-        Math.abs(clientX - this.eventX) < 10 &&
-        Math.abs(clientY - this.eventY) < 10
+        Math.abs(e.changedTouches[0].clientX - this.eventX) < 10 &&
+        Math.abs(e.changedTouches[0].clientY - this.eventY) < 10
       ) {
         this.tapCount++;
         clearTimeout(this.timeId);
         this.timeId = setTimeout(() => {
-          console.log("单击事件");
           this.tapCount = 0;
           this.resetNormal();
           this.singleTap();
-        }, 250);
+        }, 500);
       }
     },
     // 双击事件
@@ -280,19 +278,18 @@ export default {
       const { clientX, clientY } = e.changedTouches[0];
       if (
         e.timeStamp - this.eventTimeStamp < 250 &&
-        Math.abs(clientX - this.eventX) < 30 &&
-        Math.abs(clientY - this.eventY) < 30 &&
+        Math.abs(clientX - this.eventX) < 60 &&
+        Math.abs(clientY - this.eventY) < 60 &&
         this.tapCount === 2
       ) {
-        this.isDoubleTap = true;
         clearTimeout(this.timeId);
         this.tapCount = 0;
         this.isScaling = true; // 是否正在缩放中
         // 恢复正常
         if (this.scaleState) {
-          this.isDoubleTap = false;
           this.resetNormal();
         } else {
+          if (this.isTransState() || this.banScale) return;
           // 双击放大
           this.doubelTapEnlargeFn(clientX, clientY);
         }
@@ -300,7 +297,6 @@ export default {
     },
     // 恢复正常
     resetNormal() {
-      console.log("恢复正常");
       this.scaleState = false;
       this.fingerType = 0;
       this.scaleWidth = this.width;
@@ -308,34 +304,32 @@ export default {
       this.scaleLeft = 0;
       this.scaleTop = 0;
       this.scaleTransX = 0;
-      // this.scaleLastTransX = 0;
       this.scaleTransY = 0;
       this.scaleOriginX = 0;
       this.scaleOriginY = 0;
+      this.sclaleStartX = 0;
+      this.sclaleStartY = 0;
       this.scaleVal = 1;
     },
-    // 双击放大
+    // 双击放大 2倍
     doubelTapEnlargeFn(clientX, clientY) {
-      console.log("双击放大");
       this.scaleState = true;
+      this.fingerType = 3;
       this.scaleOriginX = clientX;
       this.scaleOriginY = clientY;
       this.scaleLeft = -this.scaleOriginX;
       this.scaleTop = -this.scaleOriginY;
       this.scaleWidth = this.width * 2;
       this.scaleHeight = this.height * 2;
-      this.isDoubleTap = false;
     },
     // 正常拖动 - start
     slideStartFn(e) {
-      console.log("正常拖动 - start");
       const { x } = this.getClient(e);
       this.diffX = 0;
       this.startX = x;
     },
     // 正常拖动 - move
     slideMoveFn(e) {
-      console.log("正常拖动 - move");
       const { x } = this.getClient(e);
       this.diffX = x - this.startX;
       // 缓动拖动
@@ -347,7 +341,6 @@ export default {
     },
     // 正常拖动 - end
     slideEndFn() {
-      console.log("正常拖动 - end");
       const diffXAbs = Math.abs(this.diffX);
       const critialVal =
         diffXAbs / this.width - Math.trunc(diffXAbs / this.width);
@@ -366,19 +359,15 @@ export default {
         }
         this.activeIndex = this.fixIndex(this.activeIndex, false);
       }
-      this.transX = this.getTransX(this.activeIndex);
-      this.initX = this.transX;
     },
     // 缩放后单指拖动 - start
     scaleStartFn(e) {
-      console.log("缩放后单指拖动-start");
       const { x, y } = this.getClient(e);
       this.scaleStartX = x;
       this.scaleStartY = y;
     },
     // 缩放后单指拖动 - move
     scaleMoveFn(e) {
-      console.log("缩放后单指拖动 - move");
       const { x, y } = this.getClient(e);
       let scaleTransX = x - this.scaleStartX;
       let scaleTransY = y - this.scaleStartY;
@@ -404,11 +393,9 @@ export default {
       }
       this.scaleTransX = scaleTransX;
       this.scaleTransY = scaleTransY;
-      // this.scaleLastTransX = scaleTransX; // 滑动边界值时的水平位置
     },
     // 缩放后单指拖动 - end
     scaleEndFn() {
-      console.log("缩放后单指拖动-end");
       // 修正临界值
       const { left, top } = this.fixScaleBoundary(
         this.scaleTransX + this.scaleLeft,
@@ -418,11 +405,11 @@ export default {
       this.scaleTop = top;
       this.scaleTransX = 0;
       this.scaleTransY = 0;
-      // this.scaleLastTransX = 0;
+      this.scaleStartX = 0;
+      this.scaleStartY = 0;
     },
     // 双指缩放 - start
     doubleTouchesStartFn(e) {
-      console.log("双指缩放 - start");
       this.scaleState = true;
       const touch0 = e.touches[0];
       const touch1 = e.touches[1];
@@ -433,26 +420,22 @@ export default {
     },
     // 双指缩放 - move
     doubleTouchesMoveFn(e) {
-      console.log("双指缩放 - move");
       const touch0 = e.touches[0];
       const touch1 = e.touches[1];
       this.scaleVal = this.getDistance(touch0, touch1) / this.touchesDistance;
     },
     // 双指缩放 - end
     doubleTouchesEndFn() {
-      console.log("双指缩放 - end");
       let scaleVal = this.scaleVal;
       if (scaleVal === 1) return; // 缩放倍数为1，不做任何处理
       let scaleWidth = scaleVal * this.scaleWidth;
       // 缩放后宽度小于等于最大视口宽度
       if (scaleWidth <= this.width) {
-        console.log("双指缩放 - 恢复正常");
         this.scaleState = false;
         scaleWidth = this.width;
         scaleVal = this.width / this.scaleWidth; // 重新计算缩放比
       } else if (scaleWidth > this.maxScaleWidth) {
         // 缩放后宽度大于最大缩放宽度
-        console.log("双指缩放 - 最大缩放值");
         scaleWidth = this.maxScaleWidth;
         scaleVal = this.maxScaleWidth / this.scaleWidth; // 重新计算缩放比
       }
@@ -510,8 +493,6 @@ export default {
     },
     // 缩放后边界值修正
     fixScaleBoundary(left, top) {
-      const leftTem = left;
-      const topTem = top;
       if (left > 0) {
         left = 0;
       } else if (left < this.boundaryRight) {
@@ -521,9 +502,6 @@ export default {
         top = 0;
       } else if (top < this.boundaryBottom) {
         top = this.boundaryBottom;
-      }
-      if (left !== leftTem || top !== topTem) {
-        this.isScaling = true;
       }
       return {
         left,
@@ -576,11 +554,9 @@ export default {
       position: relative;
       flex: 0 0 100%;
       overflow: hidden;
-      box-sizing: border-box;
       @include ios-fix;
       .preview-item {
         position: absolute;
-        font-size: 0;
         background: transparent no-repeat center center/contain;
       }
     }
@@ -588,6 +564,7 @@ export default {
   .counter {
     position: absolute;
     top: 0;
+    top: env(safe-area-inset-top);
     left: 0;
     right: 0;
     text-align: center;

@@ -82,7 +82,6 @@ import Popup from "@/components/Popup.vue";
 import Swipe from "@/components/Swipe.vue";
 import Picker from "@/components/picker/Picker.vue";
 import PictureView from './components/PictureView.vue';
-// import Hello from './components/hello.vue'
 import { PREVIEW } from '@/assets/js/const'
 export default {
   name: "App",
@@ -110,8 +109,8 @@ export default {
     };
   },
   methods: {
-    onConfirm() {
-      // console.log(val);
+    onConfirm(val) {
+      console.log(val);
     },
     closePopup(){
       this.showBottom= false
@@ -137,7 +136,6 @@ export default {
     Swipe,
     Picker,
     PictureView,
-    // Hello
   },
 };
 </script>
