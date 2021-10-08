@@ -89,9 +89,9 @@
 |     list     | 预览图list                         |  Array   |   []   |    是    |
 | previewState | 预览图状态，用于控制预览图是否开启 | Boolean  | false  |    否    |
 |  startIndex  | 起始index                          |  Number  |   0    |    否    |
-|  singleTap   | 单击事件                       | Function | ()=>{} |    否    |
-| criticalVal  | 滑动临界值                       |  Number  |  1/3   |    否    |
-| showCounter  | 是否显示计数器                       | Boolean  |  true  |    否    |
+|  singleTap   | 单击事件                           | Function | ()=>{} |    否    |
+| criticalVal  | 滑动临界值                         |  Number  |  1/3   |    否    |
+| showCounter  | 是否显示计数器                     | Boolean  |  true  |    否    |
 | maxScaleVal  | 最大缩放倍数                       |  Number  |   5    |    否    |
 |   banScale   | 是否禁止缩放                       | Boolean  | false  |    否    |
 
