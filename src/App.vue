@@ -21,10 +21,6 @@
         <div class="btn" @click="() => {showCenter = true;}">center</div>
       </div>
     </div>
-     <div class="box">
-       <div class="title">hello:</div>
-      <!-- <hello/> -->
-    </div>
     <div class="box">
       <div class="title">swipe：</div>
       <swipe
