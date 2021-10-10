@@ -3,9 +3,9 @@
     <div
       v-if="previewState"
       class="preview"
-      @touchstart.prevent="startFn"
+      @touchstart="startFn"
       @touchmove.prevent="moveFn"
-      @touchend.prevent="endFn"
+      @touchend="endFn"
     >
       <ul
         class="preview-container"
@@ -185,7 +185,8 @@ export default {
       if (touchesCount === 1) {
         // 缩放后单指拖动 - start
         if (this.scaleState) {
-          if (this.isTransState() || this.banScale) return;
+          // if (this.isTransState() || this.banScale) return;
+        if (this.isTransState() || this.banScale || this.list[this.activeIndex].banScale) return;
           this.fingerType = 3;
           this.scaleStartFn(e);
         } else {
@@ -194,7 +195,7 @@ export default {
           this.slideStartFn(e);
         }
       } else if (touchesCount === 2) {
-        if (this.isTransState() || this.banScale) return;
+        if (this.isTransState() || this.banScale || this.list[this.activeIndex].banScale) return;
         // 双指缩放 - start
         this.fingerType = 2;
         this.doubleTouchesStartFn(e);
@@ -225,7 +226,7 @@ export default {
     // 滑动结束 - end
     endFn(e) {
       const touchesCount = e.touches.length;
-      if (this.ignoreTrans || touchesCount >= 2) return;
+      if (this.ignoreTrans || this.isTrans || touchesCount >= 2) return;
       // 单指
       if (touchesCount === 0) {
         this.singleTapFn(e); // 单击事件
@@ -284,12 +285,13 @@ export default {
       ) {
         clearTimeout(this.timeId);
         this.tapCount = 0;
+        // if (this.isTransState() || this.banScale) return;
+        if (this.isTransState() || this.banScale || this.list[this.activeIndex].banScale) return;
         this.isScaling = true; // 是否正在缩放中
         // 恢复正常
         if (this.scaleState) {
           this.resetNormal();
         } else {
-          if (this.isTransState() || this.banScale) return;
           // 双击放大
           this.doubelTapEnlargeFn(clientX, clientY);
         }
@@ -310,6 +312,7 @@ export default {
       this.sclaleStartX = 0;
       this.sclaleStartY = 0;
       this.scaleVal = 1;
+      this.isTrans = false;
     },
     // 双击放大 2倍
     doubelTapEnlargeFn(clientX, clientY) {

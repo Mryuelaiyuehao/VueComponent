@@ -81,6 +81,7 @@ export default {
       this.previewList.push({
         previewUrl: item.previewUrl,
         id: index,
+        banScale: index % 3 === 0 ? true : false,
       });
     });
   },
