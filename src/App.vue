@@ -2,23 +2,70 @@
   <div id="app">
     <div class="box">
       <div class="title">srcollTab：</div>
-      <scroll-tab
-        :tabList="tabList"
-        :start-index="4"
-        @click="onConfirm">
-        <template v-slot="{ item,activiteIndex,index}">
-          <div class="tab-item" :class="{'tab-item-choose': index === activiteIndex}">{{ item }}</div>
+      <scroll-tab :tabList="tabList" :start-index="4" @click="onConfirm">
+        <template v-slot="{ item, activiteIndex, index }">
+          <div
+            class="tab-item"
+            :class="{ 'tab-item-choose': index === activiteIndex }"
+          >
+            {{ item }}
+          </div>
         </template>
       </scroll-tab>
     </div>
     <div class="box">
       <div class="title">popup:</div>
       <div class="box-content">
-        <div class="btn" @click="() => {showBottom = true;}">bottom</div>
-        <div class="btn" @click="() => {showTop = true;}">top</div>
-        <div class="btn" @click="() => {showRight = true;}">right</div>
-        <div class="btn" @click="() => {showLeft = true;}" >left</div>
-        <div class="btn" @click="() => {showCenter = true;}">center</div>
+        <div
+          class="btn"
+          @click="
+            () => {
+              showBottom = true;
+            }
+          "
+        >
+          bottom
+        </div>
+        <div
+          class="btn"
+          @click="
+            () => {
+              showTop = true;
+            }
+          "
+        >
+          top
+        </div>
+        <div
+          class="btn"
+          @click="
+            () => {
+              showRight = true;
+            }
+          "
+        >
+          right
+        </div>
+        <div
+          class="btn"
+          @click="
+            () => {
+              showLeft = true;
+            }
+          "
+        >
+          left
+        </div>
+        <div
+          class="btn"
+          @click="
+            () => {
+              showCenter = true;
+            }
+          "
+        >
+          center
+        </div>
       </div>
     </div>
     <div class="box">
@@ -30,29 +77,210 @@
         :start-index="2"
         :show-indicators="true"
         :auto-play="false"
-        :wrapper-padding="0">
+        :wrapper-padding="0"
+      >
         <template v-slot="{ item, id }">
-          <div class="swipe-item" :style="{ backgroundColor: item }">{{ id | fixId }}</div>
+          <div class="swipe-item" :style="{ backgroundColor: item }">
+            {{ id | fixId }}
+          </div>
         </template>
       </swipe>
     </div>
     <div class="box">
       <div class="title">regionPicker：</div>
       <div class="box-content">
-        <div class="btn" @click="() => {visible1 = true;}">regionPicker：</div>
+        <div
+          class="btn"
+          @click="
+            () => {
+              visible1 = true;
+            }
+          "
+        >
+          regionPicker：
+        </div>
       </div>
     </div>
     <div class="box">
       <div class="title">preview:</div>
-      <picture-view :list="previewList"></picture-view >
+      <picture-view :list="previewList"></picture-view>
     </div>
     <picker
       v-model="value1"
       :visible="visible1"
       :showTitle="true"
-      :close="() => {visible1 = false;}"
+      :close="
+        () => {
+          visible1 = false;
+        }
+      "
       :is-link="true"
-      @confirm="onConfirm"/>
+      @confirm="onConfirm"
+    />
+    <div class="box">
+      <div class="title">steps:基础用法</div>
+      <steps :active="stepActive" @click-step='handleStep'>
+        <step>步骤1</step>
+        <step>步骤2</step>
+        <step>步骤3</step>
+        <step>步骤4</step>
+      </steps>
+    </div>
+    <div class="box">
+      <div class="title">steps:自定义颜色</div>
+      <steps :active="stepActive" activeColor="success" inactiveColor="warning">
+        <step>步骤1</step>
+        <step>步骤2</step>
+        <step>步骤3</step>
+        <step>步骤4</step>
+      </steps>
+    </div>
+    <div class="box">
+      <div class="title" @click="clickStep" style="textAlign:center;border:1px solid var(--border)">步进</div>
+    </div>
+    <div class="box">
+      <div class="title">steps:自定义图标</div>
+      <steps
+        :active="stepActive"
+        activeColor="success"
+        finishIcon="thumbs_up_line"
+        activeIcon="fire_line"
+        inactiveIcon="close_line"
+      >
+        <step>步骤1</step>
+        <step>步骤2</step>
+        <step>步骤3</step>
+        <step>步骤4</step>
+      </steps>
+    </div>
+    <div class="box">
+      <div class="title">steps:自定义插槽</div>
+      <steps
+        :active="stepActive"
+        activeColor="success"
+        finishIcon="thumbs_up_line"
+        activeIcon="fire_line"
+        inactiveIcon="close_line"
+      >
+        <step>
+          <div
+            slot="active-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--danger)',
+            }"
+          ></div>
+          <div
+            slot="finish-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--success)',
+            }"
+          ></div>
+          <div
+            slot="inactive-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--body)',
+            }"
+          ></div>
+          步骤1
+        </step>
+        <step>
+          <div
+            slot="active-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--danger)',
+            }"
+          ></div>
+          <div
+            slot="finish-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--success)',
+            }"
+          ></div>
+          <div
+            slot="inactive-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--body)',
+            }"
+          ></div>
+          步骤2
+        </step>
+        <step>
+          <div
+            slot="active-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--danger)',
+            }"
+          ></div>
+          <div
+            slot="finish-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--success)',
+            }"
+          ></div>
+          <div
+            slot="inactive-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--body)',
+            }"
+          ></div>
+          步骤3
+        </step>
+        <step>
+          <div
+            slot="active-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--danger)',
+            }"
+          ></div>
+          <div
+            slot="finish-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--success)',
+            }"
+          ></div>
+          <div
+            slot="inactive-icon"
+            :style="{
+              width: '20px',
+              height: '20px',
+              backgroundColor: 'var(--body)',
+            }"
+          ></div>
+          步骤4
+        </step>
+      </steps>
+    </div>
+    <div class="box">
+      <div class="title">steps:垂直</div>
+      <steps :active="stepActive" direction="vertical">
+        <step>步骤1</step>
+        <step>步骤2</step>
+        <step>步骤3</step>
+        <step>步骤4</step>
+      </steps>
+    </div>
     <popup v-model="showBottom" :close="closePopup" :popupPosition="'bottom'">
       <div class="popup-content">bottom</div>
     </popup>
@@ -62,23 +290,24 @@
     <popup v-model="showRight" :close="closePopup" :popupPosition="'right'">
       <div class="popup-content">right</div>
     </popup>
-    <popup v-model="showLeft" :close="closePopup"  :popupPosition="'left'">
+    <popup v-model="showLeft" :close="closePopup" :popupPosition="'left'">
       <div class="popup-content">left</div>
     </popup>
-    <popup v-model="showCenter" :close="closePopup" :popupPosition="'center'" >
+    <popup v-model="showCenter" :close="closePopup" :popupPosition="'center'">
       <div class="popup-content">center</div>
     </popup>
   </div>
 </template>
   
 <script>
-
 import ScrollTab from "@/components/ScrollTab.vue";
 import Popup from "@/components/Popup.vue";
 import Swipe from "@/components/Swipe.vue";
 import Picker from "@/components/picker/Picker.vue";
-import PictureView from './components/PictureView.vue';
-import { PREVIEW } from '@/assets/js/const'
+import PictureView from "./components/PictureView.vue";
+import { PREVIEW } from "@/assets/js/const";
+import Steps from "@/components/Steps";
+import Step from "@/components/Step";
 export default {
   name: "App",
   data() {
@@ -102,18 +331,28 @@ export default {
       showCenter: false,
       visible1: false,
       value1: ["北京P", "北京市C", "朝阳区R"],
+      stepActive: 2,
     };
   },
   methods: {
     onConfirm(val) {
       console.log(val);
     },
-    closePopup(){
-      this.showBottom= false
-      this.showTop= false
-      this.showRight= false
-      this.showLeft = false
-      this.showCenter = false
+    closePopup() {
+      this.showBottom = false;
+      this.showTop = false;
+      this.showRight = false;
+      this.showLeft = false;
+      this.showCenter = false;
+    },
+    clickStep() {
+      this.stepActive++;
+      if(this.stepActive>=4){
+        this.stepActive = 0
+      }
+    },
+    handleStep(index){
+      console.log('step',index);
     }
   },
   filters: {
@@ -132,12 +371,14 @@ export default {
     Swipe,
     Picker,
     PictureView,
+    Steps,
+    Step,
   },
 };
 </script>
 
 <style scope lang="scss">
-body{
+body {
   margin: 0;
 }
 #app {

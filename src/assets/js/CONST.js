@@ -78,7 +78,21 @@ const PREVIEW = [
   },
 ]
 
+const Colors = [
+  "primary",
+  "success",
+  "danger",
+  "warning",
+  "weak",
+  "white",
+  "black",
+  "title",
+  "border",
+  "body",
+  "division",
+];
 export {
   PICKER,
-  PREVIEW
+  PREVIEW,
+  Colors
 }

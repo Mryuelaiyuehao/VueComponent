@@ -12,18 +12,15 @@ module.exports = {
   },
   css: {
     loaderOptions: {
-      sass: {
-        prependData: `@import "~@/assets/css/variables.sass"`
-      },
       scss: {
-        prependData: `@import "~@/assets/css/variables.scss";`
+        prependData: `@import "~@/assets/css/index.scss";`
       }
     },
   },
-  devServer : {
+  devServer: {
     hot: true,
-    open : true,
-    port : 8080,
-    host : "192.168.31.23"
-}
+    open: true,
+    port: 8848,
+    // host: "192.168.31.23"
+  }
 }

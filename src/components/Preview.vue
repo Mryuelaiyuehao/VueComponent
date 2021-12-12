@@ -12,7 +12,7 @@
         @transitionend="transEndFn"
         :style="{
           transform: `translateX(${transX}px)`,
-          transition: isTrans ? 'transform .25s ease-out' : '',
+          transition: isTrans ? 'transform .2s linear' : '',
         }"
       >
         <li class="preview-item-wrapper" v-for="item in list" :key="item.id">
@@ -70,7 +70,7 @@ export default {
     // 临界值
     criticalVal: {
       type: Number,
-      default: () => 1 / 3,
+      default: () => 0.2,
     },
     // 是否显示计数器
     showCounter: {
@@ -262,8 +262,8 @@ export default {
     singleTapFn(e) {
       if (
         e.timeStamp - this.eventTimeStamp < 250 &&
-        Math.abs(e.changedTouches[0].clientX - this.eventX) < 10 &&
-        Math.abs(e.changedTouches[0].clientY - this.eventY) < 10
+        Math.abs(e.changedTouches[0].clientX - this.eventX) < 30 &&
+        Math.abs(e.changedTouches[0].clientY - this.eventY) < 30
       ) {
         this.tapCount++;
         clearTimeout(this.timeId);
@@ -279,13 +279,12 @@ export default {
       const { clientX, clientY } = e.changedTouches[0];
       if (
         e.timeStamp - this.eventTimeStamp < 250 &&
-        Math.abs(clientX - this.eventX) < 60 &&
-        Math.abs(clientY - this.eventY) < 60 &&
+        Math.abs(clientX - this.eventX) < 30 &&
+        Math.abs(clientY - this.eventY) < 30 &&
         this.tapCount === 2
       ) {
         clearTimeout(this.timeId);
         this.tapCount = 0;
-        // if (this.isTransState() || this.banScale) return;
         if (this.isTransState() || this.banScale || this.list[this.activeIndex].banScale) return;
         this.isScaling = true; // 是否正在缩放中
         // 恢复正常

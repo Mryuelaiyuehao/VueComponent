@@ -14,28 +14,17 @@ $px-28: 28px;
 $px-30: 30px;
 $px-40: 40px;
 
-$c-primary: #007edf;
-$c-second: #1374bd;
-$c-white: #ffffff;
-$c-black: #000000;
-$c-title: #333333;
-$c-lightgray: #BEBEBE;
-$c-body: #f8f8f8;
-$c-division: #cccccc;
+$c-primary: var(--primary);
+$c-success: var(--success);
+$c-weak: var(--weak);
+$c-white: var(--white);
+$c-black: var(--black);
+$c-title: var(--title);
+$c-border: var(--border);
+$c-body: var(--body);
+$c-division: var(--division);
 
 $z-index-lg: 1000;
 $z-index-md: 100;
 $z-index-sm: 10;
 $z-index-xs: 1;
-
-// 修复ios设备上滑动时候闪屏问题
-@mixin ios-fix {
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: preserve-3d;
-}
-// 清除ul默认样式
-@mixin clear-ul-style {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
