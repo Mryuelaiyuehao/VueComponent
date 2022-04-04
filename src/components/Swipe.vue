@@ -261,6 +261,7 @@ export default {
   width: 100%;
   font-size: 0;
   overflow: hidden;
+  touch-action: none;
   @include ios-fix;
   .swipe {
     display: flex;
