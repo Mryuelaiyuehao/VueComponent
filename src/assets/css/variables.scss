@@ -1,30 +1,63 @@
-$px-4: 4px;
-$px-6: 6px;
-$px-8: 8px;
-$px-10: 10px;
-$px-12: 12px;
-$px-14: 14px;
-$px-16: 16px;
-$px-18: 18px;
-$px-20: 20px;
-$px-22: 22px;
-$px-24: 24px;
-$px-26: 26px;
-$px-28: 28px;
-$px-30: 30px;
-$px-40: 40px;
+// 颜色
+$c-primary: var(--primary, #007edf);
+$c-secondary: var(--secondary, #f44);
+$c-link: var(--link, #007edf);
+$c-success: var(--success, #30b768);
+$c-warning: var(--warning, #ff8000);
+$c-danger: var(--danger, #f00);
+$c-white: var(--white, #fff);
+$c-black: var(--black, #000);
+$c-text-primary: var(--textPrimary, #000);
+$c-text-regular: var(--textRegular, #666);
+$c-text-secondary: var(--textSecondary, #999);
+$c-text-placeholder: var(--textPlaceholder, #c5c5c5);
+$c-body-base: var(--bodyBase, #fff);
+$c-body-regular: var(--bodyRegular, #f5f6f7);
+$c-body-secondary: var(--bodySecondary, #f8f8f8);
+$c-border: var(--border, #c5c5c5);
+$c-border-weak: var(--borderWeak, #eee);
+$c-mask: var(--mask, rgba(0, 0, 0, 0.8));
+$c-shadow: var(--shadow, rgba(38, 38, 38, 0.1));
 
-$c-primary: var(--primary);
-$c-success: var(--success);
-$c-weak: var(--weak);
-$c-white: var(--white);
-$c-black: var(--black);
-$c-title: var(--title);
-$c-border: var(--border);
-$c-body: var(--body);
-$c-division: var(--division);
+// 字体
+$fs-h1: 60px;
+$fs-h2: 48px;
+$fs-h3: 40px;
+$fs-h4: 34px;
+$fs-h5: 30px;
+$fs-h6: 28px;
+$fs-h7: 24px;
+$fs-h8: 20px;
 
+// 间距
+$space-base: 6px;
+$space2: $space-base * 2;
+$space3: $space-base * 3;
+$space4: $space-base * 4;
+$space5: $space-base * 5;
+$space6: $space-base * 6;
+$space7: $space-base * 7;
+$space8: $space-base * 8;
+$space9: $space-base * 9;
+
+// 层级
 $z-index-lg: 1000;
 $z-index-md: 100;
 $z-index-sm: 10;
 $z-index-xs: 1;
+$z-index-xxs: -1;
+
+// 圆角
+$radius-base: 6px;
+$radius2: $radius-base * 2;
+$radius3: $radius-base * 3;
+$radius4: $radius-base * 4;
+$radius5: $radius-base * 5;
+$radius6: $radius-base * 6;
+$radius7: $radius-base * 7;
+$radius8: $radius-base * 8;
+$radius9: $radius-base * 9;
+$radius-card: $radius-base * 4;
+
+$prefixName: "xzy";
+
