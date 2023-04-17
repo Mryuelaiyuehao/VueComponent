@@ -1,5 +1,5 @@
 <template>
-	<div :class="classNames" @click="handleClick">
+	<div :class="classNames" @touchend="handleClick">
 		<slot name="icon">
 			<Icon v-if="icon" :name="icon" :size="30"></Icon>
 		</slot>
@@ -27,11 +27,10 @@
 	</div>
 </template>
 <script>
-import _ from "lodash";
-import Icon from "@/components/icon";
+import Icon from "../icon";
 import { PREFIX_NAME } from "../../assets/js/const";
 export default {
-	name: `${PREFIX_NAME}-cell`,
+	name: `${PREFIX_NAME.toUpperCase()}-cell`,
 	components: {
 		Icon,
 	},
@@ -92,7 +91,7 @@ export default {
 			if (this.center) {
 				classNames.push(`${this.baseName}-center`);
 			}
-			if (this.clickable) {
+			if (this.clickable || this.isLink) {
 				classNames.push(`${this.baseName}-clickable`);
 			}
 			if (this.required) {
@@ -103,12 +102,15 @@ export default {
 	},
 	methods: {
 		handleClick() {
+			if (!this.isLink || !this.clickable) {
+				return;
+			}
 			this.$emit("click");
-			if (_.isString(this.url) && this.url) {
+			if (typeof this.url === "string" && this.url) {
 				window.location.href = this.url;
 				return;
 			}
-			if (_.isString(this.to) && this.to) {
+			if (typeof this.to === "string" && this.to) {
 				if (this.replace) {
 					this.$router.replace({
 						path: this.to,
@@ -164,14 +166,6 @@ $baseName: #{$prefixName}-cell;
 		align-items: center;
 	}
 
-	&-clickable {
-		cursor: pointer;
-	}
-
-	&-clickable:active {
-		background: $c-body-secondary;
-	}
-
 	&-required::before {
 		content: "*";
 		position: absolute;
@@ -180,6 +174,9 @@ $baseName: #{$prefixName}-cell;
 		transform: translateY(-50%);
 		font-size: $fs-h5;
 		color: $c-danger;
+	}
+	&-clickable:active {
+		background: $c-body-secondary;
 	}
 
 	&:not(:last-child)::after {

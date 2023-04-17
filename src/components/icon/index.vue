@@ -7,7 +7,7 @@
 import { handleColor, pxToRem } from "@/utils";
 import { PREFIX_NAME } from "../../assets/js/const";
 export default {
-	name: `${PREFIX_NAME}Icon`,
+	name: `${PREFIX_NAME.toUpperCase()}Icon`,
 	props: {
 		name: {
 			type: String,

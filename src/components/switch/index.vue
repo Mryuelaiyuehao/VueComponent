@@ -8,7 +8,7 @@ import { PREFIX_NAME } from "../../assets/js/const";
 import { SWITCH_SIZE } from "./const";
 import { handleColor } from "../../utils";
 export default {
-	name: `${PREFIX_NAME}Switch`,
+	name: `${PREFIX_NAME.toUpperCase()}Switch`,
 	props: {
 		value: {
 			type: Boolean,

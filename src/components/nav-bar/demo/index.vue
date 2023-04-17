@@ -44,7 +44,7 @@
 </template>
 <script>
 import NavBar from "../index.vue";
-import Icon from "../../icon";
+import Icon from "../../icon/index.vue";
 export default {
 	name: "NavBarDemo",
 	components: { NavBar, Icon },

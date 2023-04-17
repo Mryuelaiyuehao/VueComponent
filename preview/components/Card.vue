@@ -27,8 +27,9 @@ $baseName: "card";
 	margin-bottom: $space5;
 	.#{$baseName}-title {
 		margin-bottom: $space5;
-		color: $c-text-regular;
+		color: $c-text-primary;
 		font-size: $fs-h5;
+		font-weight: 700;
 	}
 }
 </style>

@@ -1,9 +1,27 @@
 <template>
-	<base-view class="home">
-		<NavBar slot="header" title="泽跃的组件库"></NavBar>
+	<base-view class="home" is-root>
+		<NavBar slot="header" :title="$t('common.title')"></NavBar>
 		<CellGroup class="cell-group-custom">
-			<Cell :title="'切换暗黑'">
-				<xzy-switch v-model="isDark" size="normal"></xzy-switch>
+			<Cell :title="$t('common.theme')" center>
+				<ul class="theme">
+					<li
+						v-for="color in primaryColors"
+						:class="[
+							'theme-item',
+							primaryColor === color ? 'theme-item-cur' : '',
+						]"
+						:key="color"
+						:style="{ backgroundColor: color }"
+						@click="changeTheme(color)"
+					></li>
+				</ul>
+			</Cell>
+			<Cell :title="$t('common.dark')">
+				<xzy-switch
+					v-model="isDark"
+					@input="onChange"
+					size="normal"
+				></xzy-switch>
 			</Cell>
 		</CellGroup>
 
@@ -23,12 +41,12 @@
 	</base-view>
 </template>
 <script>
-import cssVars from "css-vars-ponyfill";
-import { generateTheme, isDarkMode } from "@/utils/index";
+import { generateCssVars, isDarkMode } from "../src/utils/index";
 import NavBar from "@/components/nav-bar";
 import CellGroup from "@/components/cell-group";
 import Cell from "@/components/cell";
 import Switch from "../src/components/switch";
+import { DARK_THEME, LIGHT_THEME } from "../src/assets/js/const";
 export default {
 	name: "Home",
 	components: {
@@ -37,12 +55,15 @@ export default {
 		Cell,
 		"xzy-switch": Switch,
 	},
+	created() {
+		this.changeTheme(this.primaryColor);
+	},
 	data() {
 		return {
 			isDark: isDarkMode(),
 			list: [
 				{
-					title: "基础组件",
+					title: this.$t("common.baseComponent"),
 					children: [
 						{
 							title: "Cell 单元格",
@@ -51,6 +72,10 @@ export default {
 						{
 							title: "Icon 图标",
 							to: "/icon",
+						},
+						{
+							title: "Button 按钮",
+							to: "/button",
 						},
 					],
 				},
@@ -64,18 +89,26 @@ export default {
 					],
 				},
 			],
+			primaryColors: [
+				"#0060a6",
+				"#1374bd",
+				"#007edf",
+				"#ff4444",
+				"#ff8000",
+				"#005924",
+				"#30b768",
+				"#00be9d",
+			],
+			primaryColor: isDarkMode() ? DARK_THEME.primary : LIGHT_THEME.primary,
 		};
 	},
 	methods: {
-		changeTheme() {
-			this.isDark = !this.isDark;
+		changeTheme(color) {
+			this.primaryColor = color;
+			generateCssVars(this.primaryColor, this.isDark);
 		},
-	},
-	watch: {
-		isDark(val) {
-			cssVars({
-				variables: generateTheme(val),
-			});
+		onChange() {
+			generateCssVars(this.primaryColor, this.isDark);
 		},
 	},
 };
@@ -86,5 +119,21 @@ export default {
 }
 .switch {
 	color: $c-text-primary;
+}
+
+.theme {
+	display: flex;
+	align-items: center;
+	> .theme-item {
+		margin-left: $space2;
+		list-style-type: none;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		&-cur {
+			width: 46px;
+			height: 46px;
+		}
+	}
 }
 </style>

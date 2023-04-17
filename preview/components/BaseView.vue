@@ -9,11 +9,18 @@
 		<div class="view-footer">
 			<slot name="footer"></slot>
 		</div>
+		<router-view class="child" v-if="isRoot"></router-view>
 	</div>
 </template>
 <script>
 export default {
 	name: "BaseView",
+	props: {
+		isRoot: {
+			type: Boolean,
+			default: () => false,
+		},
+	},
 };
 </script>
 <style lang="scss" scoped>
@@ -37,6 +44,14 @@ export default {
 
 	> .view-footer {
 		padding-bottom: calc(env(safe-area-inset-bottom));
+	}
+
+	.child {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
 	}
 }
 </style>

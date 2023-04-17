@@ -30,6 +30,7 @@ $baseName: #{$prefixName}-cell-group;
 	border-radius: $radius-card;
 	background: $c-body-base;
 	overflow: hidden;
+	margin-bottom: $space5;
 	.#{$baseName}-title {
 		padding: $space4 $space5 0;
 		color: $c-text-primary;

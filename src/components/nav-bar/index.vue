@@ -28,7 +28,7 @@ import { PREFIX_NAME } from "../../assets/js/const";
 import Icon from "../icon";
 import { NAVBAR_TYPE } from "./const";
 export default {
-	name: `${PREFIX_NAME}NavBar`,
+	name: `${PREFIX_NAME.toUpperCase()}NavBar`,
 	components: {
 		Icon,
 	},
@@ -120,6 +120,7 @@ $baseName: #{$prefixName}-nav-bar;
 		display: flex;
 		align-items: center;
 		color: inherit;
+		min-width: 42px;
 		font-size: $fs-h6;
 	}
 

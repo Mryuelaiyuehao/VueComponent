@@ -9,8 +9,7 @@
  */
 
 html {
-  line-height: 1.5;
-  height: 100%;
+  line-height: 1.15;
   /* 1 */
   -webkit-text-size-adjust: 100%;
   /* 2 */
@@ -25,8 +24,6 @@ html {
 
 body {
   margin: 0;
-  height: inherit;
-  font-size: 30px;
 }
 
 /**
@@ -379,4 +376,33 @@ template {
 
 [hidden] {
   display: none;
+}
+
+html {
+  line-height: 1.5;
+  height: 100%;
+  touch-action: pan-x pan-y;
+  user-select: none;
+}
+
+body {
+  font-size: 30px;
+  height: inherit;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 针对 Firefox 浏览器 */
+::-moz-scrollbar {
+  display: none;
+}
+
+[class*=xzy-]:focus {
+  outline: none;
+}
+
+[class*=xzy-]:focus-visible {
+  outline: none;
 }

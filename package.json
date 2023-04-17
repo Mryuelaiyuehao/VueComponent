@@ -10,9 +10,10 @@
 	},
 	"dependencies": {
 		"core-js": "3.6.5",
-		"css-vars-ponyfill": "^2.4.8",
+		"css-vars-ponyfill": "2.4.8",
 		"lodash": "4.17.21",
 		"vue": "2.6.11",
+		"vue-i18n": "^8.28.2",
 		"vue-router": "3.5.3"
 	},
 	"devDependencies": {
