@@ -1,27 +1,33 @@
 <template>
-	<div :class="classNames">
-		<div :class="`${baseName}-left`" @click="clickLeft">
-			<slot name="left">
-				<icon
-					v-if="leftArrow"
-					name="arrow_left_line"
-					:color="leftIconColor"
-					:size="42"
-				></icon>
-				{{ leftText }}
-			</slot>
-		</div>
-		<div :class="`${baseName}-title`">
-			<slot name="title">
-				{{ title }}
-			</slot>
-		</div>
-		<div :class="`${baseName}-right`" @click="clickRight">
-			<slot name="right">
-				{{ rightText }}
-			</slot>
-		</div>
-	</div>
+  <div :class="classNames">
+    <div
+      :class="`${baseName}-left`"
+      @click="clickLeft"
+    >
+      <slot name="left">
+        <icon
+          v-if="leftArrow"
+          name="arrow_left_line"
+          :color="leftIconColor"
+          :size="42"
+        />
+        {{ leftText }}
+      </slot>
+    </div>
+    <div :class="`${baseName}-title`">
+      <slot name="title">
+        {{ title }}
+      </slot>
+    </div>
+    <div
+      :class="`${baseName}-right`"
+      @click="clickRight"
+    >
+      <slot name="right">
+        {{ rightText }}
+      </slot>
+    </div>
+  </div>
 </template>
 <script>
 import { PREFIX_NAME } from "../../assets/js/const";

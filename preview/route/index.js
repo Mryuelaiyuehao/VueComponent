@@ -2,6 +2,7 @@ import Home from "../Home.vue";
 import Cell from "../../src/components/cell/demo";
 import NavBar from "../../src/components/nav-bar/demo";
 import Button from "../../src/components/button/demo";
+
 const routes = [
 	{
 		path: "/",

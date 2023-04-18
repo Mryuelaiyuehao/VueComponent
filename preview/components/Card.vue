@@ -1,8 +1,13 @@
 <template>
-	<div :class="`${baseName}`">
-		<div v-if="title" :class="`${baseName}-title`">{{ title }}</div>
-		<slot></slot>
-	</div>
+  <div :class="`${baseName}`">
+    <div
+      v-if="title"
+      :class="`${baseName}-title`"
+    >
+      {{ title }}
+    </div>
+    <slot />
+  </div>
 </template>
 <script>
 export default {

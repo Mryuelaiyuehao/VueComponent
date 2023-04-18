@@ -1,10 +1,15 @@
 <template>
-	<div :class="`${baseName}`">
-		<slot name="title">
-			<div v-if="title" :class="`${baseName}-title`">{{ title }}</div>
-		</slot>
-		<slot></slot>
-	</div>
+  <div :class="`${baseName}`">
+    <slot name="title">
+      <div
+        v-if="title"
+        :class="`${baseName}-title`"
+      >
+        {{ title }}
+      </div>
+    </slot>
+    <slot />
+  </div>
 </template>
 <script>
 import { PREFIX_NAME } from "../../assets/js/const";

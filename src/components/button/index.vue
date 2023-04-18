@@ -1,29 +1,39 @@
 <template>
-	<button :class="classNames" @click="handleClick" :type="nativeType">
-		<div :class="`${baseName}-item`">
-			<slot name="icon" v-if="isIconLeft">
-				<Icon
-					v-if="icon"
-					:class="`${baseName}-icon`"
-					:name="icon"
-					:size="iconSize"
-					:color="iconColor"
-				></Icon>
-			</slot>
-			<slot
-				><span>{{ text }}</span></slot
-			>
-			<slot name="icon" v-if="!isIconLeft">
-				<Icon
-					v-if="icon"
-					:class="`${baseName}-icon`"
-					:name="icon"
-					:size="iconSize"
-					:color="iconColor"
-				></Icon>
-			</slot>
-		</div>
-	</button>
+  <button
+    :class="classNames"
+    :type="nativeType"
+    @click="handleClick"
+  >
+    <div :class="`${baseName}-item`">
+      <slot
+        v-if="isIconLeft"
+        name="icon"
+      >
+        <Icon
+          v-if="icon"
+          :class="`${baseName}-icon`"
+          :name="icon"
+          :size="iconSize"
+          :color="iconColor"
+        />
+      </slot>
+      <slot>
+        <span>{{ text }}</span>
+      </slot>
+      <slot
+        v-if="!isIconLeft"
+        name="icon"
+      >
+        <Icon
+          v-if="icon"
+          :class="`${baseName}-icon`"
+          :name="icon"
+          :size="iconSize"
+          :color="iconColor"
+        />
+      </slot>
+    </div>
+  </button>
 </template>
 <script>
 import Icon from "@/components/icon";

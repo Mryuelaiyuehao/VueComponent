@@ -1,16 +1,19 @@
 <template>
-	<div class="base-view">
-		<div class="view-title">
-			<slot name="header"></slot>
-		</div>
-		<div class="view-body">
-			<slot></slot>
-		</div>
-		<div class="view-footer">
-			<slot name="footer"></slot>
-		</div>
-		<router-view class="child" v-if="isRoot"></router-view>
-	</div>
+  <div class="base-view">
+    <div class="view-title">
+      <slot name="header" />
+    </div>
+    <div class="view-body">
+      <slot />
+    </div>
+    <div class="view-footer">
+      <slot name="footer" />
+    </div>
+    <router-view
+      v-if="isRoot"
+      class="child"
+    />
+  </div>
 </template>
 <script>
 export default {

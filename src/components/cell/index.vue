@@ -1,30 +1,42 @@
 <template>
-	<div :class="classNames" @touchend="handleClick">
-		<slot name="icon">
-			<Icon v-if="icon" :name="icon" :size="30"></Icon>
-		</slot>
-		<div :class="`${baseName}-title`">
-			<slot name="title">
-				<span>{{ title }}</span>
-			</slot>
-			<slot name="label">
-				<div v-if="label" :class="`${baseName}-label`">{{ label }}</div>
-			</slot>
-		</div>
-		<div :class="`${baseName}-value`">
-			<slot>
-				<span v-if="value">{{ value }}</span>
-			</slot>
-		</div>
-		<slot name="right-icon">
-			<Icon
-				v-if="isLink"
-				:class="`${baseName}-right-icon`"
-				name="arrow_right_line"
-				:size="30"
-			></Icon>
-		</slot>
-	</div>
+  <div
+    :class="classNames"
+    @touchend="handleClick"
+  >
+    <slot name="icon">
+      <Icon
+        v-if="icon"
+        :name="icon"
+        :size="30"
+      />
+    </slot>
+    <div :class="`${baseName}-title`">
+      <slot name="title">
+        <span>{{ title }}</span>
+      </slot>
+      <slot name="label">
+        <div
+          v-if="label"
+          :class="`${baseName}-label`"
+        >
+          {{ label }}
+        </div>
+      </slot>
+    </div>
+    <div :class="`${baseName}-value`">
+      <slot>
+        <span v-if="value">{{ value }}</span>
+      </slot>
+    </div>
+    <slot name="right-icon">
+      <Icon
+        v-if="isLink"
+        :class="`${baseName}-right-icon`"
+        name="arrow_right_line"
+        :size="30"
+      />
+    </slot>
+  </div>
 </template>
 <script>
 import Icon from "../icon";

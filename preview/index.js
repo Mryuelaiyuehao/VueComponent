@@ -8,11 +8,9 @@ import "@/assets/font/index.js";
 import "@/assets/css/normalize.css";
 import "@/utils/rem.js";
 import routes from "./route/index.js";
-import { isDarkMode, generateCssVars } from "../src/utils";
+import { isDarkMode, generateCssVars, switchLanguage } from "../src/utils";
 import { DARK_THEME, LIGHT_THEME } from "../src/assets/js/const";
 import messages from "./languages/index";
-console.log(messages);
-Vue.config.silent = true;
 // 全局组件
 Vue.component("base-view", BaseView);
 Vue.component("card", Card);
@@ -22,6 +20,7 @@ const i18n = new VueI18n({
 	locale: "en",
 	messages: messages,
 });
+switchLanguage(i18n, "zh");
 // 路由
 const router = new VueRouter({
 	mode: "history",

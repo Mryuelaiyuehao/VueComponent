@@ -1,7 +1,11 @@
 <template>
-	<svg :class="`${baseName}`" aria-hidden="true" :style="iconStyles">
-		<use :xlink:href="iconName"></use>
-	</svg>
+  <svg
+    :class="`${baseName}`"
+    aria-hidden="true"
+    :style="iconStyles"
+  >
+    <use :xlink:href="iconName" />
+  </svg>
 </template>
 <script>
 import { handleColor, pxToRem } from "@/utils";

@@ -59,5 +59,10 @@ const DARK_THEME = {
 };
 
 const PREFIX_NAME = "xzy";
-export { COLORS, LIGHT_THEME, DARK_THEME, PREFIX_NAME };
+
+const LANGUAGE = {
+	CHINESE: "zh",
+	ENGLISH: "en",
+};
+export { COLORS, LIGHT_THEME, DARK_THEME, PREFIX_NAME, LANGUAGE };
 

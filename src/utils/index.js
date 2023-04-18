@@ -1,5 +1,5 @@
-import { COLORS, LIGHT_THEME, DARK_THEME } from "../assets/js/const";
 import cssVars from "css-vars-ponyfill";
+import { COLORS, LIGHT_THEME, DARK_THEME } from "../assets/js/const";
 const opacityColor = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
 const handleColor = (color) => {
 	return COLORS.includes(color) ? `var(--${color})` : color;
@@ -69,6 +69,10 @@ const generateCssVars = (
 	});
 };
 
+const switchLanguage = (i18n, lang) => {
+	i18n.locale = lang;
+};
+
 export {
 	handleColor,
 	pxToRem,
@@ -76,5 +80,6 @@ export {
 	generateTheme,
 	generateOpacityColor,
 	generateCssVars,
+	switchLanguage,
 };
 

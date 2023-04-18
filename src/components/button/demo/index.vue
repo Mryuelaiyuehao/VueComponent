@@ -1,80 +1,80 @@
 <template>
-	<base-view>
-		<NavBar
-			:title="'Button'"
-			type="white"
-			left-arrow
-			slot="header"
-			@click-left="goBack"
-		></NavBar>
-		<card :title="'按钮类型'">
-			<div class="button-wrapper">
-				<Button
-					v-for="{ text, type } in buttonList1"
-					:key="type"
-					:text="text"
-					:type="type"
-				></Button>
-			</div>
-		</card>
-		<card :title="'按钮形状'">
-			<div class="button-wrapper">
-				<Button
-					v-for="({ text, type, round }, index) in buttonList2"
-					:key="index"
-					:text="text"
-					:type="type"
-					:round="round"
-				></Button>
-			</div>
-		</card>
-		<card :title="'按钮大小'">
-			<div class="button-wrapper">
-				<Button
-					v-for="({ text, type, size }, index) in buttonList3"
-					:key="index"
-					:text="text"
-					:type="type"
-					:size="size"
-				></Button>
-			</div>
-		</card>
-		<card :title="'禁用按钮'">
-			<div class="button-wrapper">
-				<Button
-					v-for="({ text, type }, index) in buttonList1"
-					:key="index"
-					:text="text"
-					:type="type"
-					disabled
-				></Button>
-			</div>
-		</card>
-		<card :title="'块级元素'">
-			<div class="button-wrapper">
-				<Button
-					v-for="({ text, type }, index) in buttonList1"
-					:key="index"
-					:text="text"
-					:type="type"
-					block
-				></Button>
-			</div>
-		</card>
-		<card :title="'图标'">
-			<div class="button-wrapper">
-				<Button
-					v-for="({ text, type, icon, iconPosition }, index) in buttonList4"
-					:key="index"
-					:text="text"
-					:type="type"
-					:icon="icon"
-					:iconPosition="iconPosition"
-					:size="'small'"
-				></Button>
-			</div>
-		</card>
-	</base-view>
+  <base-view>
+    <NavBar
+      slot="header"
+      :title="'Button'"
+      type="white"
+      left-arrow
+      @click-left="goBack"
+    />
+    <card :title="'按钮类型'">
+      <div class="button-wrapper">
+        <Button
+          v-for="{ text, type } in buttonList1"
+          :key="type"
+          :text="text"
+          :type="type"
+        />
+      </div>
+    </card>
+    <card :title="'按钮形状'">
+      <div class="button-wrapper">
+        <Button
+          v-for="({ text, type, round }, index) in buttonList2"
+          :key="index"
+          :text="text"
+          :type="type"
+          :round="round"
+        />
+      </div>
+    </card>
+    <card :title="'按钮大小'">
+      <div class="button-wrapper">
+        <Button
+          v-for="({ text, type, size }, index) in buttonList3"
+          :key="index"
+          :text="text"
+          :type="type"
+          :size="size"
+        />
+      </div>
+    </card>
+    <card :title="'禁用按钮'">
+      <div class="button-wrapper">
+        <Button
+          v-for="({ text, type }, index) in buttonList1"
+          :key="index"
+          :text="text"
+          :type="type"
+          disabled
+        />
+      </div>
+    </card>
+    <card :title="'块级元素'">
+      <div class="button-wrapper">
+        <Button
+          v-for="({ text, type }, index) in buttonList1"
+          :key="index"
+          :text="text"
+          :type="type"
+          block
+        />
+      </div>
+    </card>
+    <card :title="'图标'">
+      <div class="button-wrapper">
+        <Button
+          v-for="({ text, type, icon, iconPosition }, index) in buttonList4"
+          :key="index"
+          :text="text"
+          :type="type"
+          :icon="icon"
+          :icon-position="iconPosition"
+          :size="'small'"
+        />
+      </div>
+    </card>
+  </base-view>
 </template>
 <script>
 import NavBar from "../../nav-bar";
@@ -83,11 +83,6 @@ import { BUTTON_TYPE } from "../const";
 export default {
 	name: "NavBarDemo",
 	components: { Button, NavBar },
-	methods: {
-		goBack() {
-			this.$router.back();
-		},
-	},
 	data() {
 		return {
 			buttonList1: [
@@ -156,6 +151,11 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		goBack() {
+			this.$router.back();
+		},
 	},
 };
 </script>

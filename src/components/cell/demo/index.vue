@@ -1,75 +1,75 @@
 <template>
-	<base-view>
-		<NavBar
-			:title="'Cell 单元格'"
-			type="white"
-			left-arrow
-			slot="header"
-			@click-left="goBack"
-		></NavBar>
-		<card :title="'基础用法'">
-			<CellGroup>
-				<Cell
-					v-for="({ title, value, label }, index) in cellList1"
-					:key="index"
-					:title="title"
-					:value="value"
-					:label="label"
-				></Cell>
-			</CellGroup>
-		</card>
-		<card :title="'是否垂直居中'">
-			<CellGroup>
-				<Cell
-					v-for="({ title, value, label }, index) in cellList1"
-					:key="index"
-					:title="title"
-					:value="value"
-					:label="label"
-					center
-				></Cell>
-			</CellGroup>
-		</card>
-		<card :title="'是否右箭头'">
-			<CellGroup>
-				<Cell
-					v-for="({ title, value, label }, index) in cellList1"
-					:key="index"
-					:title="title"
-					:value="value"
-					:label="label"
-					isLink
-					center
-				></Cell>
-			</CellGroup>
-		</card>
-		<card :title="'是否开启点击反馈'">
-			<CellGroup>
-				<Cell
-					v-for="({ title, value, label }, index) in cellList1"
-					:key="index"
-					:title="title"
-					:value="value"
-					:label="label"
-					clickable
-					center
-				></Cell>
-			</CellGroup>
-		</card>
-		<card :title="'是否必填'">
-			<CellGroup>
-				<Cell
-					v-for="({ title, value, label }, index) in cellList1"
-					:key="index"
-					:title="title"
-					:value="value"
-					:label="label"
-					center
-					required
-				></Cell>
-			</CellGroup>
-		</card>
-	</base-view>
+  <base-view>
+    <NavBar
+      slot="header"
+      :title="'Cell 单元格'"
+      type="white"
+      left-arrow
+      @click-left="goBack"
+    />
+    <card :title="'基础用法'">
+      <CellGroup>
+        <Cell
+          v-for="({ title, value, label }, index) in cellList1"
+          :key="index"
+          :title="title"
+          :value="value"
+          :label="label"
+        />
+      </CellGroup>
+    </card>
+    <card :title="'是否垂直居中'">
+      <CellGroup>
+        <Cell
+          v-for="({ title, value, label }, index) in cellList1"
+          :key="index"
+          :title="title"
+          :value="value"
+          :label="label"
+          center
+        />
+      </CellGroup>
+    </card>
+    <card :title="'是否右箭头'">
+      <CellGroup>
+        <Cell
+          v-for="({ title, value, label }, index) in cellList1"
+          :key="index"
+          :title="title"
+          :value="value"
+          :label="label"
+          is-link
+          center
+        />
+      </CellGroup>
+    </card>
+    <card :title="'是否开启点击反馈'">
+      <CellGroup>
+        <Cell
+          v-for="({ title, value, label }, index) in cellList1"
+          :key="index"
+          :title="title"
+          :value="value"
+          :label="label"
+          clickable
+          center
+        />
+      </CellGroup>
+    </card>
+    <card :title="'是否必填'">
+      <CellGroup>
+        <Cell
+          v-for="({ title, value, label }, index) in cellList1"
+          :key="index"
+          :title="title"
+          :value="value"
+          :label="label"
+          center
+          required
+        />
+      </CellGroup>
+    </card>
+  </base-view>
 </template>
 <script>
 import NavBar from "../../nav-bar";
@@ -78,11 +78,6 @@ import CellGroup from "../../cell-group/index.vue";
 export default {
 	name: "NavBarDemo",
 	components: { Cell, CellGroup, NavBar },
-	methods: {
-		goBack() {
-			this.$router.back();
-		},
-	},
 	data() {
 		return {
 			cellList1: [
@@ -98,6 +93,11 @@ export default {
 				},
 			],
 		};
+	},
+	methods: {
+		goBack() {
+			this.$router.back();
+		},
 	},
 };
 </script>
