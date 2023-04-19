@@ -8,25 +8,40 @@ import "@/assets/font/index.js";
 import "@/assets/css/normalize.css";
 import "@/utils/rem.js";
 import routes from "./route/index.js";
-import { isDarkMode, generateCssVars, switchLanguage } from "../src/utils";
-import { DARK_THEME, LIGHT_THEME } from "../src/assets/js/const";
-import messages from "./languages/index";
+import { generateCssVars, isDarkMode } from "./utils/theme";
+import { loadLanguageAsync, setLanguage } from "./utils/i18n";
+import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "./statics/js/const";
+import messages from "./languages/zh.js";
+
 // 全局组件
 Vue.component("base-view", BaseView);
 Vue.component("card", Card);
-// 设置多语言
+// 设置多语言(默认中文)
 Vue.use(VueI18n);
 const i18n = new VueI18n({
-	locale: "en",
+	locale: LANGUAGE.CHINESE,
+	fallbackLocale: LANGUAGE.CHINESE,
 	messages: messages,
+	lazy: true,
 });
-switchLanguage(i18n, "zh");
+window.$i18n = i18n;
 // 路由
 const router = new VueRouter({
 	mode: "history",
 	routes,
 });
 Vue.use(VueRouter);
+router.beforeEach(async (to, from, next) => {
+	console.log(to);
+	try {
+		const lang = loadLanguageAsync(to.params.lang);
+		setLanguage(lang);
+	} catch (error) {
+		// todo
+	}
+	next(true);
+	// ...
+});
 //  设置主题
 generateCssVars(
 	isDarkMode() ? DARK_THEME.primary : LIGHT_THEME.primary,

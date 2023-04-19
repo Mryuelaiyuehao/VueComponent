@@ -59,16 +59,13 @@
   </base-view>
 </template>
 <script>
-import {
-	generateCssVars,
-	isDarkMode,
-	switchLanguage,
-} from "../src/utils/index";
-import NavBar from "@/components/nav-bar";
-import CellGroup from "@/components/cell-group";
-import Cell from "@/components/cell";
-import Switch from "../src/components/switch";
-import { DARK_THEME, LANGUAGE, LIGHT_THEME } from "../src/assets/js/const";
+import NavBar from "../../src/components/nav-bar";
+import CellGroup from "../../src/components/cell-group";
+import Cell from "../../src/components/cell";
+import Switch from "../../src/components/switch";
+import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "../statics/js/const";
+import { generateCssVars, isDarkMode } from "../utils/theme";
+// import { setLanguage,loadLanguageAsync } from "../utils/i18n";
 export default {
 	name: "Home",
 	components: {
@@ -134,10 +131,22 @@ export default {
 			generateCssVars(this.primaryColor, this.isDark);
 		},
 		changeLanguage() {
-			switchLanguage(
-				this.$root,
-				this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE
-			);
+			this.$router.push({
+				path: this.to,
+        query: {
+					lang: this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE,
+				},
+			});
+			this.$router.push({
+				path: "/home",
+				params: {
+					lang: this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE,
+				},
+			});
+			// loadLanguageAsync(this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE).then((lang)=>{
+			//   console.log( window.$i18n.messages);
+			//   setLanguage(lang)
+			// })
 		},
 	},
 };

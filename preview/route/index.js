@@ -1,11 +1,11 @@
-import Home from "../Home.vue";
+import Home from "../components/Home.vue";
 import Cell from "../../src/components/cell/demo";
 import NavBar from "../../src/components/nav-bar/demo";
 import Button from "../../src/components/button/demo";
 
 const routes = [
 	{
-		path: "/",
+		path: "/home",
 		component: Home,
 		meta: "泽跃的组件库",
 		children: [

@@ -1,14 +1,10 @@
 <template>
-  <svg
-    :class="`${baseName}`"
-    aria-hidden="true"
-    :style="iconStyles"
-  >
-    <use :xlink:href="iconName" />
-  </svg>
+	<svg :class="`${baseName}`" aria-hidden="true" :style="iconStyles">
+		<use :xlink:href="iconName" />
+	</svg>
 </template>
 <script>
-import { handleColor, pxToRem } from "@/utils";
+import { handleColor, pxToRem } from "../../utils/index";
 import { PREFIX_NAME } from "../../assets/js/const";
 export default {
 	name: `${PREFIX_NAME.toUpperCase()}Icon`,
@@ -52,3 +48,4 @@ export default {
 	overflow: hidden;
 }
 </style>
+
