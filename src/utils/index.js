@@ -1,4 +1,4 @@
-import { COLORS } from "../assets/js/const";
+import { COLORS } from "../assets/js/enums";
 const handleColor = (color) => {
 	return COLORS.includes(color) ? `var(--${color})` : color;
 };

@@ -5,7 +5,7 @@ import Button from "../../src/components/button/demo";
 
 const routes = [
 	{
-		path: "/home",
+		path: "/",
 		component: Home,
 		meta: "泽跃的组件库",
 		children: [

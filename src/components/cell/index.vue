@@ -40,7 +40,7 @@
 </template>
 <script>
 import Icon from "../icon";
-import { PREFIX_NAME } from "../../assets/js/const";
+import { PREFIX_NAME } from "../../assets/js/enums";
 export default {
 	name: `${PREFIX_NAME.toUpperCase()}-cell`,
 	components: {

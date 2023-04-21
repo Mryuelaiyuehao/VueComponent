@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-import { PREFIX_NAME } from "../../assets/js/const";
+import { PREFIX_NAME } from "../../assets/js/enums";
 export default {
 	name: `${PREFIX_NAME}CellGroup`,
 	props: {

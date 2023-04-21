@@ -1,71 +1,51 @@
 <template>
-  <base-view
-    class="home"
-    is-root
-  >
-    <NavBar
-      slot="header"
-      :title="$t('common.title')"
-    />
-    <CellGroup class="cell-group-custom">
-      <Cell
-        :title="$t('common.theme')"
-        center
-      >
-        <ul class="theme">
-          <li
-            v-for="color in primaryColors"
-            :key="color"
-            :class="[
-              'theme-item',
-              primaryColor === color ? 'theme-item-cur' : '',
-            ]"
-            :style="{ backgroundColor: color }"
-            @click="changeTheme(color)"
-          />
-        </ul>
-      </Cell>
-      <Cell :title="$t('common.dark')">
-        <xzy-switch
-          v-model="isDark"
-          size="normal"
-          @input="onChange"
-        />
-      </Cell>
-      <Cell :title="'是否英文'">
-        <xzy-switch
-          v-model="isEnglish"
-          size="normal"
-          @input="changeLanguage"
-        />
-      </Cell>
-    </CellGroup>
-    <CellGroup
-      v-for="(item, index) in list"
-      :key="index"
-      class="cell-group-custom"
-      :title="item.title"
-    >
-      <Cell
-        v-for="({ title, to }, subIndex) in item.children"
-        :key="subIndex"
-        :title="title"
-        :to="to"
-        is-link
-        center
-        clickable
-      />
-    </CellGroup>
-  </base-view>
+	<base-view class="home" is-root>
+		<NavBar slot="header" :title="$t('common.title')" />
+		<CellGroup class="cell-group-custom">
+			<Cell :title="$t('common.theme')" center>
+				<ul class="theme">
+					<li
+						v-for="color in primaryColors"
+						:key="color"
+						:class="['theme-item', primaryColor === color ? 'theme-item-cur' : '']"
+						:style="{ backgroundColor: color }"
+						@click="changeTheme(color)"
+					/>
+				</ul>
+			</Cell>
+			<Cell :title="$t('common.dark')">
+				<xzy-switch v-model="isDark" size="normal" @input="onChange" />
+			</Cell>
+			<Cell :title="'是否英文'">
+				<xzy-switch v-model="isEnglish" size="normal" @input="changeLanguage" />
+			</Cell>
+		</CellGroup>
+		<CellGroup
+			v-for="(item, index) in list"
+			:key="index"
+			class="cell-group-custom"
+			:title="item.title"
+		>
+			<Cell
+				v-for="({ title, to }, subIndex) in item.children"
+				:key="subIndex"
+				:title="title"
+				:to="to"
+				is-link
+				center
+				clickable
+			/>
+		</CellGroup>
+	</base-view>
 </template>
 <script>
 import NavBar from "../../src/components/nav-bar";
 import CellGroup from "../../src/components/cell-group";
 import Cell from "../../src/components/cell";
 import Switch from "../../src/components/switch";
-import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "../statics/js/const";
+import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "../statics/js/enums";
 import { generateCssVars, isDarkMode } from "../utils/theme";
-// import { setLanguage,loadLanguageAsync } from "../utils/i18n";
+import { setLanguage } from "../utils/i18n";
 export default {
 	name: "Home",
 	components: {
@@ -131,22 +111,14 @@ export default {
 			generateCssVars(this.primaryColor, this.isDark);
 		},
 		changeLanguage() {
-			this.$router.push({
-				path: this.to,
-        query: {
-					lang: this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE,
-				},
-			});
-			this.$router.push({
-				path: "/home",
-				params: {
-					lang: this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE,
-				},
-			});
-			// loadLanguageAsync(this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE).then((lang)=>{
-			//   console.log( window.$i18n.messages);
-			//   setLanguage(lang)
-			// })
+			setLanguage(this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE)
+				.then(() => {})
+				.catch((e) => {
+					this.isEnglish = false;
+					if (e instanceof Error) {
+						console.log(e.message);
+					}
+				});
 		},
 	},
 };

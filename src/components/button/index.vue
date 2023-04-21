@@ -37,8 +37,8 @@
 </template>
 <script>
 import Icon from "@/components/icon";
-import { PREFIX_NAME } from "../../assets/js/const";
-import { BUTTON_TYPE, BUTTON_SIZE, BUTTON_ICON_POSITION } from "./const";
+import { PREFIX_NAME } from "../../assets/js/enums";
+import { BUTTON_TYPE, BUTTON_SIZE, BUTTON_ICON_POSITION } from "./enums";
 
 export default {
 	name: `${PREFIX_NAME.toUpperCase()}-cell`,

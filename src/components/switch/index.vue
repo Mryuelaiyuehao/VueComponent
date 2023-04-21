@@ -8,8 +8,8 @@
   </div>
 </template>
 <script>
-import { PREFIX_NAME } from "../../assets/js/const";
-import { SWITCH_SIZE } from "./const";
+import { PREFIX_NAME } from "../../assets/js/enums";
+import { SWITCH_SIZE } from "./enums";
 import { handleColor } from "../../utils/index";
 export default {
 	name: `${PREFIX_NAME.toUpperCase()}Switch`,
@@ -105,7 +105,7 @@ $baseName: #{$prefixName}-switch;
 		border-radius: 50%;
 		background: $c-body-base;
 		transition: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05);
-    .#{$baseName}-node-on {
+    &-on {
 			transform: translateX(78px - 18px - 30px);
 		}
 	}

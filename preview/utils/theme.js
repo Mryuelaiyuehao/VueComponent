@@ -1,5 +1,5 @@
 import cssVars from "css-vars-ponyfill";
-import { DARK_THEME, LIGHT_THEME } from "../statics/js/const";
+import { DARK_THEME, LIGHT_THEME } from "../statics/js/enums";
 const opacityColor = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
 // 是否是暗黑模式
 const isDarkMode = () => {

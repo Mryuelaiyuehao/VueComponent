@@ -1,11 +1,15 @@
 <template>
-	<svg :class="`${baseName}`" aria-hidden="true" :style="iconStyles">
-		<use :xlink:href="iconName" />
-	</svg>
+  <svg
+    :class="`${baseName}`"
+    aria-hidden="true"
+    :style="iconStyles"
+  >
+    <use :xlink:href="iconName" />
+  </svg>
 </template>
 <script>
 import { handleColor, pxToRem } from "../../utils/index";
-import { PREFIX_NAME } from "../../assets/js/const";
+import { PREFIX_NAME } from "../../assets/js/enums";
 export default {
 	name: `${PREFIX_NAME.toUpperCase()}Icon`,
 	props: {

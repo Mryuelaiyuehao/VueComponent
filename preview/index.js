@@ -6,12 +6,12 @@ import BaseView from "./components/BaseView";
 import Card from "./components/Card";
 import "@/assets/font/index.js";
 import "@/assets/css/normalize.css";
-import "@/utils/rem.js";
+import "./utils/rem.js";
 import routes from "./route/index.js";
 import { generateCssVars, isDarkMode } from "./utils/theme";
-import { loadLanguageAsync, setLanguage } from "./utils/i18n";
-import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "./statics/js/const";
-import messages from "./languages/zh.js";
+
+import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "./statics/js/enums";
+import messages from "./languages/index.js";
 
 // 全局组件
 Vue.component("base-view", BaseView);
@@ -31,17 +31,6 @@ const router = new VueRouter({
 	routes,
 });
 Vue.use(VueRouter);
-router.beforeEach(async (to, from, next) => {
-	console.log(to);
-	try {
-		const lang = loadLanguageAsync(to.params.lang);
-		setLanguage(lang);
-	} catch (error) {
-		// todo
-	}
-	next(true);
-	// ...
-});
 //  设置主题
 generateCssVars(
 	isDarkMode() ? DARK_THEME.primary : LIGHT_THEME.primary,

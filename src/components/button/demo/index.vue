@@ -79,7 +79,7 @@
 <script>
 import NavBar from "../../nav-bar";
 import Button from "../index.vue";
-import { BUTTON_TYPE } from "../const";
+import { BUTTON_TYPE } from "../enums";
 export default {
 	name: "NavBarDemo",
 	components: { Button, NavBar },

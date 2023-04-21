@@ -30,9 +30,9 @@
   </div>
 </template>
 <script>
-import { PREFIX_NAME } from "../../assets/js/const";
+import { PREFIX_NAME } from "../../assets/js/enums";
 import Icon from "../icon";
-import { NAVBAR_TYPE } from "./const";
+import { NAVBAR_TYPE } from "./enums";
 export default {
 	name: `${PREFIX_NAME.toUpperCase()}NavBar`,
 	components: {
