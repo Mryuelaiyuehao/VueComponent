@@ -1,5 +1,9 @@
 <template>
-  <svg :class="`${baseName}`" aria-hidden="true" :style="iconStyles">
+  <svg
+    :class="`${baseName}`"
+    aria-hidden="true"
+    :style="iconStyles"
+  >
     <use :xlink:href="iconName" />
   </svg>
 </template>
@@ -7,7 +11,7 @@
 import { handleColor, pxToRem } from "../../utils/index";
 import { PREFIX_NAME } from "../../assets/js/enums";
 export default {
-  name: `${PREFIX_NAME.toUpperCase()}Icon`,
+  name: `${PREFIX_NAME}Icon`,
   props: {
     name: {
       type: String,
@@ -40,7 +44,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#{prefixName}-icon {
+#{prefix-name}-icon {
   width: 1em;
   height: 1em;
   vertical-align: -0.15em;

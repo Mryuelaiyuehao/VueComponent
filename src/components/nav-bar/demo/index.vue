@@ -17,9 +17,21 @@
     </card>
     <card :title="'使用插槽'">
       <NavBar>
-        <div slot="title">插槽</div>
-        <Icon slot="left" name="close_line" :size="42" color="primary" />
-        <Icon slot="right" name="search_line" :size="42" color="primary" />
+        <div slot="title">
+          插槽
+        </div>
+        <Icon
+          slot="left"
+          name="close_line"
+          :size="42"
+          color="primary"
+        />
+        <Icon
+          slot="right"
+          name="search_line"
+          :size="42"
+          color="primary"
+        />
       </NavBar>
     </card>
     <card :title="'primary'">

@@ -1,11 +1,13 @@
 <template>
-  <div :class="${baseName}">slot</div>
+  <div :class="`${baseName}`">
+    test
+  </div>
 </template>
 <script>
 import { PREFIX_NAME } from "../../assets/js/enums";
 import { POPUP_POSITION } from "./enums";
 export default {
-  name: `${PREFIX_NAME.toUpperCase()}Popup`,
+  name: `${PREFIX_NAME}Popup`,
   props: {
     show: {
       type: Boolean,

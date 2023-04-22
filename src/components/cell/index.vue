@@ -1,14 +1,24 @@
 <template>
-  <div :class="classNames" @touchend="handleClick">
+  <div
+    :class="classNames"
+    @touchend="handleClick"
+  >
     <slot name="icon">
-      <Icon v-if="icon" :name="icon" :size="30" />
+      <Icon
+        v-if="icon"
+        :name="icon"
+        :size="30"
+      />
     </slot>
     <div :class="`${baseName}-title`">
       <slot name="title">
         <span>{{ title }}</span>
       </slot>
       <slot name="label">
-        <div v-if="label" :class="`${baseName}-label`">
+        <div
+          v-if="label"
+          :class="`${baseName}-label`"
+        >
           {{ label }}
         </div>
       </slot>
@@ -32,7 +42,7 @@
 import Icon from "../icon";
 import { PREFIX_NAME } from "../../assets/js/enums";
 export default {
-  name: `${PREFIX_NAME.toUpperCase()}-cell`,
+  name: `${PREFIX_NAME}Cell`,
   components: {
     Icon,
   },
@@ -128,7 +138,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefixName}-cell;
+$baseName: #{$prefix-name}-cell;
 
 .#{$baseName} {
   position: relative;

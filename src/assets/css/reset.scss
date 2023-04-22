@@ -6,23 +6,16 @@ html {
 }
 
 body {
-  font-size: $fs-h5;
+  font-size: $fs-h7;
   height: inherit;
 }
 
-::-webkit-scrollbar {
-  display: none;
-}
-
-/* 针对 Firefox 浏览器 */
+::-webkit-scrollbar,
 ::-moz-scrollbar {
   display: none;
 }
 
-[class*="xzy-"]:focus {
-  outline: none;
-}
-
-[class*="xzy-"]:focus-visible {
+[class*="#{prefix-name}-"]:focus,
+[class*="#{prefix-name}-"]:focus-visible {
   outline: none;
 }

@@ -9,7 +9,7 @@
     />
     <card :title="'按钮类型'">
       <div class="button-wrapper">
-        <Button
+        <xzy-button
           v-for="{ text, type } in buttonList1"
           :key="type"
           :text="text"
@@ -19,7 +19,7 @@
     </card>
     <card :title="'按钮形状'">
       <div class="button-wrapper">
-        <Button
+        <xzy-button
           v-for="({ text, type, round }, index) in buttonList2"
           :key="index"
           :text="text"
@@ -30,7 +30,7 @@
     </card>
     <card :title="'按钮大小'">
       <div class="button-wrapper">
-        <Button
+        <xzy-button
           v-for="({ text, type, size }, index) in buttonList3"
           :key="index"
           :text="text"
@@ -41,7 +41,7 @@
     </card>
     <card :title="'禁用按钮'">
       <div class="button-wrapper">
-        <Button
+        <xzy-button
           v-for="({ text, type }, index) in buttonList1"
           :key="index"
           :text="text"
@@ -52,7 +52,7 @@
     </card>
     <card :title="'块级元素'">
       <div class="button-wrapper">
-        <Button
+        <xzy-button
           v-for="({ text, type }, index) in buttonList1"
           :key="index"
           :text="text"
@@ -63,7 +63,7 @@
     </card>
     <card :title="'图标'">
       <div class="button-wrapper">
-        <Button
+        <xzy-button
           v-for="({ text, type, icon, iconPosition }, index) in buttonList4"
           :key="index"
           :text="text"
@@ -82,7 +82,7 @@ import Button from "../index.vue";
 import { BUTTON_TYPE } from "../enums";
 export default {
   name: "NavBarDemo",
-  components: { Button, NavBar },
+  components: { 'xzy-button': Button, NavBar },
   data() {
     return {
       buttonList1: [

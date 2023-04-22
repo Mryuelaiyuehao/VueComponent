@@ -9,7 +9,10 @@
     <div class="view-footer">
       <slot name="footer" />
     </div>
-    <router-view v-if="isRoot" class="child" />
+    <router-view
+      v-if="isRoot"
+      class="child"
+    />
   </div>
 </template>
 <script>

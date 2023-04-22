@@ -1,7 +1,10 @@
 <template>
   <div :class="`${baseName}`">
     <slot name="title">
-      <div v-if="title" :class="`${baseName}-title`">
+      <div
+        v-if="title"
+        :class="`${baseName}-title`"
+      >
         {{ title }}
       </div>
     </slot>
@@ -11,7 +14,7 @@
 <script>
 import { PREFIX_NAME } from "../../assets/js/enums";
 export default {
-  name: `${PREFIX_NAME}CellGroup`,
+  name:    `${PREFIX_NAME}CellGroup`,
   props: {
     title: {
       type: String,
@@ -26,7 +29,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefixName}-cell-group;
+$baseName: #{$prefix-name}-cell-group;
 
 .#{$baseName} {
   border-radius: $radius-card;

@@ -1,3 +1,6 @@
+// 类名前缀
+$prefix-name: "xzy";
+
 // 颜色
 $c-primary: var(--primary, #007edf);
 $c-secondary: var(--secondary, #f44);
@@ -7,15 +10,15 @@ $c-warning: var(--warning, #ff8000);
 $c-danger: var(--danger, #f00);
 $c-white: var(--white, #fff);
 $c-black: var(--black, #000);
-$c-text-primary: var(--textPrimary, #000);
-$c-text-regular: var(--textRegular, #666);
-$c-text-secondary: var(--textSecondary, #999);
-$c-text-placeholder: var(--textPlaceholder, #c5c5c5);
-$c-body-base: var(--bodyBase, #fff);
-$c-body-regular: var(--bodyRegular, #f5f6f7);
-$c-body-secondary: var(--bodySecondary, #f8f8f8);
+$c-text-primary: var(--text-primary, #000);
+$c-text-regular: var(--text-regular, #666);
+$c-text-secondary: var(--text-secondary, #999);
+$c-text-placeholder: var(--text-placeholder, #c5c5c5);
+$c-body-base: var(--body-base, #fff);
+$c-body-regular: var(--body-regular, #f5f6f7);
+$c-body-secondary: var(--body-secondary, #f8f8f8);
 $c-border: var(--border, #c5c5c5);
-$c-border-weak: var(--borderWeak, #eee);
+$c-border-weak: var(--border-weak, #eee);
 $c-mask: var(--mask, rgb(0 0 0 / 80%));
 $c-shadow: var(--shadow, rgb(38 38 38 / 10%));
 
@@ -58,4 +61,3 @@ $radius7: $radius-base * 7;
 $radius8: $radius-base * 8;
 $radius9: $radius-base * 9;
 $radius-card: $radius-base * 4;
-$prefixName: "xzy";

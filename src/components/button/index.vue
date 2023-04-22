@@ -1,7 +1,14 @@
 <template>
-  <button :class="classNames" :type="nativeType" @click="handleClick">
+  <button
+    :class="classNames"
+    :type="nativeType"
+    @click="handleClick"
+  >
     <div :class="`${baseName}-item`">
-      <slot v-if="isIconLeft" name="icon">
+      <slot
+        v-if="isIconLeft"
+        name="icon"
+      >
         <Icon
           v-if="icon"
           :class="`${baseName}-icon`"
@@ -13,7 +20,10 @@
       <slot>
         <span>{{ text }}</span>
       </slot>
-      <slot v-if="!isIconLeft" name="icon">
+      <slot
+        v-if="!isIconLeft"
+        name="icon"
+      >
         <Icon
           v-if="icon"
           :class="`${baseName}-icon`"
@@ -31,7 +41,7 @@ import { PREFIX_NAME } from "../../assets/js/enums";
 import { BUTTON_TYPE, BUTTON_SIZE, BUTTON_ICON_POSITION } from "./enums";
 
 export default {
-  name: `${PREFIX_NAME.toUpperCase()}-cell`,
+  name:   `${PREFIX_NAME}-cell`,
   components: {
     Icon,
   },
@@ -143,7 +153,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefixName}-button;
+$baseName: #{$prefix-name}-button;
 
 .#{$baseName} {
   position: relative;

@@ -1,5 +1,9 @@
 <template>
-  <div :class="classNames" :style="styles" @click="onClick">
+  <div
+    :class="classNames"
+    :style="styles"
+    @click="onClick"
+  >
     <div :class="classNodeNames" />
   </div>
 </template>
@@ -8,7 +12,7 @@ import { PREFIX_NAME } from "../../assets/js/enums";
 import { SWITCH_SIZE } from "./enums";
 import { handleColor } from "../../utils/index";
 export default {
-  name: `${PREFIX_NAME.toUpperCase()}Switch`,
+  name: `${PREFIX_NAME}Switch`,
   props: {
     value: {
       type: Boolean,
@@ -82,7 +86,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefixName}-switch;
+$baseName: #{$prefix-name}-switch;
 .#{$baseName} {
   position: relative;
   display: flex;

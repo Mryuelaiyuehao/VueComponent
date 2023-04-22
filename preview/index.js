@@ -6,6 +6,7 @@ import BaseView from "./components/BaseView";
 import Card from "./components/Card";
 import "@/assets/font/index.js";
 import "@/assets/css/normalize.css";
+import "@/assets/css/reset.scss";
 import "./utils/rem.js";
 import routes from "./route/index.js";
 import { generateCssVars, isDarkMode } from "./utils/theme";
@@ -22,7 +23,6 @@ const i18n = new VueI18n({
   locale: LANGUAGE.CHINESE,
   fallbackLocale: LANGUAGE.CHINESE,
   messages: messages,
-  lazy: true,
 });
 window.$i18n = i18n;
 // 路由

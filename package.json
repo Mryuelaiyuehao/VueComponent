@@ -1,13 +1,14 @@
 {
   "name": "vue-components",
-  "version": "0.3.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect",
-    "stylelint": "stylelint **/*.scss --fix && stylelint **/*.css --fix"
+    "lint:stylelint": "stylelint **/*.scss --fix",
+    "lint:eslint": "eslint **/*.vue --fix"
   },
   "dependencies": {
     "core-js": "3.6.5",
@@ -23,15 +24,15 @@
     "@vue/cli-plugin-eslint": "4.5.0",
     "@vue/cli-service": "4.5.0",
     "babel-eslint": "10.1.0",
-    "eslint": "6.7.2",
-    "eslint-plugin-vue": "6.2.2",
+    "eslint": "6.8.0",
+    "eslint-plugin-vue": "9.11.0",
     "postcss-load-config": "4.0.1",
     "postcss-pxtorem": "5.1.1",
     "sass": "1.38.2",
     "sass-loader": "8.0.0",
-    "vue-template-compiler": "2.6.11",
     "stylelint": "15.5.0",
     "stylelint-config-standard": "33.0.0",
-    "stylelint-config-standard-scss": "8.0.0"
+    "stylelint-config-standard-scss": "8.0.0",
+    "vue-template-compiler": "2.6.11"
   }
 }

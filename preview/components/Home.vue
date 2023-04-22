@@ -1,8 +1,17 @@
 <template>
-  <base-view class="home" is-root>
-    <NavBar slot="header" :title="$t('common.title')" />
+  <base-view
+    class="home"
+    is-root
+  >
+    <NavBar
+      slot="header"
+      :title="$t('common.title')"
+    />
     <CellGroup class="cell-group-custom">
-      <Cell :title="$t('common.theme')" center>
+      <Cell
+        :title="$t('common.theme')"
+        center
+      >
         <ul class="theme">
           <li
             v-for="color in primaryColors"
@@ -17,10 +26,18 @@
         </ul>
       </Cell>
       <Cell :title="$t('common.dark')">
-        <xzy-switch v-model="isDark" size="normal" @input="onChange" />
+        <xzy-switch
+          v-model="isDark"
+          size="normal"
+          @input="onChange"
+        />
       </Cell>
       <Cell :title="'是否英文'">
-        <xzy-switch v-model="isEnglish" size="normal" @input="changeLanguage" />
+        <xzy-switch
+          v-model="isEnglish"
+          size="normal"
+          @input="changeLanguage"
+        />
       </Cell>
     </CellGroup>
     <CellGroup
