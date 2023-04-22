@@ -1,4 +1,4 @@
-!(function(a) {
+!(function (a) {
   var l,
     h,
     c,
@@ -9,7 +9,7 @@
     L = (L = document.getElementsByTagName("script"))[
       L.length - 1
     ].getAttribute("data-injectcss"),
-    i = function(a, l) {
+    i = function (a, l) {
       l.parentNode.insertBefore(a, l);
     };
   if (L && !a.__iconfont__svg__cssinject__) {
@@ -33,7 +33,7 @@
     }
     e();
   }
-  (l = function() {
+  (l = function () {
     var a,
       l = document.createElement("div");
     (l.innerHTML = m),
@@ -50,7 +50,7 @@
     document.addEventListener
       ? ~["complete", "loaded", "interactive"].indexOf(document.readyState)
         ? setTimeout(l, 0)
-        : ((h = function() {
+        : ((h = function () {
             document.removeEventListener("DOMContentLoaded", h, !1), l();
           }),
           document.addEventListener("DOMContentLoaded", h, !1))
@@ -59,7 +59,7 @@
         (v = a.document),
         (o = !1),
         z(),
-        (v.onreadystatechange = function() {
+        (v.onreadystatechange = function () {
           "complete" == v.readyState && ((v.onreadystatechange = null), e());
         }));
 })(window);

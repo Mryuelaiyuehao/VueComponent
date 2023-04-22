@@ -16,8 +16,8 @@ $c-body-regular: var(--bodyRegular, #f5f6f7);
 $c-body-secondary: var(--bodySecondary, #f8f8f8);
 $c-border: var(--border, #c5c5c5);
 $c-border-weak: var(--borderWeak, #eee);
-$c-mask: var(--mask, rgba(0, 0, 0, 0.8));
-$c-shadow: var(--shadow, rgba(38, 38, 38, 0.1));
+$c-mask: var(--mask, rgb(0 0 0 / 80%));
+$c-shadow: var(--shadow, rgb(38 38 38 / 10%));
 
 // 字体
 $fs-h1: 60px;
@@ -58,6 +58,4 @@ $radius7: $radius-base * 7;
 $radius8: $radius-base * 8;
 $radius9: $radius-base * 9;
 $radius-card: $radius-base * 4;
-
 $prefixName: "xzy";
-

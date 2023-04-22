@@ -1,0 +1,28 @@
+html {
+  line-height: 1.5;
+  height: 100%;
+  touch-action: pan-x pan-y;
+  user-select: none;
+}
+
+body {
+  font-size: $fs-h5;
+  height: inherit;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* 针对 Firefox 浏览器 */
+::-moz-scrollbar {
+  display: none;
+}
+
+[class*="xzy-"]:focus {
+  outline: none;
+}
+
+[class*="xzy-"]:focus-visible {
+  outline: none;
+}

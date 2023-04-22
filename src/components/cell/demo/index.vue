@@ -76,39 +76,39 @@ import NavBar from "../../nav-bar";
 import Cell from "../index.vue";
 import CellGroup from "../../cell-group/index.vue";
 export default {
-	name: "NavBarDemo",
-	components: { Cell, CellGroup, NavBar },
-	data() {
-		return {
-			cellList1: [
-				{
-					title: "单元格1",
-					value: "内容1",
-					label: "描述信息1",
-				},
-				{
-					title: "单元格2",
-					value: "内容2",
-					label: "描述信息2",
-				},
-			],
-		};
-	},
-	methods: {
-		goBack() {
-			this.$router.back();
-		},
-	},
+  name: "NavBarDemo",
+  components: { Cell, CellGroup, NavBar },
+  data() {
+    return {
+      cellList1: [
+        {
+          title: "单元格1",
+          value: "内容1",
+          label: "描述信息1",
+        },
+        {
+          title: "单元格2",
+          value: "内容2",
+          label: "描述信息2",
+        },
+      ],
+    };
+  },
+  methods: {
+    goBack() {
+      this.$router.back();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 .button-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 30px;
-	> button {
-		align-content: ce;
-	}
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  > button {
+    align-content: ce;
+  }
 }
 </style>

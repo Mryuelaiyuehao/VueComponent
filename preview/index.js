@@ -19,26 +19,25 @@ Vue.component("card", Card);
 // 设置多语言(默认中文)
 Vue.use(VueI18n);
 const i18n = new VueI18n({
-	locale: LANGUAGE.CHINESE,
-	fallbackLocale: LANGUAGE.CHINESE,
-	messages: messages,
-	lazy: true,
+  locale: LANGUAGE.CHINESE,
+  fallbackLocale: LANGUAGE.CHINESE,
+  messages: messages,
+  lazy: true,
 });
 window.$i18n = i18n;
 // 路由
 const router = new VueRouter({
-	mode: "history",
-	routes,
+  mode: "history",
+  routes,
 });
 Vue.use(VueRouter);
 //  设置主题
 generateCssVars(
-	isDarkMode() ? DARK_THEME.primary : LIGHT_THEME.primary,
-	isDarkMode()
+  isDarkMode() ? DARK_THEME.primary : LIGHT_THEME.primary,
+  isDarkMode()
 );
 new Vue({
-	i18n,
-	router,
-	render: (h) => h(App),
+  i18n,
+  router,
+  render: (h) => h(App),
 }).$mount("#app");
-

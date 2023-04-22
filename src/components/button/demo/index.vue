@@ -81,92 +81,92 @@ import NavBar from "../../nav-bar";
 import Button from "../index.vue";
 import { BUTTON_TYPE } from "../enums";
 export default {
-	name: "NavBarDemo",
-	components: { Button, NavBar },
-	data() {
-		return {
-			buttonList1: [
-				{
-					type: BUTTON_TYPE.DEFAULT,
-					text: "默认按钮",
-				},
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "主要按钮",
-				},
-				{
-					type: BUTTON_TYPE.INFO,
-					text: "信息按钮",
-				},
-				{
-					type: BUTTON_TYPE.TEXT,
-					text: "文本按钮",
-				},
-				{
-					type: BUTTON_TYPE.LINK,
-					text: "链接按钮",
-				},
-			],
-			buttonList2: [
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "矩形按钮",
-					round: false,
-				},
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "圆角按钮",
-					round: true,
-				},
-			],
-			buttonList3: [
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "大号按钮",
-					size: "large",
-				},
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "普通按钮",
-					size: "normal",
-				},
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "小型按钮",
-					size: "small",
-				},
-			],
-			buttonList4: [
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "按钮图标-左边",
-					icon: "exchange_face",
-					iconPosition: "left",
-				},
-				{
-					type: BUTTON_TYPE.PRIMARY,
-					text: "按钮图标 - 右边",
-					icon: "exchange_face",
-					iconPosition: "right",
-				},
-			],
-		};
-	},
-	methods: {
-		goBack() {
-			this.$router.back();
-		},
-	},
+  name: "NavBarDemo",
+  components: { Button, NavBar },
+  data() {
+    return {
+      buttonList1: [
+        {
+          type: BUTTON_TYPE.DEFAULT,
+          text: "默认按钮",
+        },
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "主要按钮",
+        },
+        {
+          type: BUTTON_TYPE.INFO,
+          text: "信息按钮",
+        },
+        {
+          type: BUTTON_TYPE.TEXT,
+          text: "文本按钮",
+        },
+        {
+          type: BUTTON_TYPE.LINK,
+          text: "链接按钮",
+        },
+      ],
+      buttonList2: [
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "矩形按钮",
+          round: false,
+        },
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "圆角按钮",
+          round: true,
+        },
+      ],
+      buttonList3: [
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "大号按钮",
+          size: "large",
+        },
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "普通按钮",
+          size: "normal",
+        },
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "小型按钮",
+          size: "small",
+        },
+      ],
+      buttonList4: [
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "按钮图标-左边",
+          icon: "exchange_face",
+          iconPosition: "left",
+        },
+        {
+          type: BUTTON_TYPE.PRIMARY,
+          text: "按钮图标 - 右边",
+          icon: "exchange_face",
+          iconPosition: "right",
+        },
+      ],
+    };
+  },
+  methods: {
+    goBack() {
+      this.$router.back();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
 .button-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	gap: 30px;
-	> button {
-		align-content: ce;
-	}
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+  > button {
+    align-content: ce;
+  }
 }
 </style>
