@@ -1,9 +1,5 @@
 <template>
-  <div
-    :class="classNames"
-    :style="styles"
-    @click="onClick"
-  >
+  <div :class="classNames" :style="styles" @click="onClick">
     <div :class="classNodeNames" />
   </div>
 </template>

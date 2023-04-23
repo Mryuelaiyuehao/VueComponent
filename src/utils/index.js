@@ -6,13 +6,13 @@ const handleColor = (color) => {
   const results = [];
   for (let i = 0; i < color.length; i++) {
     let char = color.charAt(i);
-    if(char === char.toUpperCase()){
+    if (char === char.toUpperCase()) {
       char = char.toLowerCase();
-      results.push('-')
+      results.push("-");
     }
-    results.push(char)
+    results.push(char);
   }
-  return COLORS.includes(color) ? `var(--${results.join('')})` : color;
+  return COLORS.includes(color) ? `var(--${results.join("")})` : color;
 };
 const pxToRem = function (px = 24) {
   return `${px / 75}rem`;

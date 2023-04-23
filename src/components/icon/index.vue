@@ -1,9 +1,8 @@
 <template>
   <svg
-    :class="`${baseName}`"
-    aria-hidden="true"
-    :style="iconStyles"
-  >
+:class="`${baseName}`" aria-hidden="true"
+:style="iconStyles"
+>
     <use :xlink:href="iconName" />
   </svg>
 </template>

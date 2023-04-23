@@ -1,7 +1,5 @@
 <template>
-  <div :class="`${baseName}`">
-    test
-  </div>
+  <div :class="`${baseName}`" />
 </template>
 <script>
 import { PREFIX_NAME } from "../../assets/js/enums";

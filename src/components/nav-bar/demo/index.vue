@@ -17,21 +17,10 @@
     </card>
     <card :title="'使用插槽'">
       <NavBar>
-        <div slot="title">
-          插槽
-        </div>
-        <Icon
-          slot="left"
-          name="close_line"
-          :size="42"
-          color="primary"
-        />
-        <Icon
-          slot="right"
-          name="search_line"
-          :size="42"
-          color="primary"
-        />
+        <div slot="title">插槽
+</div>
+        <Icon slot="left" name="close_line" :size="42" color="primary" />
+        <Icon slot="right" name="search_line" :size="42" color="primary" />
       </NavBar>
     </card>
     <card :title="'primary'">
@@ -47,9 +36,9 @@
       <NavBar
         :title="'标题'"
         :left-text="'返回'"
-        :right-text="'按钮'"
         left-arrow
         type="white"
+        :right-text="'按钮'"
       />
     </card>
   </base-view>

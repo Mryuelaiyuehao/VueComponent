@@ -1,24 +1,14 @@
 <template>
-  <div
-    :class="classNames"
-    @touchend="handleClick"
-  >
+  <div :class="classNames" @touchend="handleClick">
     <slot name="icon">
-      <Icon
-        v-if="icon"
-        :name="icon"
-        :size="30"
-      />
+      <Icon v-if="icon" :name="icon" :size="30" />
     </slot>
     <div :class="`${baseName}-title`">
       <slot name="title">
         <span>{{ title }}</span>
       </slot>
       <slot name="label">
-        <div
-          v-if="label"
-          :class="`${baseName}-label`"
-        >
+        <div v-if="label" :class="`${baseName}-label`">
           {{ label }}
         </div>
       </slot>

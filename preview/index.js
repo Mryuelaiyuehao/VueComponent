@@ -15,8 +15,8 @@ import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "./statics/js/enums";
 import messages from "./languages/index.js";
 
 // 全局组件
-Vue.component("base-view", BaseView);
-Vue.component("card", Card);
+Vue.component("BaseView", BaseView);
+Vue.component("Card", Card);
 // 设置多语言(默认中文)
 Vue.use(VueI18n);
 const i18n = new VueI18n({

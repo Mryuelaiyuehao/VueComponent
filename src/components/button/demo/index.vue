@@ -70,7 +70,6 @@
           :type="type"
           :icon="icon"
           :icon-position="iconPosition"
-          :size="'small'"
         />
       </div>
     </card>
@@ -82,7 +81,7 @@ import Button from "../index.vue";
 import { BUTTON_TYPE } from "../enums";
 export default {
   name: "NavBarDemo",
-  components: { 'xzy-button': Button, NavBar },
+  components: { "xzy-button": Button, NavBar },
   data() {
     return {
       buttonList1: [
