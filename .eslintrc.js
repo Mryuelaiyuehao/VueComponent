@@ -6,10 +6,10 @@ module.exports = {
     es6: true,
   },
   extends: [
-    "plugin:prettier/recommended",
     "eslint:recommended",
     "plugin:vue/essential",
     "plugin:vue/recommended",
+    "plugin:prettier/recommended",
   ],
   globals: {
     window: "readonly",
@@ -24,4 +24,5 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
   },
+  ignorePatterns: ["node_modules/", "src/assets/font/index.js"],
 };
