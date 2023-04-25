@@ -1,13 +1,13 @@
 html {
-  line-height: 1.5;
   height: 100%;
+  line-height: 1.5;
   touch-action: pan-x pan-y;
   user-select: none;
 }
 
 body {
-  font-size: $fs-h7;
   height: inherit;
+  font-size: $fs-h7;
 }
 
 ::-webkit-scrollbar,
@@ -15,7 +15,7 @@ body {
   display: none;
 }
 
-[class*="#{prefix-name}-"]:focus,
-[class*="#{prefix-name}-"]:focus-visible {
+[class*="#{$prefix-name}-"]:focus,
+[class*="#{$prefix-name}-"]:focus-visible {
   outline: none;
 }

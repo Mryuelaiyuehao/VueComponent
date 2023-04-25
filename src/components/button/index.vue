@@ -146,12 +146,12 @@ export default {
 $baseName: #{$prefix-name}-button;
 
 .#{$baseName} {
+  min-width: 120px;
   position: relative;
   border-width: 0;
   padding: 0 $space4;
   color: $c-text-primary;
   background-color: $c-body-base;
-  min-width: 120px;
   height: 72px;
   font-size: $fs-h6;
   $types: "primary" $c-white $c-primary, "info" $c-primary var(--primary1),
@@ -185,8 +185,8 @@ $baseName: #{$prefix-name}-button;
     opacity: 0.5;
   }
   &::before {
-    content: "";
     position: absolute;
+    content: "";
     top: 0;
     bottom: 0;
     right: 0;
