@@ -127,6 +127,7 @@ export default {
 .cell-group-custom {
   margin-bottom: $space5;
 }
+
 .switch {
   color: $c-text-primary;
 }
@@ -134,12 +135,14 @@ export default {
 .theme {
   display: flex;
   align-items: center;
+
   > .theme-item {
-    margin-left: $space2;
-    list-style-type: none;
     width: 36px;
     height: 36px;
+    margin-left: $space2;
+    list-style-type: none;
     border-radius: 50%;
+
     &-cur {
       width: 46px;
       height: 46px;

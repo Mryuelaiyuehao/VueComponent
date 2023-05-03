@@ -85,28 +85,30 @@ export default {
 $baseName: #{$prefix-name}-switch;
 .#{$baseName} {
   position: relative;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 78px;
+  height: 48px;
   padding: $space-base $space-base * 1.5;
   border-radius: $radius-card;
   transition: background-color 0.3s;
-  width: 78px;
-  height: 48px;
 
   > .#{$baseName}-node {
     width: 30px;
     height: 30px;
-    border-radius: 50%;
     background: $c-body-base;
+    border-radius: 50%;
     transition: transform 0.3s cubic-bezier(0.3, 1.05, 0.4, 1.05);
+
     &-on {
       transform: translateX(78px - 18px - 30px);
     }
   }
 }
 $size: "small" 62.4px 38.4px 24px 24px, "large" 93.6px 57.6px 36px 36px;
+
 @each $name, $width, $height, $nodeWidth, $nodeHeight in $size {
   .#{$baseName}-#{$name} {
     width: $width;

@@ -31,6 +31,7 @@ export default {
   justify-content: space-between;
   height: 100%;
   background-color: $c-body-regular;
+
   > .view-title {
     padding-top: calc(env(safe-area-inset-top));
   }
@@ -38,8 +39,8 @@ export default {
   > .view-body {
     flex: 1;
     padding: $space4;
-    background-color: $c-body-regular;
     overflow: scroll;
+    background-color: $c-body-regular;
   }
 
   > .view-footer {

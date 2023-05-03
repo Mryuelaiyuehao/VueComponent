@@ -134,10 +134,10 @@ $baseName: #{$prefix-name}-cell;
   position: relative;
   display: flex;
   justify-content: space-between;
-  background-color: $c-body-base;
   padding: $space4 $space5;
   overflow: hidden;
   font-size: $fs-h5;
+  background-color: $c-body-base;
 
   .#{$baseName}-title {
     flex: 2 1 0;
@@ -152,8 +152,8 @@ $baseName: #{$prefix-name}-cell;
 
   .#{$baseName}-value {
     display: flex;
-    justify-content: flex-end;
     flex: 1 1 0;
+    justify-content: flex-end;
     color: $c-text-secondary;
     text-align: right;
     word-break: break-all;
@@ -169,25 +169,26 @@ $baseName: #{$prefix-name}-cell;
   }
 
   &-required::before {
-    content: "*";
     position: absolute;
     top: 50%;
     left: 15px;
-    transform: translateY(-50%);
     font-size: $fs-h5;
     color: $c-danger;
+    content: "*";
+    transform: translateY(-50%);
   }
+
   &-clickable:active {
     background: $c-body-secondary;
   }
 
   &:not(:last-child)::after {
-    display: block;
-    content: "";
     position: absolute;
+    right: $space5;
     bottom: 0%;
     left: $space5;
-    right: $space5;
+    display: block;
+    content: "";
     border-bottom: 1px solid $c-border-weak;
   }
 }

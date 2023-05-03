@@ -105,8 +105,9 @@ export default {
 .button-wrapper {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   gap: 30px;
+  align-items: center;
+
   > button {
     align-content: ce;
   }

@@ -146,16 +146,17 @@ export default {
 $baseName: #{$prefix-name}-button;
 
 .#{$baseName} {
-  min-width: 120px;
   position: relative;
-  border-width: 0;
+  min-width: 120px;
+  height: 72px;
   padding: 0 $space4;
+  font-size: $fs-h6;
   color: $c-text-primary;
   background-color: $c-body-base;
-  height: 72px;
-  font-size: $fs-h6;
+  border-width: 0;
   $types: "primary" $c-white $c-primary, "info" $c-primary var(--primary1),
     "text" $c-text-secondary $c-body-regular, "link" $c-link $c-body-regular;
+
   @each $type, $color, $bgColor in $types {
     &-#{$type} {
       color: $color;
@@ -164,6 +165,7 @@ $baseName: #{$prefix-name}-button;
   }
 
   $sizes: "large" 240px 96px $fs-h5, "small" 90px 60px $fs-h7;
+
   @each $size, $minWidth, $height, $fontSize in $sizes {
     &-#{$size} {
       min-width: $minWidth;
@@ -173,39 +175,43 @@ $baseName: #{$prefix-name}-button;
   }
 
   &-block {
-    min-width: 100%;
     display: block;
+    min-width: 100%;
   }
+
   &-round {
     border-radius: $radius-card;
   }
+
   &-disabled {
-    cursor: not-allowed;
     pointer-events: none;
+    cursor: not-allowed;
     opacity: 0.5;
   }
+
   &::before {
     position: absolute;
-    content: "";
     top: 0;
-    bottom: 0;
     right: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: inherit;
+    content: "";
     background-color: $c-black;
+    border-radius: inherit;
     opacity: 0;
   }
+
   &:active::before {
     opacity: 0.1;
   }
 
   &-item {
     display: flex;
+    gap: $space-base;
     align-items: center;
     justify-content: center;
-    gap: $space-base;
   }
 }
 </style>

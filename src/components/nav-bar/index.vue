@@ -100,38 +100,39 @@ export default {
 $baseName: #{$prefix-name}-nav-bar;
 .#{$baseName} {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 $space4;
+  justify-content: space-between;
   height: 88px;
+  padding: 0 $space4;
   color: $c-text-primary;
 
   &-primary {
-    background-color: $c-primary;
     color: $c-white;
+    background-color: $c-primary;
   }
+
   &-white {
-    background-color: $c-body-base;
     color: $c-text-primary;
+    background-color: $c-body-base;
   }
 
   .#{$baseName}-left,
   .#{$baseName}-right {
     display: flex;
     align-items: center;
-    color: inherit;
     min-width: 42px;
     font-size: $fs-h6;
+    color: inherit;
   }
 
   .#{$baseName}-title {
     flex: 1;
+    overflow: hidden;
     font-size: $fs-h4;
+    color: inherit;
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
-    overflow: hidden;
-    color: inherit;
   }
 }
 </style>

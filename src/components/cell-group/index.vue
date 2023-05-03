@@ -29,15 +29,15 @@ export default {
 $baseName: #{$prefix-name}-cell-group;
 
 .#{$baseName} {
-  border-radius: $radius-card;
-  background: $c-body-base;
-  overflow: hidden;
   margin-bottom: $space5;
+  overflow: hidden;
+  background: $c-body-base;
+  border-radius: $radius-card;
   .#{$baseName}-title {
     padding: $space4 $space5 0;
-    color: $c-text-primary;
     font-size: $fs-h5;
     font-weight: bold;
+    color: $c-text-primary;
   }
 }
 </style>

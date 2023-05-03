@@ -7,8 +7,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "inspect": "vue-cli-service inspect",
-    "lint:stylelint": "stylelint **/*.scss --fix",
-    "lint:eslint": "eslint --fix '**/*.vue' && eslint --fix '**/*.js'"
+    "lint:eslint": "eslint --fix '**/*.vue' && eslint --fix '**/*.js'",
+    "lint:stylelint": "stylelint \"**/*.(vue|scss)\"",
+    "lint:stylelint:fix": "stylelint \"**/*.(vue|scss)\" --fix",
+    "lint:index:fix": "stylelint index.vue --fix"
   },
   "dependencies": {
     "core-js": "3.6.5",
@@ -28,17 +30,17 @@
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-vue": "9.11.0",
+    "postcss": "8.4.23",
     "postcss-load-config": "4.0.1",
     "postcss-pxtorem": "5.1.1",
     "prettier": "2.8.8",
     "sass": "1.38.2",
     "sass-loader": "8.0.0",
-    "stylelint": "15.5.0",
-    "stylelint-config-recess-order": "4.0.0",
-    "stylelint-config-standard": "33.0.0",
-    "stylelint-config-standard-scss": "8.0.0",
-    "stylelint-order": "6.0.3",
-    "stylelint-prettier": "3.0.0",
+    "stylelint": "13.13.1",
+    "stylelint-config-recess-order": "2.6.0",
+    "stylelint-config-standard": "21.0.0",
+    "stylelint-order": "4.1.0",
+    "stylelint-scss": "3.21.0",
     "vue-template-compiler": "2.6.11"
   }
 }
