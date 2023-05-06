@@ -26,14 +26,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefix-name}-cell-group;
+$base-name: #{$prefix-name}-cell-group;
 
-.#{$baseName} {
+.#{$base-name} {
   margin-bottom: $space5;
   overflow: hidden;
   background: $c-body-base;
   border-radius: $radius-card;
-  .#{$baseName}-title {
+  .#{$base-name}-title {
     padding: $space4 $space5 0;
     font-size: $fs-h5;
     font-weight: bold;

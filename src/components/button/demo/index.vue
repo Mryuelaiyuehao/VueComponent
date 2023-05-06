@@ -2,12 +2,12 @@
   <base-view>
     <NavBar
       slot="header"
-      :title="'Button'"
+      :title="$t('common.buttonTitle')"
       type="white"
       left-arrow
       @click-left="goBack"
     />
-    <card :title="'按钮类型'">
+    <card :title="$t('common.buttonDemo1')">
       <div class="button-wrapper">
         <xzy-button
           v-for="{ text, type } in buttonList1"
@@ -17,7 +17,7 @@
         />
       </div>
     </card>
-    <card :title="'按钮形状'">
+    <card :title="$t('common.buttonDemo2')">
       <div class="button-wrapper">
         <xzy-button
           v-for="({ text, type, round }, index) in buttonList2"
@@ -28,7 +28,7 @@
         />
       </div>
     </card>
-    <card :title="'按钮大小'">
+    <card :title="$t('common.buttonDemo3')">
       <div class="button-wrapper">
         <xzy-button
           v-for="({ text, type, size }, index) in buttonList3"
@@ -39,7 +39,7 @@
         />
       </div>
     </card>
-    <card :title="'禁用按钮'">
+    <card :title="$t('common.buttonDemo4')">
       <div class="button-wrapper">
         <xzy-button
           v-for="({ text, type }, index) in buttonList1"
@@ -50,7 +50,7 @@
         />
       </div>
     </card>
-    <card :title="'块级元素'">
+    <card :title="$t('common.buttonDemo5')">
       <div class="button-wrapper">
         <xzy-button
           v-for="({ text, type }, index) in buttonList1"
@@ -61,7 +61,7 @@
         />
       </div>
     </card>
-    <card :title="'图标'">
+    <card :title="$t('common.buttonDemo6')">
       <div class="button-wrapper">
         <xzy-button
           v-for="({ text, type, icon, iconPosition }, index) in buttonList4"
@@ -87,64 +87,64 @@ export default {
       buttonList1: [
         {
           type: BUTTON_TYPE.DEFAULT,
-          text: "默认按钮",
+          text: this.$t("common.buttonDemo1Text1"),
         },
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "主要按钮",
+          text: this.$t("common.buttonDemo1Text2"),
         },
         {
           type: BUTTON_TYPE.INFO,
-          text: "信息按钮",
+          text: this.$t("common.buttonDemo1Text3"),
         },
         {
           type: BUTTON_TYPE.TEXT,
-          text: "文本按钮",
+          text: this.$t("common.buttonDemo1Text4"),
         },
         {
           type: BUTTON_TYPE.LINK,
-          text: "链接按钮",
+          text: this.$t("common.buttonDemo1Text5"),
         },
       ],
       buttonList2: [
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "矩形按钮",
+          text: this.$t("common.buttonDemo2Text1"),
           round: false,
         },
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "圆角按钮",
+          text: this.$t("common.buttonDemo2Text2"),
           round: true,
         },
       ],
       buttonList3: [
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "大号按钮",
+          text: this.$t("common.buttonDemo3Text1"),
           size: "large",
         },
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "普通按钮",
+          text: this.$t("common.buttonDemo3Text2"),
           size: "normal",
         },
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "小型按钮",
+          text: this.$t("common.buttonDemo3Text3"),
           size: "small",
         },
       ],
       buttonList4: [
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "按钮图标-左边",
+          text: this.$t("common.buttonDemo4Text1"),
           icon: "exchange_face",
           iconPosition: "left",
         },
         {
           type: BUTTON_TYPE.PRIMARY,
-          text: "按钮图标 - 右边",
+          text: this.$t("common.buttonDemo4Text2"),
           icon: "exchange_face",
           iconPosition: "right",
         },
@@ -166,7 +166,7 @@ export default {
   align-items: center;
 
   > button {
-    align-content: ce;
+    align-content: center;
   }
 }
 </style>

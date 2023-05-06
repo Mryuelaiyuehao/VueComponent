@@ -2,42 +2,42 @@
   <base-view>
     <NavBar
       slot="header"
-      :title="'NavBar'"
+      :title="$t('common.navTitle')"
       type="white"
       left-arrow
       @click-left="goBack"
     />
-    <card :title="'基础用法'">
+    <card :title="$t('common.navbarDemo1')">
       <NavBar
-        :title="'标题'"
-        :left-text="'返回'"
-        :right-text="'按钮'"
+        :title="$t('common.navbarTitle1')"
+        :left-text="$t('common.navbarLeftText1')"
+        :right-text="$t('common.navbarRightText1')"
         left-arrow
       />
     </card>
-    <card :title="'使用插槽'">
+    <card :title="$t('common.navbarDemo2')">
       <NavBar>
-        <div slot="title">插槽</div>
+        <div slot="title">{{ $t("common.navbarTitle2") }}</div>
         <Icon slot="left" name="close_line" :size="42" color="primary" />
         <Icon slot="right" name="search_line" :size="42" color="primary" />
       </NavBar>
     </card>
-    <card :title="'primary'">
+    <card :title="$t('common.navbarDemo3')">
       <NavBar
-        :title="'标题'"
-        :left-text="'返回'"
-        :right-text="'按钮'"
+        :title="$t('common.navbarTitle1')"
+        :left-text="$t('common.navbarLeftText1')"
+        :right-text="$t('common.navbarRightText1')"
         left-arrow
         type="primary"
       />
     </card>
-    <card :title="'white'">
+    <card :title="$t('common.navbarDemo4')">
       <NavBar
-        :title="'标题'"
-        :left-text="'返回'"
+        :title="$t('common.navbarTitle1')"
+        :left-text="$t('common.navbarLeftText1')"
+        :right-text="$t('common.navbarRightText1')"
         left-arrow
         type="white"
-        :right-text="'按钮'"
       />
     </card>
   </base-view>

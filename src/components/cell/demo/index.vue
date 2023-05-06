@@ -2,15 +2,15 @@
   <base-view>
     <NavBar
       slot="header"
-      :title="'Cell 单元格'"
+      :title="$t('common.cellTitle')"
       type="white"
       left-arrow
       @click-left="goBack"
     />
-    <card :title="'基础用法'">
+    <card :title="$t('common.cellDemo1')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1"
+          v-for="({ title, value, label }, index) in cellList1()"
           :key="index"
           :title="title"
           :value="value"
@@ -18,10 +18,10 @@
         />
       </CellGroup>
     </card>
-    <card :title="'是否垂直居中'">
+    <card :title="$t('common.cellDemo2')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1"
+          v-for="({ title, value, label }, index) in cellList1()"
           :key="index"
           :title="title"
           :value="value"
@@ -30,10 +30,10 @@
         />
       </CellGroup>
     </card>
-    <card :title="'是否右箭头'">
+    <card :title="$t('common.cellDemo3')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1"
+          v-for="({ title, value, label }, index) in cellList1()"
           :key="index"
           :title="title"
           :value="value"
@@ -43,10 +43,10 @@
         />
       </CellGroup>
     </card>
-    <card :title="'是否开启点击反馈'">
+    <card :title="$t('common.cellDemo4')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1"
+          v-for="({ title, value, label }, index) in cellList1()"
           :key="index"
           :title="title"
           :value="value"
@@ -56,10 +56,10 @@
         />
       </CellGroup>
     </card>
-    <card :title="'是否必填'">
+    <card :title="$t('common.cellDemo5')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1"
+          v-for="({ title, value, label }, index) in cellList1()"
           :key="index"
           :title="title"
           :value="value"
@@ -80,16 +80,16 @@ export default {
   components: { Cell, CellGroup, NavBar },
   data() {
     return {
-      cellList1: [
+      cellList1: () => [
         {
-          title: "单元格1",
-          value: "内容1",
-          label: "描述信息1",
+          title: this.$t("common.cellDemoTitle1"),
+          value: this.$t("common.cellDemoValue1"),
+          label: this.$t("common.cellDemoLabel1"),
         },
         {
-          title: "单元格2",
-          value: "内容2",
-          label: "描述信息2",
+          title: this.$t("common.cellDemoTitle2"),
+          value: this.$t("common.cellDemoValue2"),
+          label: this.$t("common.cellDemoLabel2"),
         },
       ],
     };
@@ -109,7 +109,7 @@ export default {
   align-items: center;
 
   > button {
-    align-content: ce;
+    align-content: center;
   }
 }
 </style>

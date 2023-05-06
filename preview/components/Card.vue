@@ -8,6 +8,7 @@
 </template>
 <script>
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Card",
   props: {
     title: {
@@ -23,11 +24,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: "card";
+$base-name: "card";
 
-.#{$baseName} {
+.#{$base-name} {
   margin-bottom: $space5;
-  .#{$baseName}-title {
+  .#{$base-name}-title {
     margin-bottom: $space5;
     font-size: $fs-h5;
     font-weight: 700;

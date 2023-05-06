@@ -40,11 +40,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-#{prefix-name}-icon {
+.#{$prefix-name}-icon {
   width: 1em;
   height: 1em;
   overflow: hidden;
   vertical-align: -0.15em;
-  fill: currentColor;
+  fill: currentcolor;
 }
 </style>

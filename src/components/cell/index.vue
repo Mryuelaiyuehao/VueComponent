@@ -128,9 +128,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefix-name}-cell;
+$base-name: #{$prefix-name}-cell;
 
-.#{$baseName} {
+.#{$base-name} {
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -139,18 +139,18 @@ $baseName: #{$prefix-name}-cell;
   font-size: $fs-h5;
   background-color: $c-body-base;
 
-  .#{$baseName}-title {
+  .#{$base-name}-title {
     flex: 2 1 0;
     color: $c-text-primary;
 
-    > .#{$baseName}-label {
+    > .#{$base-name}-label {
       margin-top: $space-base;
       font-size: $fs-h6;
       color: $c-text-secondary;
     }
   }
 
-  .#{$baseName}-value {
+  .#{$base-name}-value {
     display: flex;
     flex: 1 1 0;
     justify-content: flex-end;
@@ -159,7 +159,7 @@ $baseName: #{$prefix-name}-cell;
     word-break: break-all;
   }
 
-  .#{$baseName}-right-icon {
+  .#{$base-name}-right-icon {
     flex: 0 0 42px;
     margin-left: $space-base;
   }

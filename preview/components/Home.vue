@@ -19,12 +19,12 @@
       <Cell :title="$t('common.dark')">
         <xzy-switch v-model="isDark" size="normal" @input="onChange" />
       </Cell>
-      <Cell :title="'是否英文'">
+      <Cell :title="$t('common.multiLanguage')">
         <xzy-switch v-model="isEnglish" size="normal" @input="changeLanguage" />
       </Cell>
     </CellGroup>
     <CellGroup
-      v-for="(item, index) in list"
+      v-for="(item, index) in list()"
       :key="index"
       class="cell-group-custom"
       :title="item.title"
@@ -47,6 +47,7 @@ import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "../statics/js/enums";
 import { generateCssVars, isDarkMode } from "../utils/theme";
 import { setLanguage } from "../utils/i18n";
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
   components: {
     NavBar,
@@ -57,30 +58,39 @@ export default {
   data() {
     return {
       isDark: isDarkMode(),
-      list: [
+      list: () => [
         {
           title: this.$t("common.baseComponent"),
           children: [
             {
-              title: "Cell 单元格",
+              title: this.$t("common.cellTitle"),
               to: "/cell",
             },
             {
-              title: "Icon 图标",
+              title: this.$t("common.iconTitle"),
               to: "/icon",
             },
             {
-              title: "Button 按钮",
+              title: this.$t("common.buttonTitle"),
               to: "/button",
             },
           ],
         },
         {
-          title: "导航组件",
+          title: this.$t("common.navComponent"),
           children: [
             {
-              title: "NavBar 导航栏",
+              title: this.$t("common.navTitle"),
               to: "/navBar",
+            },
+          ],
+        },
+        {
+          title: this.$t("common.formComponent"),
+          children: [
+            {
+              title: this.$t("common.switchTitle"),
+              to: "/switch",
             },
           ],
         },

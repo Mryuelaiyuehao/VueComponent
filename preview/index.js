@@ -16,6 +16,7 @@ import messages from "./languages/index.js";
 
 // 全局组件
 Vue.component("BaseView", BaseView);
+// eslint-disable-next-line vue/multi-word-component-names
 Vue.component("Card", Card);
 // 设置多语言(默认中文)
 Vue.use(VueI18n);

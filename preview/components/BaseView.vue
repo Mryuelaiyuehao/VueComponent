@@ -47,7 +47,7 @@ export default {
     padding-bottom: calc(env(safe-area-inset-bottom));
   }
 
-  .child {
+  > .child {
     position: absolute;
     top: 0;
     left: 0;

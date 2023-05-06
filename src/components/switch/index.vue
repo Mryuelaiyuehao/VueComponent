@@ -45,16 +45,18 @@ export default {
       } else if (this.size === SWITCH_SIZE.SMALL) {
         classNames.push(`${base}-${SWITCH_SIZE.SMALL}`);
       }
+      if (this.disabled) {
+        classNames.push(`${base}-disabled`);
+      }
       return classNames;
     },
     styles() {
       const styles = {
         backgroundColor: handleColor(this.inactiveColor),
       };
-      if (this.value && !this.disabled) {
+      if (this.value) {
         styles.backgroundColor = handleColor(this.activeColor);
       }
-
       return styles;
     },
     classNodeNames() {
@@ -65,7 +67,7 @@ export default {
       } else if (this.size === SWITCH_SIZE.SMALL) {
         classNames.push(`${base}-${SWITCH_SIZE.SMALL}`);
       }
-      if (this.value && !this.disabled) {
+      if (this.value) {
         classNames.push(`${base}-on`);
       }
       return classNames;
@@ -82,8 +84,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefix-name}-switch;
-.#{$baseName} {
+$base-name: #{$prefix-name}-switch;
+.#{$base-name} {
   position: relative;
   box-sizing: border-box;
   display: flex;
@@ -95,7 +97,13 @@ $baseName: #{$prefix-name}-switch;
   border-radius: $radius-card;
   transition: background-color 0.3s;
 
-  > .#{$baseName}-node {
+  &-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  > .#{$base-name}-node {
     width: 30px;
     height: 30px;
     background: $c-body-base;
@@ -107,18 +115,20 @@ $baseName: #{$prefix-name}-switch;
     }
   }
 }
-$size: "small" 62.4px 38.4px 24px 24px, "large" 93.6px 57.6px 36px 36px;
 
-@each $name, $width, $height, $nodeWidth, $nodeHeight in $size {
-  .#{$baseName}-#{$name} {
+$size: "small" 62.4px 38.4px 24px 24px 18px, "large" 117px 72px 45px 45px 36px;
+
+@each $name, $width, $height, $nodeWidth, $nodeHeight, $border-radius in $size {
+  .#{$base-name}-#{$name} {
     width: $width;
     height: $height;
+    border-radius: $border-radius;
 
-    .#{$baseName}-node-#{$name} {
+    .#{$base-name}-node-#{$name} {
       width: $nodeWidth;
       height: $nodeHeight;
     }
-    .#{$baseName}-node-on {
+    .#{$base-name}-node-on {
       transform: translateX($width - 18px - $nodeWidth);
     }
   }

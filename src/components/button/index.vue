@@ -143,9 +143,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefix-name}-button;
+$base-name: #{$prefix-name}-button;
 
-.#{$baseName} {
+.#{$base-name} {
   position: relative;
   min-width: 120px;
   height: 72px;
@@ -154,6 +154,7 @@ $baseName: #{$prefix-name}-button;
   color: $c-text-primary;
   background-color: $c-body-base;
   border-width: 0;
+
   $types: "primary" $c-white $c-primary, "info" $c-primary var(--primary1),
     "text" $c-text-secondary $c-body-regular, "link" $c-link $c-body-regular;
 

@@ -97,8 +97,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-$baseName: #{$prefix-name}-nav-bar;
-.#{$baseName} {
+$base-name: #{$prefix-name}-nav-bar;
+.#{$base-name} {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,8 +116,8 @@ $baseName: #{$prefix-name}-nav-bar;
     background-color: $c-body-base;
   }
 
-  .#{$baseName}-left,
-  .#{$baseName}-right {
+  .#{$base-name}-left,
+  .#{$base-name}-right {
     display: flex;
     align-items: center;
     min-width: 42px;
@@ -125,7 +125,7 @@ $baseName: #{$prefix-name}-nav-bar;
     color: inherit;
   }
 
-  .#{$baseName}-title {
+  .#{$base-name}-title {
     flex: 1;
     overflow: hidden;
     font-size: $fs-h4;

@@ -1,5 +1,5 @@
 <template>
-  <div :class="`${baseName}`" />
+  <div :class="`${baseName}`"></div>
 </template>
 <script>
 import { PREFIX_NAME } from "../../assets/js/enums";
@@ -50,4 +50,10 @@ export default {
   methods: {},
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+$base-name: #{$prefix-name}-popup;
+
+.#{$base-name} {
+  width: 100%;
+}
+</style>
