@@ -19,3 +19,7 @@ body {
 [class*="#{$prefix-name}-"]:focus-visible {
   outline: none;
 }
+
+.#{$prefix-name}-overflow-hidden {
+  overflow: hidden !important;
+}

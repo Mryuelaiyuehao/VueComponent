@@ -1,5 +1,5 @@
 <template>
-  <div :class="classNames" @touchend="handleClick">
+  <div :class="classNames" @click="handleClick">
     <slot name="icon">
       <Icon v-if="icon" :name="icon" :size="30" />
     </slot>

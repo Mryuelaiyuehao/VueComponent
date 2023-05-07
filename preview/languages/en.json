@@ -54,7 +54,20 @@
       "switchDemo1": "Basic usage",
       "switchDemo2": "Disabled state",
       "switchDemo3": "Button size",
-      "switchDemo4": "custom color"
+      "switchDemo4": "custom color",
+      "popupTitle": "Popup",
+      "popupDemo1": "Basic usage",
+      "popupDemo1Title1": "Normal Popup",
+      "popupDemo2": "Position of bullet box",
+      "popupDemo2Title1": "Popup at the top",
+      "popupDemo2Title2": "Bottom Popup",
+      "popupDemo2Title3": "Popup on the left",
+      "popupDemo2Title4": "Popup on the right",
+      "popupDemo3": "Whether there is a mask",
+      "popupDemo3Title1": "Bullet frame mask",
+      "popupDemo4": "Close icon",
+      "popupDemo4Title1": "Close Icon - Left",
+      "popupDemo4Title2":"Close Icon - Right"
     }
   }
 }

@@ -74,6 +74,10 @@ export default {
               title: this.$t("common.buttonTitle"),
               to: "/button",
             },
+            {
+              title: this.$t("common.popupTitle"),
+              to: "/popup",
+            },
           ],
         },
         {
