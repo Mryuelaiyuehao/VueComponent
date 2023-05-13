@@ -19,9 +19,13 @@
       <Cell :title="$t('common.dark')">
         <xzy-switch v-model="isDark" size="normal" @input="onChange" />
       </Cell>
-      <Cell :title="$t('common.multiLanguage')">
-        <xzy-switch v-model="isEnglish" size="normal" @input="changeLanguage" />
-      </Cell>
+      <Cell
+        :title="$t('common.language')"
+        :value="langValue"
+        is-link
+        clickable
+        @click="showLangPopup"
+      ></Cell>
     </CellGroup>
     <CellGroup
       v-for="(item, index) in list()"
@@ -39,13 +43,34 @@
         clickable
       />
     </CellGroup>
+    <XZYPopup v-model="langVisible" :title="$t('common.languageTitle')">
+      <RadioGroup v-model="language" @change="changeLanguage">
+        <Radio
+          v-for="({ desc, name, label, disabled }, index) in languageList()"
+          :key="index"
+          :name="name"
+          :label="label"
+          :desc="desc"
+          :disabled="disabled"
+        >
+        </Radio>
+      </RadioGroup>
+    </XZYPopup>
   </base-view>
 </template>
 <script>
-import { NavBar, CellGroup, Cell, Switch } from "../../src/index";
+import {
+  NavBar,
+  CellGroup,
+  Cell,
+  Switch,
+  Radio,
+  RadioGroup,
+} from "../../src/index";
 import { LANGUAGE, DARK_THEME, LIGHT_THEME } from "../statics/js/enums";
 import { generateCssVars, isDarkMode } from "../utils/theme";
 import { setLanguage } from "../utils/i18n";
+import XZYPopup from "./XZYPopup.vue";
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: "Home",
@@ -54,6 +79,9 @@ export default {
     CellGroup,
     Cell,
     "xzy-switch": Switch,
+    XZYPopup,
+    Radio,
+    RadioGroup,
   },
   data() {
     return {
@@ -96,10 +124,26 @@ export default {
               title: this.$t("common.switchTitle"),
               to: "/switch",
             },
+            {
+              title: this.$t("common.radioTitle"),
+              to: "/radio",
+            },
           ],
         },
       ],
-      isEnglish: false,
+      language: LANGUAGE.CHINESE,
+      langVisible: false,
+      langValue: this.$t("common.chinese"),
+      languageList: () => [
+        {
+          label: this.$t("common.chinese"),
+          name: LANGUAGE.CHINESE,
+        },
+        {
+          label: this.$t("common.english"),
+          name: LANGUAGE.ENGLISH,
+        },
+      ],
       primaryColors: [
         "#0060a6",
         "#1374bd",
@@ -124,13 +168,23 @@ export default {
     onChange() {
       generateCssVars(this.primaryColor, this.isDark);
     },
-    changeLanguage() {
-      setLanguage(this.isEnglish ? LANGUAGE.ENGLISH : LANGUAGE.CHINESE)
-        .then(() => {})
+    showLangPopup() {
+      console.log(1);
+      this.langVisible = true;
+    },
+    hidePopup() {
+      this.langVisible = false;
+    },
+    changeLanguage(lang) {
+      this.hidePopup();
+      setLanguage(lang)
+        .then(() => {
+          const item = this.languageList().find((item) => item.name === lang);
+          this.langValue = item.label;
+        })
         .catch((e) => {
-          this.isEnglish = false;
           if (e instanceof Error) {
-            console.log(e.message);
+            this.$t("common.languageTip");
           }
         });
     },

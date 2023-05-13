@@ -148,10 +148,11 @@ $base-name: #{$prefix-name}-popup;
     bottom: 0;
     left: 0;
     z-index: $z-index-lg;
+    overflow: hidden;
     background-color: $c-body-base;
 
     &-icon {
-      position: relative;
+      position: absolute;
     }
 
     $iconPositions: "top-left" $space4 $space4 initial initial,

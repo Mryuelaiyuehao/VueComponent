@@ -2,94 +2,140 @@
   <base-view>
     <NavBar
       slot="header"
-      :title="$t('common.cellTitle')"
+      :title="$t('common.radioTitle')"
       type="white"
       left-arrow
       @click-left="goBack"
     />
-    <card :title="$t('common.cellDemo1')">
+    <card :title="$t('common.radioDemo1')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1()"
+          v-for="({ title, value }, index) in cellList1"
           :key="index"
           :title="title"
           :value="value"
-          :label="label"
-        />
-      </CellGroup>
-    </card>
-    <card :title="$t('common.cellDemo2')">
-      <CellGroup>
-        <Cell
-          v-for="({ title, value, label }, index) in cellList1()"
-          :key="index"
-          :title="title"
-          :value="value"
-          :label="label"
-          center
-        />
-      </CellGroup>
-    </card>
-    <card :title="$t('common.cellDemo3')">
-      <CellGroup>
-        <Cell
-          v-for="({ title, value, label }, index) in cellList1()"
-          :key="index"
-          :title="title"
-          :value="value"
-          :label="label"
           is-link
           center
-        />
-      </CellGroup>
-    </card>
-    <card :title="$t('common.cellDemo4')">
-      <CellGroup>
-        <Cell
-          v-for="({ title, value, label }, index) in cellList1()"
-          :key="index"
-          :title="title"
-          :value="value"
-          :label="label"
           clickable
-          center
+          @click="showPopup1"
         />
       </CellGroup>
     </card>
-    <card :title="$t('common.cellDemo5')">
+    <card :title="$t('common.radioDemo2')">
       <CellGroup>
         <Cell
-          v-for="({ title, value, label }, index) in cellList1()"
+          v-for="({ title, value }, index) in cellList2"
           :key="index"
           :title="title"
           :value="value"
-          :label="label"
+          is-link
           center
-          required
+          clickable
+          @click="showPopup2"
         />
       </CellGroup>
     </card>
+    <XZYPopup
+      v-model="show1"
+      :title="$t('common.radioDemo1Title1')"
+      :custom-style="customStyle"
+    >
+      <RadioGroup v-model="value" @change="onChange1">
+        <Radio
+          v-for="({ desc, name, label }, index) in radioList2"
+          :key="index"
+          :name="name"
+          :label="label"
+          :desc="desc"
+        >
+        </Radio>
+      </RadioGroup>
+    </XZYPopup>
+    <XZYPopup v-model="show2" :title="$t('common.radioDemo2Title1')">
+      <RadioGroup v-model="value2" @change="onChange2">
+        <Radio
+          v-for="({ desc, name, label, disabled }, index) in radioList2"
+          :key="index"
+          :name="name"
+          :label="label"
+          :desc="desc"
+          :disabled="disabled"
+        >
+        </Radio>
+      </RadioGroup>
+    </XZYPopup>
   </base-view>
 </template>
 <script>
-import NavBar from "../../nav-bar";
-import Cell from "../index.vue";
-import CellGroup from "../../cell-group/index.vue";
+import { Radio, RadioGroup, CellGroup, Cell, NavBar } from "../../../index.js";
+import XZYPopup from "../../../../preview/components/XZYPopup.vue";
 export default {
-  name: "NavBarDemo",
-  components: { Cell, CellGroup, NavBar },
+  name: "RadioDemo",
+  components: { Radio, RadioGroup, CellGroup, Cell, NavBar, XZYPopup },
   data() {
     return {
-      cellList1: () => [
+      show1: false,
+      customStyle: {
+        width: "100%",
+        height: "50%",
+      },
+      value: 0,
+      radioList1: [
         {
-          title: this.$t("common.cellDemoTitle1"),
-          value: this.$t("common.cellDemoValue1"),
-          label: this.$t("common.cellDemoLabel1"),
+          label: this.$t("common.radioDemo1Label1"),
+          desc: this.$t("common.radioDemo1Desc1"),
+          name: 1,
         },
         {
-          title: this.$t("common.cellDemoTitle2"),
-          value: this.$t("common.cellDemoValue2"),
-          label: this.$t("common.cellDemoLabel2"),
+          label: this.$t("common.radioDemo1Label2"),
+          desc: this.$t("common.radioDemo1Desc2"),
+          name: 2,
+        },
+        {
+          label: this.$t("common.radioDemo1Label3"),
+          desc: this.$t("common.radioDemo1Desc3"),
+          name: 3,
+        },
+        {
+          label: this.$t("common.radioDemo1Label4"),
+          desc: this.$t("common.radioDemo1Desc4"),
+          name: 4,
+        },
+      ],
+      cellList1: [
+        {
+          title: this.$t("common.radioDemo1CellTitle1"),
+          value: "",
+        },
+      ],
+      show2: false,
+      cellList2: [
+        {
+          title: this.$t("common.radioDemo2CellTitle1"),
+          value: "",
+        },
+      ],
+      value2: 0,
+      radioList2: [
+        {
+          label: this.$t("common.radioDemo2Label1"),
+          name: 1,
+          disabled: false,
+        },
+        {
+          label: this.$t("common.radioDemo2Label2"),
+          name: 2,
+          disabled: false,
+        },
+        {
+          label: this.$t("common.radioDemo2Label3"),
+          name: 3,
+          disabled: true,
+        },
+        {
+          label: this.$t("common.radioDemo2Label4"),
+          name: 4,
+          disabled: false,
         },
       ],
     };
@@ -98,18 +144,26 @@ export default {
     goBack() {
       this.$router.back();
     },
+    showPopup1() {
+      this.show1 = true;
+    },
+    hidePopup() {
+      this.show1 = false;
+      this.show2 = false;
+    },
+    onChange1(value) {
+      const item = this.radioList2.find((item) => item.name === value);
+      this.cellList1[0].value = item.label;
+      this.hidePopup();
+    },
+    showPopup2() {
+      this.show2 = true;
+    },
+    onChange2(value) {
+      const item = this.radioList2.find((item) => item.name === value);
+      this.cellList2[0].value = item.label;
+      this.hidePopup();
+    },
   },
 };
 </script>
-<style lang="scss" scoped>
-.button-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30px;
-  align-items: center;
-
-  > button {
-    align-content: center;
-  }
-}
-</style>

@@ -7,6 +7,7 @@ const Popup = () => import("../../src/components/popup/demo");
 const NavBar = () => import("../../src/components/nav-bar/demo");
 // 表单组件
 const Switch = () => import("../../src/components/switch/demo");
+const Radio = () => import("../../src/components/radio/demo");
 const routes = [
   {
     path: "/",
@@ -36,6 +37,11 @@ const routes = [
         path: "/switch",
         name: "switch",
         component: Switch,
+      },
+      {
+        path: "/radio",
+        name: "radio",
+        component: Radio,
       },
     ],
   },
